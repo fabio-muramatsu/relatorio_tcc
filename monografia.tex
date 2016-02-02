@@ -1,0 +1,161 @@
+\documentclass[a4paper,capchap,espacoduplo,normaltoc]{abntepusp} % Mude "abntepusp" para "abntepusp-en" para Inglês.
+
+%\usepackage[bookmarks,pdftex,a4paper,colorlinks=true,citecolor=black,urlcolor=blue,linkcolor=black,pdfpagemode=None]{hyperref}
+\usepackage[bookmarks,colorlinks=true,citecolor=black,urlcolor=blue,linkcolor=black,pdfpagemode=UseNone]{hyperref}
+\usepackage[centertags]{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel} % Mude "brazil" para "english" para Inglês.
+\usepackage[alf,abnt-repeated-author-omit=yes]{abntcite}
+%\usepackage[alf,abnt-repeated-author-omit=yes]{abntex2cite}
+\usepackage{url}
+%\usepackage{winfonts}
+\usepackage{txfonts}
+\usepackage[ddmmyyyy]{datetime}
+
+%\fontfamily{arial}\selectfont
+%\renewcommand{\rmdefault}{arial}
+
+% Comando útil
+\newcommand{\TODO}[1]{~~\textcolor{red} {\textbf{TODO: #1}}}
+
+% Math -------------------------------------------------------------------
+\newtheorem{theorem}{Teorema}{\bfseries}{\itshape}
+\newtheorem{lemma}{Lema}{\bfseries}{\itshape}
+\newtheorem{definition}{Definição}{\bfseries}{\itshape}
+\newtheorem{corollary}{Corolário}{\bfseries}{\itshape}
+\newtheoremstyle{example}{\topsep}{\topsep}%
+	{}%         Body font
+	{}%         Indent amount (empty = no indent, \parindent = para indent)
+	{\bfseries}% Thm head font
+	{:}%        Punctuation after thm head
+	{.5em}%     Space after thm head (\newline = linebreak)
+	{\thmname{#1}\thmnumber{ #2}\thmnote{ #3}}%         Thm head spec
+\theoremstyle{example}
+\newtheorem{example}{Exemplo}
+
+\sloppy
+
+\begin{document}
+
+% documento propriamente monográfico: um único autor
+%\autorPoliI{Nome}{Meio}{Sobrenome}
+
+% documento com dois autores
+%\autorPoliII{Nome1}{Meio1}{Sobrenome1}{Nome2}{Meio2}{Sobrenome2}
+
+% documento com três autores
+\autorPoliIII{Fábio}{Tsuyoshi}{Muramatsu}{}{Henrique}{Rodrigues}{Ricardo}{Boccoli}{Gallego}
+
+\titulo{<Título>}
+
+\orientador{<Nome do Orientador>}
+
+%\relatFapesp
+\monografiaFormatura
+%\monografiaMBA
+%\qualificacaoMSc{<Área do Mestrado>}
+%\qualificacaoMSc{Enge\-nharia Elétrica}
+%\dissertacao{<Área do Mestrado>}
+%\qualificacaoDr{<Área do Mestrado>}
+%\teseDr{<Área do Doutorado>}
+%\teseLD
+%\memorialLD
+
+%\areaConcentracao{<Área de Concentração>}
+\areaConcentracao{Engenharia de Computação}
+
+%\departamento{<Departamento>}
+\departamento{Departamento de Engenharia de Computação e Sistemas Digitais (PCS)}
+
+\local{São Paulo}
+
+\data{2016}
+
+\dedicatoria{}
+
+\capa{}
+
+\folhaderosto{}
+
+% Ficha Catalográfica
+
+%\setboolean{PoliRevisao}{true} % gera o quadro de revisão após a defesa
+\renewcommand{\PoliFichaCatalograficaData}{%
+  1. Assunto \#1. 2. Assunto \#2. 3. Assunto \#3.
+  I. Universidade de São Paulo. Escola Politécnica.
+  \PoliDepartamentoData. II. t.}
+
+\fichacatalografica % formata a ficha
+
+\paginadedicatoria{}
+
+\begin{agradecimentos}
+\end{agradecimentos}
+
+\begin{resumo}
+\end{resumo}
+
+\begin{abstract}
+\end{abstract}
+
+%\begin{resume}
+%\end{resume}
+
+%\begin{zusammenfassung}
+%\end{zusammenfassung}
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+\begin{listofabbrv}{1000}
+\item [USP] Universidade de São Paulo
+\item [CFS] Courtois-Finiasz-Sendrier
+\end{listofabbrv}
+
+\begin{listofsymbols}{1000}
+\item [$\Delta(h)$] Assinatura diádica
+\end{listofsymbols}
+
+\chapter{Introdução}\label{chp:intro}
+
+\section{Apresentação}\label{sec:presentation}
+
+
+\section{Soluções existentes}\label{sec:solutions}
+%TODO Apresentação deve incluir popularização de smart houses
+Acompanhando a popularização do conceito de \textit{smart houses}, diversas soluções e plataformas foram desenvolvidas e lançadas no mercado. Como exemplos, pode-se citar o Apple HomeKit \cite{homekit}, Wireless Sensor Tags \cite{wsensortags}, WigWag \cite{wigwag} e o Samsung SmartThings \cite{smartthings}.
+
+Todas as soluções citadas, à exceção do Apple HomeKit, seguem uma arquitetura similar. Os sensores e atuadores distribuídos pela residência são conectados a um controlador central , responsável por coletar leituras dos sensores e comandar ações aos atuadores. Além disso, este controlador se conecta a um servidor em nuvem, que centraliza o armazenamento de dados e fornece uma interface aos usuários para monitorar e definir o estado da residência.
+
+A solução desenvolvida pela Apple baseia-se na utilização dos dispositivos móveis da empresa para efetuar o monitoramento e controle mencionados. Assim, ela é fortemente dependente do ecossistema Apple para o funcionamento, especialmente pelo fato de o suporte ser dado somente pelo sistema operacional proprietário iOS. No entanto, a empresa permite o desenvolvimento de dispositivos de terceiros compatíveis com o HomeKit, através da disponibilização de um \textit{framework} próprio. Os produtos desenvolvidos devem ser certificados pela Apple, processo este envolvendo a obtenção de licenças e submissão a análises.
+
+O Wireless Sensor Tags apresenta uma solução baseada em um controlador local (\textit{tag manager}) conectado à Internet, disponibilizando diversos sensores compatíveis com o controlador. Basicamente, ele permite a utilização de um aplicativo para monitorar os sensores, definindo alertas de acordo com as leituras obtidas. Não é mencionado suporte a atuadores, nem a possibilidade de desenvolver dispositivos de terceiros compatíveis com o sistema.
+
+O WigWag também é uma solução baseada em um controlador local (aqui denominado \textit{relay}), podendo operar conectado à nuvem ou não. A interface disponível possibilita a definição de regras de automação, controlando atuadores caso determinadas leituras de sensores forem verificadas. O aspecto mais interessante desta solução é a capacidade de integrar dispositivos de terceiros utilizando uma plataforma que se auto-denomina de código  aberto, chamada deviceJS. No entanto, o acesso a esta plataforma se encontra fechado no momento de escrita deste relatório.
+
+Por fim, de modo análogo às demais, a solução SmartThings baseia-se em um controlador local (\textit{hub}), que se conecta a servidores em nuvem próprios da Samsung. Esta solução destaca-se pelo foco dado à integração com dispositivos de terceiros, possuindo a documentação mais completa dentre os exemplos analisados. Tal integração baseia-se em dois componentes de software básicos: \textit{device handlers} e \textit{smart apps}. Os \textit{device handlers} funcionam como \textit{drivers}, sendo executados no controlador local. A função deles é traduzir comandos de alto nível do controlador (e.g., ligar a luz) para sinais de controle específicos do dispositivo. Os \textit{smart apps}, por sua vez, adicionam a parte de inteligência do sistema, permitindo a criação de regras de automação de modo similar ao WigWag. A empresa disponibiliza aos desenvolvedores um ambiente de desenvolvimento completo para implementar os componentes citados.
+
+\section{Motivação e Objetivos}\label{sec:goals}
+%TODO Apresentação deve incluir benefícios das smart houses
+Conforme mencionado, o conceito de \textit{smart houses} tem o potencial de trazer vários benefícios aos usuários. Logo, é interessante incentivar o desenvolvimento de sistemas abertos, desvinculando-os de empresas e serviços específicos e tornando-os mais flexíveis para o usuário. Note que, das soluções apresentadas, nenhuma é genuinamente aberta. As soluções WigWag e Samsung SmartThings são as que mais se aproximam dessa ideologia ao disponibilizar plataformas em código aberto para integrar dispositivos de terceiros, mas ainda possuem protocolos de comunicação fechados (ao menos não documentados) e são dependentes de servidores em nuvem próprios.
+
+Além disso, a inteligência contida nas \textit{smart houses} é razoavelmente limitada nas soluções existentes. Conforme apresentado anteriormente, toda a inteligência é provida pelo usuário, que configura manualmente regras envolvendo sensores eatuadores. Ou seja, uma casa que se autoconfigurasse ou sugerisse regras ou ações ao usuário teria destaque no mercado, eliminando ainda mais a intervenção do usuário e fornecendo ainda assim uma  experiência altamente customizada.
+
+
+
+\chapter{Conclusões}\label{chp:conclusion}
+
+\bibliography{referencias}
+
+\appendix
+
+\chapter{Demonstração do Lema da Bifurcação}\label{app:apendiceA}
+
+\end{document}
