@@ -1,0 +1,49 @@
+\chapter{Projeto da rede de sensores e atuadores}\label{chp:redesensores}
+
+\section{Protocolos de comunicação existentes}\label{sec:commprot}
+O projeto de uma rede de sensores e atuadores sem fio deve levar em conta diversas restrições dos dispositivos que a compõem, tais como o acesso limitado a uma fonte de energia, capacidade reduzida de processamento e meio de comunicação com interferências. Com estas restrições em mente, diversos protocolos de comunicação foram propostos para viabilizar a implementação de redes de sensores sem fio, descritos a seguir.
+
+\subsection{ZigBee}
+O ZigBee é um protocolo de comunicação proposto e padronizado pela \textit{ZigBee Alliance} em 2003, visando aplicação em redes de sensores sem fio \cite{zigbeealliance}. A especificação do protocolo abrange diversos aspectos, desde os de natureza física (e.g., estratégias de redução de intereferência) às de natureza de aplicação (e.g., aplicação de criptografia sobre os dados transmitidos) \cite{stevanovic2007}. A Figura \ref{fig:zigbee} ilustra a abrangência do protocolo ZigBee, tendo como base um modelo em camadas de rede similar ao OSI.
+
+\begin{figure}[h]
+	\centering
+	\caption{Abrangência da especificação do protocolo ZigBee, baseado em um modelo de camadas.}
+  \includegraphics[width=0.9\textwidth]{imagens/zigbee.png}
+  \label{fig:zigbee}
+  
+  Fonte: \cite{stevanovic2007}
+\end{figure}
+
+Como pode ser verificado no esquema, o ZigBee baseia-se na especificação IEEE 802.15.4 no que tange às camadas física e de controle de acesso ao meio (equivalente às camadas 1 e 2 do modelo OSI). O ZigBee define somente aspectos de alto nível que compõem as camadas de rede (camada 3) e de aplicação. Nos próximos parágrafos, será feita uma descrição do 802.15.4.
+
+O protocolo IEEE 802.15.4 é um protocolo de camadas física e de enlace que busca prover comunicação com baixa complexidade para dispositivos com capacidades limitadas de transmissão de dados e de processamento \cite{ieee802_15}. A Tabela \ref{tab:802} resume as características deste protocolo.
+
+\begin{table}[h]
+	\centering
+	\caption{Características do protocolo IEEE 802.15.4}\smallskip
+	\label{tab:802}
+	\tabulinesep = 4mm
+	\begin{tabu}{|m{6cm}|m{7cm}|}
+		\hline
+		Frequências de operação e taxas de transferência & \parbox{5cm}{868 MHz: 20 kb/s\\915 MHz: 40 kb/s\\2,4 GHz: 250 kb/s} \\ \hline
+		Canais &  \parbox{5cm}{868/915 MHz: 11 Canais \\ 2,4 GHz: 16 Canais} \\ \hline
+		Endereçamento & 16 bits (modo curto) ou 64 bits \\ \hline
+		Acesso ao meio & CSMA-CA \\
+		\hline
+	\end{tabu}
+	
+	\bigskip
+	Fonte: \cite{stevanovic2007, schonwalder2010}
+\end{table}
+Como se pode notar, o protocolo opera em três faixas de frequência, sendo que a de 2,4 GHz provê maior número de canais e maior vazão de dados, além de estar licenciado para uso global, ao contrário das demais \cite{schonwalder2010}. Dentre as funções desempenhadas pelo 802.15.4, destacam-se o controle de acesso ao canal (baseado no CSMA-CA), a confirmação de entrega e checagem de erro em \textit{frames}.
+
+O protocolo IEEE 802.15.4 ainda define dois tipos de dispositivos. Um dispositivo com funcionalidade completa (\textit{Full Function Device - FFD}) não possui restrições acentuadas de recursos, podendo se tornar um nó coordenador da rede de sensores. Ele pode efetuar diversas tarefas dentro da rede, tal como aceitar conexões e encaminhar pacotes. 
+
+Um dispositivo com funcionalidade reduzida (\textit{Reduced Function Device - RFD}), por sua vez, consiste em um dispositivo periférico, tal como um sensor, possuindo restrições significativas de recursos. Estes dispositivos em geral atuam como "folhas" na topologia de rede, comunicando-se com um nó concentrador (um FFD) quando necessário.
+
+Conforme mencionado, o ZigBee define recursos das camadas de rede e aplicação, como uma extensão ao protocolo 802.15.4 (ver Figura \ref{fig:zigbee}). Para tanto, são definidos três tipos de equipamentos dentro de uma rede ZigBee. Um dispositivo final consiste em um FFD ou RFD simples, que se comunica com um único nó. Um dispositivo roteador é um FFD capaz de reencaminhar mensagens  ao destinatário, caso necessário. Por fim, um dispositivo coordenador atua como coordenador da rede, possuindo também as funcionalidades de um roteador.
+
+Pode-se derivar um recurso importante introduzido pela especificação do ZigBee: o roteamento \textit{multihop}, atuando como camada de rede. Isso significa que caso um dispositivo envie um pacote para outro esteja fora do seu alcance, basta que haja roteadores conectando-os. Além disso, o ZigBee permite a formação de redes em malha (\textit{mesh}), provendo confiabilidade e tolerância a falhas.
+
+Por fim, o ZigBee introduz recursos importantes em nível de aplicação. Exemplos incluem a possibilidade de fragmentação e remontagem de pacotes, manutenção de um registro de dispositivos pareados e funcionalidades relacionadas à segurança, como criptografia.
