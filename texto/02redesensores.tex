@@ -9,7 +9,7 @@ O ZigBee é um protocolo de comunicação proposto e padronizado pela \textit{ZigBe
 \begin{figure}[h]
 	\centering
 	\caption{Abrangência da especificação do protocolo ZigBee, baseado em um modelo de camadas.}
-  \includegraphics[width=0.9\textwidth]{imagens/zigbee.png}
+  \includegraphics[width=0.8\textwidth]{imagens/zigbee.png}
   \label{fig:zigbee}
   
   Fonte: \cite{stevanovic2007}
@@ -47,3 +47,30 @@ Conforme mencionado, o ZigBee define recursos das camadas de rede e aplicação, c
 Pode-se derivar um recurso importante introduzido pela especificação do ZigBee: o roteamento \textit{multihop}, atuando como camada de rede. Isso significa que caso um dispositivo envie um pacote para outro esteja fora do seu alcance, basta que haja roteadores conectando-os. Além disso, o ZigBee permite a formação de redes em malha (\textit{mesh}), provendo confiabilidade e tolerância a falhas.
 
 Por fim, o ZigBee introduz recursos importantes em nível de aplicação. Exemplos incluem a possibilidade de fragmentação e remontagem de pacotes, manutenção de um registro de dispositivos pareados e funcionalidades relacionadas à segurança, como criptografia.
+
+\subsection{6LoWPAN}
+O 6LoWPAN é um protocolo definido pelo IETF que define a utilização de IPv6 sobre redes sem fio de baixo consumo, de alcance pessoal (acrônimo do inglês \textit{IPv6 over Low-power Wireless Personal Area Network}) \cite{rfc4944}. O objetivo principal deste protocolo é integrar o protocolo IP em redes de baixo consumo, trazendo diversos benefícios, tais como \cite{rfc4919, schonwalder2010}
+\begin{itemize}
+	\item A possibilidade de se reutilizar a infraestrutura IP existente;
+	\item A possibilidade de adotar tecnologias que trabalham sobre o protocolo IP, em geral amplamente conhecidos e aceitos por profissionais;
+	\item A facilidade de interoperabilidade com redes IP existentes, e
+	\item A adequação do esquema de endereçamento do IPv6, suprindo a necessidade de um grande número de endereços exigido em uma aplicação de IoT.
+\end{itemize}
+
+De modo semelhante ao ZigBee, o 6LoWPAN baseia-se no protocolo IEEE 802.15.4 no que tange às camadas física e de enlace, de modo a se adequar a redes de baixo consumo. No entanto,o 6LoWPAN define uma camada de interface entre as camadas do 802.15.4 e IP, como pode ser visto na Figura \ref{fig:6lowpan}.
+
+\begin{figure}[h]
+	\centering
+	\caption{A especificação do protocolo 6LoWPAN e sua relação com os protocolos 802.15.4 e IP. O modelo OSI é mostrado ao lado como referência.}
+  \includegraphics[width=0.8\textwidth]{imagens/6lowpan.png}
+  \label{fig:6lowpan}
+  
+  Fonte: \cite{moreiras2009}
+\end{figure}
+
+A necessidade de uma camada de interface entre o IPv6 e as camadas inferiores padronizadas pelo 802.15.4 se dá por incompatibilidades existentes entre tais protocolos \cite{rfc4919}. Um exemplo diz respeito ao tamanho dos pacotes previstos por cada protocolo: o 802.15.4 prevê pacotes pequenos, com tamanhos de no máximo 81 bytes, ao passo que o IPv6 exige suporte a um MTU mínimo de 1280 bytes. Logo, um papel da interface definida pelo 6LoWPAN é o de efetuar fragmentação e montagem dos pacotes, a fim de compatibilizar os protocolos.
+Outras funções do protocolo incluem:
+\begin{itemize}
+	\item Compressão de cabeçalho: como mencionado, o 802.15.11 suporta cabeçalhos de no máximo 81 bytes. Sendo que um cabeçalho IPv6 ocupa no mínimo 40 bytes (sem os cabeçalhos opcionais), restam somente 41 bytes para serem usados pelos protocolos de camadas superiores. Fica evidente, então, a necessidade de se aplicar técnicas de compressão de cabeçalho, função esta desempenhada pelo 6LoWPAN;
+	\item Roteamento \textit{multi-hop} em redes \textit{mesh}: de modo semelhante ao ZigBee, o 6LoWPAN permite a configuração de redes \textit{mesh} com capacidade de  autorreparação, provendo robustez.
+\end{itemize}
