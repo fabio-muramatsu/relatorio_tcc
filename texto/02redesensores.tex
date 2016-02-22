@@ -74,3 +74,36 @@ Outras funções do protocolo incluem:
 	\item Compressão de cabeçalho: como mencionado, o 802.15.11 suporta cabeçalhos de no máximo 81 bytes. Sendo que um cabeçalho IPv6 ocupa no mínimo 40 bytes (sem os cabeçalhos opcionais), restam somente 41 bytes para serem usados pelos protocolos de camadas superiores. Fica evidente, então, a necessidade de se aplicar técnicas de compressão de cabeçalho, função esta desempenhada pelo 6LoWPAN;
 	\item Roteamento \textit{multi-hop} em redes \textit{mesh}: de modo semelhante ao ZigBee, o 6LoWPAN permite a configuração de redes \textit{mesh} com capacidade de  autorreparação, provendo robustez.
 \end{itemize}
+
+\subsection{Bluetooth}
+Bluetooth é uma tecnologia de comunicação sem fio a curta distância. Opera em banda não licenciada ISM (Industrial, Científica e Médica, na sigla em inglês) entre 2,4Ghz e 2,485GHz.
+Por não utilizar banda licenciada, o Bluetooth utiliza saltos adaptativos em frequência (\textit{Adaptative Frequency Hoping} - AFH) para diminuir a interferência com outros dispositivos operantes na mesma faixa de 2,4GHz. O aparelho toma conhecimento de demais dispositivos na mesma frequência e as evita, saltando entre 79 frequências a intervalos de 1MHz. 
+
+A operação Bluetooth ocorre em redes Ad-Hoc de curto alcance conhecidas como Piconet. Tais redes podem ser constituídas por 1 membro mestre, 7 escravos ativos e 248 escravos estacionados (endereçamento de 8 bits). Cada dispositivo pode pertencer e várias Piconets. 
+Seu raio de operação depende do dispositivo utilizado, que pode ser classificado em três categorias:
+\begin{itemize}
+        \item Classe 3: alcance de 1 metro e potência máxima de 1mW.
+        \item Classe 2: alcance de 10 metros e potência máxima de 2,5mW.
+        \item Classe 1: alcance de 100 metros, potência máxima de 100mW.
+\end{itemize}
+
+A camada mais baixa da arquitetura Bluetooth é a camada Física, na qual são definidas as especificações do dispositivo para operar. Dois dispositivos compartilham o mesmo meio físico e para se comunicarem devem estar sintonizados na mesma frequência (processo de parear). Para identificar os membros da Piconet, um código de acesso é sempre enviado no cabeçalho de cada pacote, aumentando a carga e inviabilizando para dispositivos de menor capacidade, como no caso deste projeto. 
+
+Uma mesma unidade pode participar como escrava em várias Piconets mas atuar como mestre em apenas uma. Para participar de mais de uma Piconet o dispositivo atua com multiplexação no tempo (\textit{Time Division Multiplex} - TDM). O conjunto de várias Piconets independentes e não sincronizadas é chamado de Scatternet.
+
+\begin{figure}[h]
+	\centering
+	\caption{Diagrama para rede Piconet e conjunto gerando Scatternet.}
+  \includegraphics[width=0.8\textwidth]{imagens/redesbluetooth.png}
+  \label{fig:redesbluetooth}
+  
+  Fonte: \cite{redesbluetooth}
+\end{figure}
+
+No acesso ao meio físico utiliza-se o método CDMA (\textit{Code Division Multiple Access}). Para o projeto da casa conectada, utilizaria-se o padrão de Enlace ACL (\textit{Asynchronous Conection-Less}), do tipo ponto-multiponto (um mestre e vários escravos). Este padrão é adequado para transmissão de dados, de modo que pacotes perdidos ou com erros são retransmitidos. 
+
+Em qualquer rede sem fio, a vulnerabilidade das informações é evidente. Como o meio que propaga o sinal é o próprio ar, um dispositivo pode captar um sinal sendo enviado se este não for devidamente protegido. No caso da tecnologia Bluetooth, onde as conexões são feitas de forma automática, é especialmente importante definir formas de proteger os usuários para que não recebam dados de dispositivos que não desejam.
+
+Para garantir a integridade das informações, aplicam-se modos de criptografia e autenticação. Isto é especialmente importante no projeto da casa conectada, no qual usuários externos e diferentes do dono do sistema não podem ter acesso. 
+
+Para iniciar uma conexão, um pedido de permissão deve ser enviado. Os dispositivos Bluetooth usam uma chave de acesso chamada número de identificação pessoal (PIN) para autenticação. Se a chave de acesso digitada pelo usuário que deseja conectar corresponder à chave de acesso ao dispositivo detectado, a autenticação é realizada com êxito. Caso contrário ela falhará. 
