@@ -129,3 +129,7 @@ As duas camadas mais baixas (Física e Enlace) da pilha de protocolos são definid
 O Z-Wave trabalha em frequências abaixo de 1GHz, por volta de 900MHz, fazendo com que ela não interfira com Wi-Fi, Bluetooth e diversas outras tecnologias que trabalham na já bastante utilizada frequência de 2,4GHz. Além disso, suas taxas de transmissão são de 9600 bit/s, 40 kbit/s ou 100 kbit/s e seu alcance é de 100m em áreas abertas.
 
 Uma rede Z-Wave define dois tipos de dispositivos: controladores e escravos. Os controladores iniciam comandos de controle para os escravos e os enviam. Já os nós escravos apenas respondem a comandos e os executam. Porém, estes nós também podem funcionar como repetidores, aumentando o alcance de sua rede Z-Wave.
+
+Cada rede Z-Wave pode conter até 232 dispositivos e é identificada por um ID da rede (Network ID ou Home ID), que possui 32 bits. Nós conectados em redes distintas não podem se comunicar diretamente entre si, e em uma rede cada nó tem um ID único (Node ID) de 8 bits.
+
+As redes Z-Wave utilizam uma topologia de malha (Mesh) e é necessário existir um controlador primário e opcionalmente controladores secundários. Os nós são adicionados através do pareamento em que o controlador mede a força do sinal entre os equipamentos e assume que esta irá se manter constante, fazendo com que os escravos não possam se mover espacialmente sem terem que realizar o pareamento novamente.
