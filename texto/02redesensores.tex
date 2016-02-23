@@ -107,3 +107,25 @@ Em qualquer rede sem fio, a vulnerabilidade das informações é evidente. Como o m
 Para garantir a integridade das informações, aplicam-se modos de criptografia e autenticação. Isto é especialmente importante no projeto da casa conectada, no qual usuários externos e diferentes do dono do sistema não podem ter acesso. 
 
 Para iniciar uma conexão, um pedido de permissão deve ser enviado. Os dispositivos Bluetooth usam uma chave de acesso chamada número de identificação pessoal (PIN) para autenticação. Se a chave de acesso digitada pelo usuário que deseja conectar corresponder à chave de acesso ao dispositivo detectado, a autenticação é realizada com êxito. Caso contrário ela falhará. 
+
+
+
+
+\subsection{Z-Wave}
+Z-Wave é um protocolo de comunicação sem fio que tem como foco baixo consumo, baixa taxa de dados e confiabilidade. Foi criado pela empresa dinamarquesa Zen-Sys, que foi adquirida pela Sigma Designs e desde sua concepção é voltada para automação residencial \cite{wikizwave,zwavelayers}.
+
+As duas camadas mais baixas (Física e Enlace) da pilha de protocolos são definidas pelo ITU-T G.9959, ou seja, trata-se de um padrão formalmente definido por um órgão internacional de padrões. Porém, sua camada de rede é definida pela Sigma Designs e as camadas acima são definidas pelo desenvolvedor da aplicação, como pode ser observado na Figura \ref{fig:zwavelayers}.
+
+
+\begin{figure}[h]
+	\centering
+	\caption{Pilha de protocolos do Z-Wave}
+  \includegraphics[width=0.8\textwidth]{imagens/zwavelayers.jpg}
+  \label{fig:zwavelayers}
+  
+    Fonte: \cite{zwavelayers}
+\end{figure}
+
+O Z-Wave trabalha em frequências abaixo de 1GHz, por volta de 900MHz, fazendo com que ela não interfira com Wi-Fi, Bluetooth e diversas outras tecnologias que trabalham na já bastante utilizada frequência de 2,4GHz. Além disso, suas taxas de transmissão são de 9600 bit/s, 40 kbit/s ou 100 kbit/s e seu alcance é de 100m em áreas abertas.
+
+Uma rede Z-Wave define dois tipos de dispositivos: controladores e escravos. Os controladores iniciam comandos de controle para os escravos e os enviam. Já os nós escravos apenas respondem a comandos e os executam. Porém, estes nós também podem funcionar como repetidores, aumentando o alcance de sua rede Z-Wave.
