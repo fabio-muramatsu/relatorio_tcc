@@ -1,4 +1,7 @@
 \chapter{Projeto da rede de sensores e atuadores}\label{chp:redesensores}
+Esta seção tem como fim elaborar o projeto de uma rede de sensores, a fim de alcançar o objetivo (i) do trabalho. Conforme mencionado, este item objetiva desenvolver um protocolo aberto em nível de aplicação, definindo o formato e conteúdo das mensagens a serem transmitidas entre os dispositivos e provendo interoperabilidade entre os dispositivos aderentes à especificação.
+
+Para tanto, é importante levantar as características dos protocolos de comunicação subjacentes existentes, correspondentes às camadas de rede de nível inferior, sobre as quais o protocolo de aplicação a ser desenvolvido será executado. A seção \ref{sec:commprot} efetua uma análise dos protocolos de comunicação existentes.
 
 \section{Protocolos de comunicação existentes}\label{sec:commprot}
 O projeto de uma rede de sensores e atuadores sem fio deve levar em conta diversas restrições dos dispositivos que a compõem, tais como o acesso limitado a uma fonte de energia, capacidade reduzida de processamento e meio de comunicação com interferências. Com estas restrições em mente, diversos protocolos de comunicação foram propostos para viabilizar a implementação de redes de sensores sem fio, descritos a seguir.
@@ -29,7 +32,8 @@ O protocolo IEEE 802.15.4 é um protocolo de camadas física e de enlace que busca
 		Frequências de operação e taxas de transferência & \parbox{5cm}{868 MHz: 20 kb/s\\915 MHz: 40 kb/s\\2,4 GHz: 250 kb/s} \\ \hline
 		Canais &  \parbox{5cm}{868/915 MHz: 11 Canais \\ 2,4 GHz: 16 Canais} \\ \hline
 		Endereçamento & 16 bits (modo curto) ou 64 bits \\ \hline
-		Acesso ao meio & CSMA-CA \\
+		Acesso ao meio & CSMA-CA \\ \hline
+		Alcance típico & De 10m a 75m \\
 		\hline
 	\end{tabu}
 	
@@ -132,4 +136,69 @@ Uma rede Z-Wave define dois tipos de dispositivos: controladores e escravos. Os 
 
 Cada rede Z-Wave pode conter até 232 dispositivos e é identificada por um ID da rede (Network ID ou Home ID), que possui 32 bits. Nós conectados em redes distintas não podem se comunicar diretamente entre si, e em uma rede cada nó tem um ID único (Node ID) de 8 bits.
 
-As redes Z-Wave utilizam uma topologia de malha (Mesh) e é necessário existir um controlador primário e opcionalmente controladores secundários. Os nós são adicionados através do pareamento em que o controlador mede a força do sinal entre os equipamentos e assume que esta irá se manter constante, fazendo com que os escravos não possam se mover espacialmente sem terem que realizar o pareamento novamente.
+As redes Z-Wave utilizam uma topologia de malha (\textit{mesh}) e é necessário existir um controlador primário e opcionalmente controladores secundários. Os nós são adicionados através do pareamento em que o controlador mede a força do sinal entre os equipamentos e assume que esta irá se manter constante, fazendo com que os escravos não possam se mover espacialmente sem terem que realizar o pareamento novamente.
+
+\section{Análise dos protocolos de comunicação}
+Uma vez descritos os protocolos de comunicação, é possível analisar as vantagens e desvantagens de cada um deles, tendo em vista o escopo do presente trabalho. A Tabela \ref{tab:analiseprotcom} lista de forma sucinta as características levantadas de cada protocolo.
+
+\begin{table}[h]
+	\centering
+	\caption{Análise dos protocolos de comunicação}\smallskip
+	\label{tab:analiseprotcom}
+	\tabulinesep = 4mm
+	\begin{tabu}{|m{2cm}|m{4cm}|m{4cm}|m{4cm}|}
+		\hline
+		\multicolumn{1}{|c}{\textbf{Protocolo}}& \multicolumn{1}{|c}{\textbf{Vantagens}} & \multicolumn{1}{|c}{\textbf{Desvantagens}} & \multicolumn{1}{|c|}{\textbf{Aplicações}} \\ \hline
+		ZigBee & 
+		\parbox{4cm}{		
+		\textbullet Suporte a redes em malha;\\
+		\textbullet Suporte a roteamento \textit{multihop};\\
+		\textbullet Alcance elevado;\\
+		\textbullet Popular.
+		}
+		& 
+		Padrão parcialmente aberto
+		& Atuadores e sensores genéricos \\ \hline
+		
+		6LoWPAN &
+    \parbox{4cm}{
+		\textbullet Suporte a redes em malha;\\
+		\textbullet Suporte a roteamento \textit{multihop};\\
+		\textbullet Padrão aberto;\\
+		\textbullet Suporte a redes IP;\\
+		\textbullet Alto alcance
+    } &
+		Baixa popularidade &
+		Atuadores e sensores genéricos \\ \hline
+		
+		Bluetooth &
+		Popular&
+    \parbox{4cm}{
+			\textbullet Baixo alcance;\\
+			\textbullet Sem suporte a roteamento \textit{multihop};
+		} &
+		Atuadores, Smartphones no mesmo cômodo \\ \hline
+		
+		Z-Wave &
+		\parbox{4cm}{
+			\textbullet Suporta redes em malha;\\
+			\textbullet Suporte a roteamento \textit{multihop};\\
+			\textbullet Alto alcance
+		}&
+		\parbox{4cm}{
+			\textbullet Padrão parcialmente aberto;\\
+			\textbullet Baixa popularidade
+		}&
+		Atuadores \\ \hline
+	\end{tabu}
+\end{table}
+
+Conforme mencionado, os protocolos ZigBee e 6LoWPAN são baseados no padrão IEEE 802.15.4, apresentando, pois, características físicas e de acesso ao meio similares, tais como frequência de operação e alcance. Ambos ainda preveem suporte a redes em malha com roteamento \textit{multihop}, permitindo aplicações em ambientes em que a localização dos dispositivos seja esparsa, sendo necessário roteadores intermediários para comunicação.
+
+No entanto, tais protocolos diferem entre si em alguns aspectos. Em primeiro lugar, o ZigBee foi padronizado em 2003, visto como o protocolo mais popular implementado sobre o 802.15.4 [citação]. O 6LoWPAN, por sua vez, é um padrão mais novo, tendo sido proposto pelo IETF em 2007. Além disso, a especificação do 6LoWPAN é totalmente aberta, além de adotar camadas de nível superior (rede e transporte) conhecidas e amplamente adotadas em redes existentes (IP e TCP/UDP), ao passo que o ZigBee define camadas de rede e aplicação próprias, em uma especificação de acesso restrito.
+
+Em relação ao Bluetooth, pode-se considerá-lo um protocolo amplamente difundido, sendo integrado inclusive em maior parte dos dispositivos móveis atuais. No entanto, ele possui a desvantagem de possuir alcance limitado e de não suportar redes complexas, limitando a abrangência da rede. Soma-se a isso o fato de não ser possível iniciar a comunicação de um dispositivo escravo a um mestre (coordenador), tornando inconveniente a utilização de sensores como escravos, haja vista a necessidade de mantê-los ativos à espera de uma mensagem do dispositivo mestre para envio das leituras.
+
+Por fim, nota-se que o Z-Wave possui vantagens em comum às do ZigBee e do 6LoWPAN. Em contrapartida, sua especificação é parcialmente aberta, além de possuir baixa adoção. De modo similar ao Bluetooth, este dispositivos atuando como escravos não podem iniciar uma comunicação, devendo somente responder às mensagens de um mestre.
+
+Ponderando as características expostas, o grupo optou por adotar o protocolo 6LoWPAN para implementar um protótipo de rede a ser utilizado como base para projetar o protocolo de nível de aplicação. Cabe ressaltar que o protocolo de aplicação deve ser genérico a ponto de funcionar corretamente independente da escolha dos protocolos de comunicação subjacentes.
