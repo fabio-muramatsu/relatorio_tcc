@@ -1,8 +1,26 @@
-\chapter{Projeto da rede de sensores e atuadores}\label{chp:redesensores}
-Esta seção tem como fim elaborar o projeto de uma rede de sensores, a fim de alcançar o objetivo (i) do trabalho. Conforme mencionado, este item objetiva desenvolver um protocolo aberto em nível de aplicação, definindo o formato e conteúdo das mensagens a serem transmitidas entre os dispositivos e provendo interoperabilidade entre os dispositivos aderentes à especificação.
+\chapter{Projeto do Protocolo de Aplicação}\label{chp:redesensores}
+Esta seção tem como fim elaborar o protocolo de comunicação em nível de aplicação, a fim de alcançar o objetivo (i) do trabalho. Este item objetiva especificar aspectos como o formato e conteúdo das mensagens a serem transmitidas entre os dispositivos, provendo interoperabilidade entre os dispositivos aderentes à especificação.
 
-Para tanto, é importante levantar as características dos protocolos de comunicação subjacentes existentes, correspondentes às camadas de rede de nível inferior, sobre as quais o protocolo de aplicação a ser desenvolvido será executado. A seção \ref{sec:commprot} efetua uma análise dos protocolos de comunicação existentes.
+Para tanto, é importante estudar trabalhos relacionados e levantar as características dos protocolos de comunicação subjacentes existentes, correspondentes às camadas de rede de nível inferior, sobre as quais o protocolo de aplicação a ser desenvolvido será executado.
 
+\section{Trabalhos relacionados}\label{sec:relwork}
+\paragraph{IoTivity.} O IoTivity \cite{iotivity} é um projeto colaborativo da fundação Linux que tem por objetivo prover um padrão para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem prover descoberta de dispositivos, transmissão de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST, por meio da qual dados e mensagens de controle são trafegadas. 
+
+\begin{figure}[h]
+	\centering
+	\caption{Arquitetura do projeto IoTivity}
+  \includegraphics[width=0.8\textwidth]{imagens/iotivity.png}
+  \label{fig:iotivity}  
+  
+  Fonte: \cite{iotivity}
+\end{figure}
+
+Uma característica proposta na arquitetura do IoTivity a ser adotada neste projeto é a criação de uma interface comum a vários protocolos de rede subjacentes, visto que provê flexibilidade à tecnologia de comunicação adotada pelos dispositivos. Entretanto, não se deseja adotar a abordagem REST utilizada no IoTivity, pois isso implica que todos os dispositivos necessitam escutar requisições continuamente. 
+
+\paragraph{ARM mbed.} O mbed \cite{mbed} é uma plataforma de desenvolvimento da ARM, que provê um ecossistema para desenvolvimento de aplicações em IoT. Um de seus produtos principais é o sistema operacional mbed OS, compatível somente com dispositivos baseados no microprocessador ARM Cortex-M. Este sistema provê um ambiente de execução baseado em eventos e suporta diversos protocolos de rede (Ethernet, Wi-Fi, 6loWPAN, Thread e Bluetooh LE), segurança e gerenciamento de dispositivos baseados em REST.
+
+A plataforma mbed é relativamente complexa, provendo, além do sistema operacional citado, ferramentas de empacotamento de aplicações, de testes automatizados e de integração com serviços  em nuvem. Sua principal desvantagem é a restrição de processadores suportados, que apesar de ampla, restringe significativamente a flexibilidade dos dispositivos utilizados em uma rede. 
+ 
 \section{Protocolos de comunicação existentes}\label{sec:commprot}
 O projeto de uma rede de sensores e atuadores sem fio deve levar em conta diversas restrições dos dispositivos que a compõem, tais como o acesso limitado a uma fonte de energia, capacidade reduzida de processamento e meio de comunicação com interferências. Com estas restrições em mente, diversos protocolos de comunicação foram propostos para viabilizar a implementação de redes de sensores sem fio, descritos a seguir.
 
@@ -147,4 +165,22 @@ Em relação ao Bluetooth, pode-se considerá-lo um protocolo amplamente difundido,
 
 Por fim, nota-se que o Z-Wave possui vantagens em comum às do ZigBee e do 6LoWPAN. Em contrapartida, sua especificação é parcialmente aberta, além de possuir baixa adoção. De modo similar ao Bluetooth, este dispositivos atuando como escravos não podem iniciar uma comunicação, devendo somente responder às mensagens de um mestre.
 
-Ponderando as características expostas, o grupo optou por adotar o protocolo ZigBee para implementar um protótipo de rede a ser utilizado como base para projetar o protocolo de nível de aplicação. Cabe ressaltar que o protocolo de aplicação deve ser genérico a ponto de funcionar corretamente independente da escolha dos protocolos de comunicação subjacentes.
+%Ponderando as características expostas, o grupo optou por adotar o protocolo ZigBee para implementar um protótipo de rede a ser utilizado como base para projetar o protocolo de nível de aplicação. Cabe ressaltar que o protocolo de aplicação deve ser genérico a ponto de funcionar corretamente independente da escolha dos protocolos de comunicação subjacentes.
+
+\section{Definição do Protocolo de Aplicação}
+
+\section{Implementação de Biblioteca para o Protocolo de Aplicação}
+Uma vez analisados os protocolos de comunicação existentes e definido o protocolo de aplicação, passa-se para o projeto  de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
+
+\subsection{Arquitetura}
+A biblioteca desenvolvida possuirá uma biblioteca dividida em camadas, conforme ilustra a Figura \ref{fig:libarchutecture}. As camadas apresentadas em cor verde compõem a biblioteca a ser desenvolvida no projeto.
+
+%\begin{figure}[h]
+%	\centering
+%	\caption{Arquitetura em camadas da biblioteca}
+%	\includegraphics[width=0.8\textwidth]{imagens/zwavelayers.jpg}
+% 	\label{fig:libarchutecture}
+%\end{figure}
+
+\paragraph{Drivers de rede.} A primeira camada da biblioteca consiste em drivers de rede, que proveem uma interface com as diferentes pilhas de rede existentes (cf. item \ref{sec:commprot}). Esta é a única camada da biblioteca que possui dependências com as particularidades de cada protocolo ou dispositivo de rede. Possui a função de prover um acesso uniformizado para funções comuns utilizadas pelas camadas superiores, tais como escutar e enviar pacotes.
+\paragraph{Camada de tradução.} Esta camada tem como objetivo efetuar a transformação de um objeto estruturado segundo as especificações do protocolo e codificá-lo no formato de envio (mapeando campos e valores para números, e codificando no formato CBOR), e vice-versa. 
