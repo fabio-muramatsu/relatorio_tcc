@@ -1,10 +1,40 @@
 \chapter{Projeto do Protocolo de Aplicação}\label{chp:redesensores}
 Esta seção tem como fim elaborar o protocolo de comunicação em nível de aplicação, a fim de alcançar o objetivo (i) do trabalho. Este item objetiva especificar aspectos como o formato e conteúdo das mensagens a serem transmitidas entre os dispositivos, provendo interoperabilidade entre os dispositivos aderentes à especificação.
 
-Para tanto, é importante estudar trabalhos relacionados e levantar as características dos protocolos de comunicação subjacentes existentes, correspondentes às camadas de rede de nível inferior, sobre as quais o protocolo de aplicação a ser desenvolvido será executado.
+A seção \ref{sec:relwork} analisa protocolos existentes de aplicação voltados a rede de sensores sem fio, bem como \textit{frameworks} existentes que utilizam tais tecnologias. Em seguida, discutem-se na seção \ref{sec:commprot} protocolos de rede existentes que podem ser utilizados em conjunto com os protocolos de aplicação para prover a comunicação entre os dispositivos.
 
 \section{Trabalhos relacionados}\label{sec:relwork}
-\paragraph{IoTivity.} O IoTivity \cite{iotivity} é um projeto colaborativo da fundação Linux que tem por objetivo prover um padrão para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem prover descoberta de dispositivos, transmissão de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST, por meio da qual dados e mensagens de controle são trafegadas. 
+Esta seção tem como objetivo efetuar um estudo dos protocolos de aplicação e \textit{frameworks} existentes para programação de redes de sensores. Os protocolos analisados a seguir permitem programar redes de sensores de propósito geral. O objetivo, então, é analisar as características destes protocolos existentes para embasar o desenvolvimento de um protocolo específico para redes de sensores voltados à automação residencial, que são alvos deste trabalho.
+
+\subsection{Protocolos de Aplicação existentes}
+\paragraph{CoAP.} O CoAP (Constrained Application Protocol) é um protocolo de aplicação baseado no modelo REST que provê transferência de dados entre nós com recursos limitados. Suas mensagens seguem um formato similar ao HTTP, possuindo os tipos GET, POST, PUT e DELETE para efetuar operações sobre dados. Assim, por exemplo, um dado de um sensor pode ser obtido enviando a ele uma requisição GET do dado desejado. Uma característica importante do CoAP é o fato de ele ter sido projetado para funcionar sobre UDP, classificado como um protocolo de transporte não-confiável. Assim, o CoAP provê recursos de confiabilidade, definindo mensagens confirmáveis que requerem a emissão pacotes do tipo ACK, confirmando a recepção de tais mensagens.
+
+\paragraph{MQTT.} O MQTT (Message Queue Telemetry Transport) é um protocolo de aplicação aplicando o modelo publicador/observador (\textit{publisher/subscriber}) para transferência de dados. Nesse sistema, existem três tipos de elementos: publicadores, observadores e um elemento intermediário (\textit{broker}) de coordenação, como pode ser visto na Figura \ref{fig:mqtt}. Os dispositivos publicadores registram os dados gerados no coordenador, e os observadores registram interesse em receber dados de determinados publicadores. O coordenador, então, encaminha os dados dos publicadores para os observadores interessados. 
+
+\begin{figure}[h]
+	\centering
+	\caption{Arquitetura do protocolo MQTT}
+  \includegraphics[width=0.8\textwidth]{imagens/mqtt.png}
+  \label{fig:mqtt}  
+  
+  Fonte: \cite{Fuqaha2015}
+\end{figure}
+
+\paragraph{DDS.} O DDS (Data Distribution Service) é um protocolo de aplicação que também aplicao modelo publicador/observador, mas, ao contrário do MQTT, não envolve um elemento coordenador. Este protocolo prevê o envio de mensagens por multicast, sendo adequado a redes com requisitos de tempo real no contexto de IoT, além de prover diversos parâmetros de qualidade de serviço.
+
+A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos protocolos de aplicação analisados.
+
+\begin{table}[h]
+	\centering
+	\caption{Comparação dos Protocolos de Aplicação analisados}\smallskip
+	\label{tab:comp_prot_aplic}
+	\includegraphics[width=\textwidth]{tabelas/comp_prot_aplic.pdf}
+	
+	Fonte: \cite{Fuqaha2015}
+\end{table}
+
+\subsection{\textit{Frameworks} existentes}
+\paragraph{IoTivity.} O IoTivity \cite{iotivity} é um projeto colaborativo da fundação Linux que tem por objetivo prover um padrão para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem prover descoberta de dispositivos, transmissão de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST (baseado no CoAP), por meio da qual dados e mensagens de controle são trafegadas. 
 
 \begin{figure}[h]
 	\centering
@@ -21,7 +51,7 @@ Uma característica proposta na arquitetura do IoTivity a ser adotada neste proje
 
 A plataforma mbed é relativamente complexa, provendo, além do sistema operacional citado, ferramentas de empacotamento de aplicações, de testes automatizados e de integração com serviços  em nuvem. Sua principal desvantagem é a restrição de processadores suportados, que apesar de ampla, restringe significativamente a flexibilidade dos dispositivos utilizados em uma rede. 
  
-\section{Protocolos de comunicação existentes}\label{sec:commprot}
+\section{Protocolos de rede existentes}\label{sec:commprot}
 O projeto de uma rede de sensores e atuadores sem fio deve levar em conta diversas restrições dos dispositivos que a compõem, tais como o acesso limitado a uma fonte de energia, capacidade reduzida de processamento e meio de comunicação com interferências. Com estas restrições em mente, diversos protocolos de comunicação foram propostos para viabilizar a implementação de redes de sensores sem fio, descritos a seguir.
 
 \subsection{ZigBee}
@@ -154,7 +184,7 @@ Uma vez descritos os protocolos de comunicação, é possível analisar as vantagens
 	\centering
 	\caption{Análise dos protocolos de comunicação}\smallskip
 	\label{tab:analiseprotcom}
-	\includegraphics[width=\textwidth]{tabelas/comp_prot.pdf}
+	\includegraphics[width=\textwidth]{tabelas/comp_prot_rede.pdf}
 \end{table}
 
 Conforme mencionado, os protocolos ZigBee e 6LoWPAN são baseados no padrão IEEE 802.15.4, apresentando, pois, características físicas e de acesso ao meio similares, tais como frequência de operação e alcance. Ambos ainda preveem suporte a redes em malha com roteamento \textit{multihop}, permitindo aplicações em ambientes em que a localização dos dispositivos seja esparsa, sendo necessário roteadores intermediários para comunicação.
@@ -168,6 +198,12 @@ Por fim, nota-se que o Z-Wave possui vantagens em comum às do ZigBee e do 6LoWPA
 %Ponderando as características expostas, o grupo optou por adotar o protocolo ZigBee para implementar um protótipo de rede a ser utilizado como base para projetar o protocolo de nível de aplicação. Cabe ressaltar que o protocolo de aplicação deve ser genérico a ponto de funcionar corretamente independente da escolha dos protocolos de comunicação subjacentes.
 
 \section{Definição do Protocolo de Aplicação}
+\subsection{Requisitos}
+Uma vez analisados os protocolos de aplicação e frameworks existentes (seção \ref{sec:relwork}), bem como os protocolos de rede (seção \ref{sec:commprot}), pode-se especificar os requisitos do protocolo de aplicação a ser desenvolvido neste trabalho.
+
+\begin{enumerate}[\quad R1.]
+	\item O protocolo a ser desenvolvido deve funcionar com diversos protocolos de rede. Conforme a análise realizada, existem diversos protocolos de redes voltados a redes de sensores sem fio existentes, e convém que o protocolo de aplicação desenvolvido não seja restrito a nenhum deles de forma específica. Uma abordagem similar à do IoTivity pode ser interessante, criando-se uma interface comum a vários protocolos de rede subjacentes.
+\end{enumerate}
 
 \section{Implementação de Biblioteca para o Protocolo de Aplicação}
 Uma vez analisados os protocolos de comunicação existentes e definido o protocolo de aplicação, passa-se para o projeto  de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
