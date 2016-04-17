@@ -7,9 +7,9 @@ A seção \ref{sec:relwork} analisa protocolos existentes de aplicação voltados a 
 Esta seção tem como objetivo efetuar um estudo dos protocolos de aplicação e \textit{frameworks} existentes para programação de redes de sensores. Os protocolos analisados a seguir permitem programar redes de sensores de propósito geral. O objetivo, então, é analisar as características destes protocolos existentes para embasar o desenvolvimento de um protocolo específico para redes de sensores voltados à automação residencial, que são alvos deste trabalho.
 
 \subsection{Protocolos de Aplicação existentes}
-\paragraph{CoAP.} O CoAP (Constrained Application Protocol) \cite{rfc7252} é um protocolo de aplicação baseado no modelo REST que provê transferência de dados entre nós com recursos limitados. Suas mensagens seguem um formato similar ao HTTP, possuindo os tipos GET, POST, PUT e DELETE para efetuar operações sobre dados. Assim, por exemplo, um dado de um sensor pode ser obtido enviando a ele uma requisição GET do dado desejado. Uma característica importante do CoAP é o fato de ele ter sido projetado para funcionar sobre UDP, classificado como um protocolo de transporte não-confiável. Assim, o CoAP provê recursos de confiabilidade, definindo mensagens confirmáveis que requerem a emissão pacotes do tipo ACK, confirmando a recepção de tais mensagens.
+\paragraph*{CoAP.} O CoAP (Constrained Application Protocol) \cite{rfc7252} é um protocolo de aplicação baseado no modelo REST que provê transferência de dados entre nós com recursos limitados. Suas mensagens seguem um formato similar ao HTTP, possuindo os tipos GET, POST, PUT e DELETE para efetuar operações sobre dados. Assim, por exemplo, um dado de um sensor pode ser obtido enviando a ele uma requisição GET do dado desejado. Uma característica importante do CoAP é o fato de ele ter sido projetado para funcionar sobre UDP, classificado como um protocolo de transporte não-confiável. Assim, o CoAP provê recursos de confiabilidade, definindo mensagens confirmáveis que requerem a emissão pacotes do tipo ACK, confirmando a recepção de tais mensagens.
 
-\paragraph{MQTT.} O MQTT (Message Queue Telemetry Transport) \cite{mqtt} é um protocolo de aplicação aplicando o modelo publicador/observador (\textit{publisher/subscriber}) para transferência de dados. Nesse sistema, existem três tipos de elementos: publicadores, observadores e um elemento intermediário (\textit{broker}) de coordenação, como pode ser visto na Figura \ref{fig:mqtt}. Os dispositivos publicadores registram os dados gerados no coordenador, e os observadores registram interesse em receber dados de determinados publicadores. O coordenador, então, encaminha os dados dos publicadores para os observadores interessados. 
+\paragraph*{MQTT.} O MQTT (Message Queue Telemetry Transport) \cite{mqtt} é um protocolo de aplicação aplicando o modelo publicador/observador (\textit{publisher/subscriber}) para transferência de dados. Nesse sistema, existem três tipos de elementos: publicadores, observadores e um elemento intermediário (\textit{broker}) de coordenação, como pode ser visto na Figura \ref{fig:mqtt}. Os dispositivos publicadores registram os dados gerados no coordenador, e os observadores registram interesse em receber dados de determinados publicadores. O coordenador, então, encaminha os dados dos publicadores para os observadores interessados. 
 
 \begin{figure}[h]
 	\centering
@@ -20,7 +20,7 @@ Esta seção tem como objetivo efetuar um estudo dos protocolos de aplicação e \te
   Fonte: \cite{Fuqaha2015}
 \end{figure}
 
-\paragraph{DDS.} O DDS (Data Distribution Service) \cite{dds} é um protocolo de aplicação que também aplicao modelo publicador/observador, mas, ao contrário do MQTT, não envolve um elemento coordenador. Este protocolo prevê o envio de mensagens por multicast, sendo adequado a redes com requisitos de tempo real no contexto de IoT, além de prover diversos parâmetros de qualidade de serviço.
+\paragraph*{DDS.} O DDS (Data Distribution Service) \cite{dds} é um protocolo de aplicação que também aplicao modelo publicador/observador, mas, ao contrário do MQTT, não envolve um elemento coordenador. Este protocolo prevê o envio de mensagens por multicast, sendo adequado a redes com requisitos de tempo real no contexto de IoT, além de prover diversos parâmetros de qualidade de serviço.
 
 A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos protocolos de aplicação analisados.
 
@@ -34,7 +34,7 @@ A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos prot
 \end{table}
 
 \subsection{\textit{Frameworks} existentes}
-\paragraph{IoTivity.} O IoTivity \cite{iotivity} é um projeto colaborativo da fundação Linux que tem por objetivo prover um padrão para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem prover descoberta de dispositivos, transmissão de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST (baseado no CoAP), por meio da qual dados e mensagens de controle são trafegadas. 
+\paragraph*{IoTivity.} O IoTivity \cite{iotivity} é um projeto colaborativo da fundação Linux que tem por objetivo prover um padrão para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem prover descoberta de dispositivos, transmissão de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST (baseado no CoAP), por meio da qual dados e mensagens de controle são trafegadas. 
 
 \begin{figure}[h]
 	\centering
@@ -47,7 +47,7 @@ A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos prot
 
 Uma característica proposta na arquitetura do IoTivity a ser adotada neste projeto é a criação de uma interface comum a vários protocolos de rede subjacentes, visto que provê flexibilidade à tecnologia de comunicação adotada pelos dispositivos. Entretanto, não se deseja adotar a abordagem REST utilizada no IoTivity, pois isso implica que todos os dispositivos necessitam escutar requisições continuamente. 
 
-\paragraph{ARM mbed.} O mbed \cite{mbed} é uma plataforma de desenvolvimento da ARM, que provê um ecossistema para desenvolvimento de aplicações em IoT. Um de seus produtos principais é o sistema operacional mbed OS, compatível somente com dispositivos baseados no microprocessador ARM Cortex-M. Este sistema provê um ambiente de execução baseado em eventos e suporta diversos protocolos de rede (Ethernet, Wi-Fi, 6loWPAN, Thread e Bluetooh LE), segurança e gerenciamento de dispositivos baseados em REST.
+\paragraph*{ARM mbed.} O mbed \cite{mbed} é uma plataforma de desenvolvimento da ARM, que provê um ecossistema para desenvolvimento de aplicações em IoT. Um de seus produtos principais é o sistema operacional mbed OS, compatível somente com dispositivos baseados no microprocessador ARM Cortex-M. Este sistema provê um ambiente de execução baseado em eventos e suporta diversos protocolos de rede (Ethernet, Wi-Fi, 6loWPAN, Thread e Bluetooh LE), segurança e gerenciamento de dispositivos baseados em REST.
 
 A plataforma mbed é relativamente complexa, provendo, além do sistema operacional citado, ferramentas de empacotamento de aplicações, de testes automatizados e de integração com serviços  em nuvem. Sua principal desvantagem é a restrição de processadores suportados, que apesar de ampla, restringe significativamente a flexibilidade dos dispositivos utilizados em uma rede. 
  
@@ -218,5 +218,5 @@ A biblioteca desenvolvida possuirá uma biblioteca dividida em camadas, conforme 
 % 	\label{fig:libarchitecture}
 %\end{figure}
 
-\paragraph{Drivers de rede.} A primeira camada da biblioteca consiste em drivers de rede, que proveem uma interface com as diferentes pilhas de rede existentes (cf. item \ref{sec:commprot}). Esta é a única camada da biblioteca que possui dependências com as particularidades de cada protocolo ou dispositivo de rede. Possui a função de prover um acesso uniformizado para funções comuns utilizadas pelas camadas superiores, tais como escutar e enviar pacotes.
-\paragraph{Camada de tradução.} Esta camada tem como objetivo efetuar a transformação de um objeto estruturado segundo as especificações do protocolo e codificá-lo no formato de envio (mapeando campos e valores para números, e codificando no formato CBOR), e vice-versa. 
+\paragraph*{Drivers de rede.} A primeira camada da biblioteca consiste em drivers de rede, que proveem uma interface com as diferentes pilhas de rede existentes (cf. item \ref{sec:commprot}). Esta é a única camada da biblioteca que possui dependências com as particularidades de cada protocolo ou dispositivo de rede. Possui a função de prover um acesso uniformizado para funções comuns utilizadas pelas camadas superiores, tais como escutar e enviar pacotes.
+\paragraph*{Camada de tradução.} Esta camada tem como objetivo efetuar a transformação de um objeto estruturado segundo as especificações do protocolo e codificá-lo no formato de envio (mapeando campos e valores para números, e codificando no formato CBOR), e vice-versa. 
