@@ -22,7 +22,7 @@ Esta seção tem como objetivo efetuar um estudo dos protocolos de aplicação e \te
 
 \paragraph*{DDS.} O DDS (Data Distribution Service) \cite{dds} é um protocolo de aplicação que também aplicao modelo publicador/observador, mas, ao contrário do MQTT, não envolve um elemento coordenador. Este protocolo prevê o envio de mensagens por multicast, sendo adequado a redes com requisitos de tempo real no contexto de IoT, além de prover diversos parâmetros de qualidade de serviço.
 
-A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos protocolos de aplicação analisados.
+A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos protocolos de aplicação analisados. Observe que os protocolos apresentados se baseiam sobre TCP ou UDP, implicando em restrições quanto à sua utilização com protocolos de comunicação que não são baseados neles. 
 
 \begin{table}[h]
 	\centering
@@ -50,6 +50,10 @@ Uma característica proposta na arquitetura do IoTivity a ser adotada neste proje
 \paragraph*{ARM mbed.} O mbed \cite{mbed} é uma plataforma de desenvolvimento da ARM, que provê um ecossistema para desenvolvimento de aplicações em IoT. Um de seus produtos principais é o sistema operacional mbed OS, compatível somente com dispositivos baseados no microprocessador ARM Cortex-M. Este sistema provê um ambiente de execução baseado em eventos e suporta diversos protocolos de rede (Ethernet, Wi-Fi, 6loWPAN, Thread e Bluetooh LE), segurança e gerenciamento de dispositivos baseados em REST.
 
 A plataforma mbed é relativamente complexa, provendo, além do sistema operacional citado, ferramentas de empacotamento de aplicações, de testes automatizados e de integração com serviços  em nuvem. Sua principal desvantagem é a restrição de processadores suportados, que apesar de ampla, restringe significativamente a flexibilidade dos dispositivos utilizados em uma rede. 
+
+\paragraph*{RIOT.} O RIOT \cite{baccelli2013} é um sistema operacional que permite programar dispositivos utilizando  C ou C++, possibilitando utilizar ferramentas populares entre programadores como o compilador gcc e o depurador gdb. Ele provê suporte a diversas plataformas, além de prover implementações de diversas pilhas de rede (6LoWPAN, IPv6, UDP) e protocolos de aplicação tais como CoAP que podem ser incluídos nos programas caso necessários.
+
+Uma desvantagem do RIOT é o fato de o seu uso estar restrito às plataformas suportadas, que apesar de estarem em expansão, não incluem, até o momento de escrita deste relatório, dispositivos de prototipação populares tais como o Arduino Uno e Raspberry Pi. Além disso, seu uso está restrito a processadores com um único núcleo, inviabilizando a utilização de dispositivos mais recentes. 
  
 \section{Protocolos de rede existentes}\label{sec:commprot}
 O projeto de uma rede de sensores e atuadores sem fio deve levar em conta diversas restrições dos dispositivos que a compõem, tais como o acesso limitado a uma fonte de energia, capacidade reduzida de processamento e meio de comunicação com interferências. Com estas restrições em mente, diversos protocolos de comunicação foram propostos para viabilizar a implementação de redes de sensores sem fio, descritos a seguir.
