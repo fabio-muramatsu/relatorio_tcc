@@ -202,12 +202,87 @@ Por fim, nota-se que o Z-Wave possui vantagens em comum às do ZigBee e do 6LoWPA
 %Ponderando as características expostas, o grupo optou por adotar o protocolo ZigBee para implementar um protótipo de rede a ser utilizado como base para projetar o protocolo de nível de aplicação. Cabe ressaltar que o protocolo de aplicação deve ser genérico a ponto de funcionar corretamente independente da escolha dos protocolos de comunicação subjacentes.
 
 \section{Definição do Protocolo de Aplicação}
-\subsection{Requisitos}
+\subsection{Requisitos} \label{subsec:requisitos}
 Uma vez analisados os protocolos de aplicação e frameworks existentes (seção \ref{sec:relwork}), bem como os protocolos de rede (seção \ref{sec:commprot}), pode-se especificar os requisitos do protocolo de aplicação a ser desenvolvido neste trabalho.
 
 \begin{enumerate}[\quad R1.]
-	\item O protocolo a ser desenvolvido deve funcionar com diversos protocolos de rede. Conforme a análise realizada, existem diversos protocolos de redes voltados a redes de sensores sem fio existentes, e convém que o protocolo de aplicação desenvolvido não seja restrito a nenhum deles de forma específica. Uma abordagem similar à do IoTivity pode ser interessante, criando-se uma interface comum a vários protocolos de rede subjacentes.
+	\item O protocolo a ser desenvolvido deve funcionar com diversos protocolos de rede. Conforme a análise realizada, existem diversos protocolos de redes voltados a redes de sensores sem fio existentes, e convém que o protocolo de aplicação desenvolvido não seja restrito a nenhum deles de forma específica. Uma abordagem similar à do IoTivity pode ser interessante, criando-se uma interface comum a vários protocolos de rede subjacentes;
+	\item Os dispositivos devem poder declarar sua funcionalidade, incluindo informações sobre sua classificação como sensor ou atuador, e sua categoria (tipo de sensor ou atuador);
+	\item Os dispositivos devem poder enviar dados de leitura (no caso de sensores) e receber comandos de atuação (no caso de atuadores);
+	\item O protocolo deve enviar mensagens de forma concisa, levando em consideração as limitações dos dispositivos envolvidos.
 \end{enumerate}
+
+\subsection{Sintaxe e Semântica}
+Levando-se em conta a natureza das mensagens a serem transmitidas, convém adotar uma estrutura de dados no formato chave-valor. Neste relatório, a representação dos dados seguindo este formato será feito de forma similar ao formato JSON:
+\begin{center}
+	\texttt{\{chave\_1:valor\_1, ..., chave\_n:valor\_n\}}
+\end{center}
+onde \texttt{chave\_1}, \texttt{chave\_n} são as chaves e \texttt{valor\_1}, \texttt{valor\_n} são os valores associados.
+
+Os requisitos definidos na seção \ref{subsec:requisitos} permitem definir as chaves e valores associados a serem utilizados no protocolo, conforme mostra a Tabela \ref{tab:chavevalorprot}. A descrição desses campos estão apresentados a seguir.
+
+\begin{table}[h]
+	\centering
+	\caption{Chaves e valores associados utilizados no protocolo de aplicação.}\smallskip
+	\label{tab:chavevalorprot}
+	\includegraphics[width=0.9\textwidth]{tabelas/chave_valor_prot.pdf}
+\end{table}
+
+\paragraph*{\texttt{packageType.}} Descreve o tipo do pacote, definindo o significado dos demais campos presentes no pacote. Possíveis valores incluem:
+\begin{itemize}
+	\item \texttt{whoiscontroller}: Esta mensagem é enviada por um dispositivo sensor ou atuador  por broadcast para descobrir o endereço do controlador;
+	\item \texttt{iamcontroller}: Mensagem enviada em resposta ao pedido de descoberta de controlador;
+	\item \texttt{describeyourself}: Mensagem enviada pelo controlador solicitando ao dispositivo-alvo uma descrição de suas funcionalidades;
+	\item \texttt{description}: Consiste na descrição das funcionalidades do dispositivo, enviada em resposta ao pedido \texttt{describeyourself};
+	\item \texttt{data}: Descreve uma mensagem contendo dados de leitura de um sensor;
+	\item \texttt{command}: Descreve uma mensagem contendo comandos destinados a um atuador;
+	\item \texttt{lifetime}: Mensagem especificando o intervalo máximo de envio de sinais \textit{watchdog};
+	\item \texttt{keepalive}: Especifica uma mensagem que deve ser interpretada como sinal \textit{watchdog}.
+\end{itemize} 
+
+\paragraph*{\texttt{nodeClass}.} Define a classe de um dispositivo, que pode ser sensor, atuador ou controlador. Um sensor é definido como um dispositivo que envia dados de leitura. Um controlador é um dispositivo que recebe comandos e efetua ações baseadas neles. Um controlador é um dispositivo que coordena sensores e atuadores, recebendo dados de leitura e enviando comandos de atuação.
+
+\paragraph*{\texttt{data}.} Especifica o dado lido por um sensor. O formato do valor associado depende do tipo de dados declarado na mensagem do tipo \texttt{description}.
+
+\paragraph*{\texttt{command}.} Especifica o comando destinado a um atuador. O formado do valor associado depende do tipo de comandos aceitos declarado na mensagem do tipo \texttt{description}.
+
+\paragraph*{\texttt{lifetime}.} Especifica o intervalo de tempo máximo entre mensagens de \textit{watchdog}. Esta mensagem é emitida pelo controlador aos dispositivos, regulando a frequência de envio de mensagens do tipo \texttt{keepalive}.
+
+\paragraph*{\texttt{yourId}.} Esta mensagem é emitida pelo controlador, definindo o identificador a ser utilizado pelos dispositivos da rede nas comunicações subsequentes.
+
+\paragraph*{\texttt{dataType}.} Especifica as classes de dados que são emitidos pelo sensor. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:datatype}. O campo \texttt{category} define a categoria de dados coletados pelo sensor, além de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classesdados} define os valores possíveis de serem utilizados como categoria, além de listar os tipos de dados permitidos para cada categoria.
+
+\begin{table}[h]
+	\centering
+	\caption{Chaves e valores associados utilizados na declaração de tipos de dados lidos por um sensor.}\smallskip
+	\label{tab:datatype}
+	\includegraphics[width=0.9\textwidth]{tabelas/datatype.pdf}
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\caption{Categorias de dados e os respectivos tipos de valores permitidos.}\smallskip
+	\label{tab:classesdados}
+	\includegraphics[width=0.9\textwidth]{tabelas/classes_dados.pdf}
+\end{table}
+
+\paragraph*{\texttt{commandType}.} Especifica as classes de comandos aceitos pelo atuador. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:commandtype}. O campo \texttt{category} define a categoria de comandos aceitos pelo atuador, além de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classescomandos} define os valores possíveis de serem utilizados como categoria, além de listar os tipos de dados permitidos para cada categoria.
+
+\begin{table}[h]
+	\centering
+	\caption{Chaves e valores associados utilizados na declaração de tipos de comandos aceitos por um atuador.}\smallskip
+	\label{tab:commandtype}
+	\includegraphics[width=0.9\textwidth]{tabelas/commandtype.pdf}
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\caption{Categorias de comandos e os respectivos tipos de valores permitidos.}\smallskip
+	\label{tab:classescomandos}
+	\includegraphics[width=0.9\textwidth]{tabelas/classes_comandos.pdf}
+\end{table}
+
+\subsection{}
 
 \section{Implementação de Biblioteca para o Protocolo de Aplicação}
 Uma vez analisados os protocolos de comunicação existentes e definido o protocolo de aplicação, passa-se para o projeto  de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
