@@ -219,7 +219,7 @@ Levando-se em conta a natureza das mensagens a serem transmitidas, convém adotar
 \end{center}
 onde \texttt{chave\_1}, \texttt{chave\_n} são as chaves e \texttt{valor\_1}, \texttt{valor\_n} são os valores associados.
 
-Os requisitos definidos na seção \ref{subsec:requisitos} permitem definir as chaves e valores associados a serem utilizados no protocolo, conforme mostra a Tabela \ref{tab:chavevalorprot}. A descrição desses campos estão apresentados a seguir.
+Os requisitos definidos na seção \ref{subsec:requisitos} permitem definir as chaves e valores associados a serem utilizados no protocolo, conforme mostra a Tabela \ref{tab:chavevalorprot}.
 
 \begin{table}[h]
 	\centering
@@ -228,61 +228,103 @@ Os requisitos definidos na seção \ref{subsec:requisitos} permitem definir as cha
 	\includegraphics[width=0.9\textwidth]{tabelas/chave_valor_prot.pdf}
 \end{table}
 
-\paragraph*{\texttt{packageType.}} Descreve o tipo do pacote, definindo o significado dos demais campos presentes no pacote. Possíveis valores incluem:
+A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais campos que devem estar presentes nele e como devem ser interpretados. Os possíveis valores dessa chave são:
+
+\paragraph*{\texttt{whoiscontroller}.} Esta mensagem é enviada por um dispositivo sensor ou atuador  por broadcast para descobrir o endereço do controlador. 
+
+\paragraph*{\texttt{iamcontroller}.} Mensagem enviada em resposta ao pedido de descoberta de controlador. Espera-se que este pacote conte com o seguinte campo:
 \begin{itemize}
-	\item \texttt{whoiscontroller}: Esta mensagem é enviada por um dispositivo sensor ou atuador  por broadcast para descobrir o endereço do controlador;
-	\item \texttt{iamcontroller}: Mensagem enviada em resposta ao pedido de descoberta de controlador;
-	\item \texttt{describeyourself}: Mensagem enviada pelo controlador solicitando ao dispositivo-alvo uma descrição de suas funcionalidades;
-	\item \texttt{description}: Consiste na descrição das funcionalidades do dispositivo, enviada em resposta ao pedido \texttt{describeyourself};
-	\item \texttt{data}: Descreve uma mensagem contendo dados de leitura de um sensor;
-	\item \texttt{command}: Descreve uma mensagem contendo comandos destinados a um atuador;
-	\item \texttt{lifetime}: Mensagem especificando o intervalo máximo de envio de sinais \textit{watchdog};
-	\item \texttt{keepalive}: Especifica uma mensagem que deve ser interpretada como sinal \textit{watchdog}.
-\end{itemize} 
+	\item \texttt{yourId}: esta mensagem é emitida pelo controlador, definindo o identificador a ser utilizado pelos dispositivos da rede nas comunicações subsequentes.
+\end{itemize}
 
-\paragraph*{\texttt{nodeClass}.} Define a classe de um dispositivo, que pode ser sensor, atuador ou controlador. Um sensor é definido como um dispositivo que envia dados de leitura. Um controlador é um dispositivo que recebe comandos e efetua ações baseadas neles. Um controlador é um dispositivo que coordena sensores e atuadores, recebendo dados de leitura e enviando comandos de atuação.
+\paragraph*{\texttt{describeyourself}.} Mensagem enviada pelo controlador solicitando ao dispositivo-alvo uma descrição de suas funcionalidades.
 
-\paragraph*{\texttt{data}.} Especifica o dado lido por um sensor. O formato do valor associado depende do tipo de dados declarado na mensagem do tipo \texttt{description}.
-
-\paragraph*{\texttt{command}.} Especifica o comando destinado a um atuador. O formado do valor associado depende do tipo de comandos aceitos declarado na mensagem do tipo \texttt{description}.
-
-\paragraph*{\texttt{lifetime}.} Especifica o intervalo de tempo máximo entre mensagens de \textit{watchdog}. Esta mensagem é emitida pelo controlador aos dispositivos, regulando a frequência de envio de mensagens do tipo \texttt{keepalive}.
-
-\paragraph*{\texttt{yourId}.} Esta mensagem é emitida pelo controlador, definindo o identificador a ser utilizado pelos dispositivos da rede nas comunicações subsequentes.
-
-\paragraph*{\texttt{dataType}.} Especifica as classes de dados que são emitidos pelo sensor. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:datatype}. O campo \texttt{category} define a categoria de dados coletados pelo sensor, além de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classesdados} define os valores possíveis de serem utilizados como categoria, além de listar os tipos de dados permitidos para cada categoria.
+\paragraph*{\texttt{description}.} Consiste na descrição das funcionalidades do dispositivo, enviada em resposta ao pedido \texttt{describeyourself}. Espera-se que um pacote deste tipo conte com os seguintes campos:
+\begin{itemize}
+	\item \texttt{nodeClass}: define a classe de um dispositivo, que pode ser sensor, atuador ou controlador. Um sensor é definido como um dispositivo que envia dados de leitura. Um controlador é um dispositivo que recebe comandos e efetua ações baseadas neles. Um controlador é um dispositivo que coordena sensores e atuadores, recebendo dados de leitura e enviando comandos de atuação;
+	\item \texttt{dataType}: especifica as classes de dados que são emitidos pelo sensor. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:datatype}. O campo \texttt{category} define a categoria de dados coletados pelo sensor, além de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classesdados} define os valores possíveis de serem utilizados como categoria, além de listar os tipos de dados permitidos para cada categoria;
+	\item \texttt{commandType}: especifica as classes de comandos aceitos pelo atuador. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:commandtype}. O campo \texttt{category} define a categoria de comandos aceitos pelo atuador, além de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classescomandos} define os valores possíveis de serem utilizados como categoria, além de listar os tipos de dados permitidos para cada categoria.
+\end{itemize}
 
 \begin{table}[h]
 	\centering
 	\caption{Chaves e valores associados utilizados na declaração de tipos de dados lidos por um sensor.}\smallskip
 	\label{tab:datatype}
 	\includegraphics[width=0.9\textwidth]{tabelas/datatype.pdf}
-\end{table}
-
-\begin{table}[h]
-	\centering
+	
+	\medskip
+	
 	\caption{Categorias de dados e os respectivos tipos de valores permitidos.}\smallskip
 	\label{tab:classesdados}
 	\includegraphics[width=0.9\textwidth]{tabelas/classes_dados.pdf}
 \end{table}
 
-\paragraph*{\texttt{commandType}.} Especifica as classes de comandos aceitos pelo atuador. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:commandtype}. O campo \texttt{category} define a categoria de comandos aceitos pelo atuador, além de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classescomandos} define os valores possíveis de serem utilizados como categoria, além de listar os tipos de dados permitidos para cada categoria.
-
-\begin{table}[h]
+\begin{table}[hp]
 	\centering
 	\caption{Chaves e valores associados utilizados na declaração de tipos de comandos aceitos por um atuador.}\smallskip
 	\label{tab:commandtype}
 	\includegraphics[width=0.9\textwidth]{tabelas/commandtype.pdf}
-\end{table}
-
-\begin{table}[h]
-	\centering
+	
+	\medskip
+	
 	\caption{Categorias de comandos e os respectivos tipos de valores permitidos.}\smallskip
 	\label{tab:classescomandos}
 	\includegraphics[width=0.9\textwidth]{tabelas/classes_comandos.pdf}
 \end{table}
 
-\subsection{}
+\paragraph*{\texttt{data}.} Descreve uma mensagem contendo dados de leitura de um sensor. Espera-se que um pacote deste tipo conte com o seguinte campo:
+\begin{itemize}
+	\item \texttt{data}: especifica o dado lido por um sensor. Possui como valor associado um objeto com os campos listados na Tabela \ref{tab:chaves_dado}.
+\end{itemize}
+
+\begin{table}[h]
+	\centering
+	\caption{Chaves e valores associados utilizados na transmissão de um dado por um sensor.}\smallskip
+	\label{tab:chaves_dado}
+	\includegraphics[width=0.9\textwidth]{tabelas/chaves_dado.pdf}
+\end{table}
+
+\paragraph*{\texttt{command}.} Descreve uma mensagem contendo comandos destinados a um atuador. Espera-se que um pacote deste tipo conte com o seguinte campo:
+\begin{itemize}
+	\item \texttt{command} especifica o comando destinado a um atuador. Possui como valor associado um objeto com os campos listados na Tabela \ref{tab:chaves_comando}.
+\end{itemize}
+
+\begin{table}[h]
+	\centering
+	\caption{Chaves e valores associados utilizados na transmissão de um comando para um atuador.}\smallskip
+	\label{tab:chaves_comando}
+	\includegraphics[width=0.9\textwidth]{tabelas/chaves_comando.pdf}
+\end{table}
+
+\paragraph*{\texttt{lifetime}.} Mensagem especificando o intervalo máximo de envio de sinais de  \textit{heartbeat}. Espera-se que uma mensagem deste tipo conte com o seguinte campo:
+\begin{itemize}
+	\item \texttt{lifetime}: especifica o intervalo de tempo máximo entre mensagens de \textit{heartbeat}. Esta mensagem é emitida pelo controlador aos dispositivos, regulando a frequência de envio de mensagens do tipo \texttt{keepalive}.
+\end{itemize}
+
+\paragraph*{\texttt{keepalive}.} Especifica uma mensagem que deve ser interpretada como sinal de  \textit{heartbeat}.
+
+Cabe apontar que as mensagens de todos os tipos citados devem possuir o campo \texttt{id}, que identifica o dispositivo. A exceção são mensagens de tipo \texttt{whoiscontroller}, pois no momento em que esse tipo de mensagem é enviado, o dispositivo pode não estar ciente de seu identificador.
+
+\subsection{Protocolo de Troca de Mensagens}
+Definida a estrutura do pacote, suas chaves e seus valores associados, pode-se passar para a definição do aspecto dinâmico do protocolo. Esta seção busca definir o sequenciamento de mensagens para efetuar ações específicas na rede de sensores.
+
+\paragraph*{Inicialização.} O processo de inicialização dos sensores está esquematizado na Figura \ref{fig:uml_handshake}. Assim que um dispositivo é conectado à rede, ele emite um pacote do tipo \texttt{whiiscontroller} em broadcast, com o objetivo de descobrir o endereço do controlador, caso exista. Em seguida, o controlador responde com uma mensagem do tipo \texttt{iamcontroller} ao dispositivo solicitante, permitindo que ele identifique o endereço do coordenador. Além disso, nesta mensagem, o controlador define o identificador do dispositivo.
+
+Em seguida, o controlador solicita uma descrição do dispositivo com um pacote do tipo \texttt{describeyourself}, à qual o dispositivo responde com uma mensagem \texttt{description}. Ela contém informações como a classe do nó, tipos de dados gerados (caso seja sensor) e tipos de comandos aceitos (caso seja atuador).
+
+O controlador também pode definir um intervalo máximo em que o dispositivo deve enviar mensagens de \textit{heartbeat} através do pacote \texttt{lifetime}. O dispositivo, neste caso, envia pacotes \textit{heartbeat} periodicamente, sinalizando os pacotes como sendo do tipo \texttt{keepalive}.
+
+\begin{figure}[h]
+	\centering
+	\caption{Processo de inicialização de um dispositivo. O diagrama à esquerda mostra o processo completo de inicialização, com três mensagens enviadas pelo controlador. O diagrama à direita mostra uma versão compacta, embutindo as três mensagens em uma.}
+	\medskip
+  \includegraphics[width=\textwidth]{imagens/uml_handshake.pdf}
+  \label{fig:uml_handshake}
+\end{figure}
+
+O processo de inicialização pode ser simplificado condensando-se os pacotes \texttt{iamcontroller}, \texttt{describeyourself} e \texttt{lifetime} (caso aplicável) em um único pacote, conforme ilustra o diagrama à direita da Figura \ref{fig:uml_handshake}.
+
+\paragraph*{Envio de dados.} Uma vez efetuado o processo de inicialização, dados de leitura podem ser enviados do sensor ao controlador através da mensagem \texttt{data}
 
 \section{Implementação de Biblioteca para o Protocolo de Aplicação}
 Uma vez analisados os protocolos de comunicação existentes e definido o protocolo de aplicação, passa-se para o projeto  de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
