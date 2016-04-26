@@ -246,7 +246,7 @@ A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais camp
 	\item \texttt{commandType}: especifica as classes de comandos aceitos pelo atuador. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:commandtype}. O campo \texttt{category} define a categoria de comandos aceitos pelo atuador, além de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classescomandos} define os valores possíveis de serem utilizados como categoria, além de listar os tipos de dados permitidos para cada categoria.
 \end{itemize}
 
-\begin{table}[h]
+\begin{table}[hp]
 	\centering
 	\caption{Chaves e valores associados utilizados na declaração de tipos de dados lidos por um sensor.}\smallskip
 	\label{tab:datatype}
@@ -304,6 +304,8 @@ A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais camp
 \paragraph*{\texttt{keepalive}.} Especifica uma mensagem que deve ser interpretada como sinal de  \textit{heartbeat}.
 
 Cabe apontar que as mensagens de todos os tipos citados devem possuir o campo \texttt{id}, que identifica o dispositivo. A exceção são mensagens de tipo \texttt{whoiscontroller}, pois no momento em que esse tipo de mensagem é enviado, o dispositivo pode não estar ciente de seu identificador.
+
+Note, ainda, que chaves do tipo \texttt{packageType} e \texttt{nodeClass} podem ter múltiplos valores associados. Por exemplo, uma mensagem pode ser enviada com os tipos \texttt{iamcontroller}, \texttt{describeyourself} e \texttt{lifetime}, indicando que ela tem as funções de identificar o controlador, solicitar informações ao dispositivo-destino e definir o intervalo de envio de sinais de \textit{heartbeat}.
 
 \subsection{Protocolo de Troca de Mensagens}
 Definida a estrutura do pacote, suas chaves e seus valores associados, pode-se passar para a definição do aspecto dinâmico do protocolo. Esta seção busca definir o sequenciamento de mensagens para efetuar ações específicas na rede de sensores.
@@ -373,23 +375,38 @@ De modo similar, as Tabelas \ref{tab:cod_valores_packagetype}, \ref{tab:cod_valo
 	\caption{Codificação dos valores do campo \texttt{packageType}.}\smallskip
 	\label{tab:cod_valores_packagetype}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_packagetype.pdf}
-	
+\end{table}
+
+\begin{table}[hp]	
+	\centering
 	\caption{Codificação de valores do campo \texttt{nodeClass}.}\smallskip
 	\label{tab:cod_valores_nodeclass}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_nodeclass.pdf}
-	
+\end{table}
+
+\begin{table}[hp]	
+	\centering
 	\caption{Codificação de valores do campo \texttt{measureStrategy}.}\smallskip
 	\label{tab:cod_valores_measurestrat}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_measurestrat.pdf}
-	
+\end{table}
+
+\begin{table}[hp]	
+	\centering
 	\caption{Codificação de valores de categoria para sensores}\smallskip
 	\label{tab:cod_data_category}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_data_category.pdf}
-	
+\end{table}
+
+\begin{table}[hp]	
+	\centering
 	\caption{Codificação de valores de categoria para atuadores}\smallskip
 	\label{tab:cod_command_category}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_command_category.pdf}
-	
+\end{table}
+
+\begin{table}[h]	
+	\centering
 	\caption{Codificação de tipos de dados e comandos}\smallskip
 	\label{tab:cod_type_category}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_type_category.pdf}
