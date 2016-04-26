@@ -212,7 +212,7 @@ Uma vez analisados os protocolos de aplicação e frameworks existentes (seção \re
 	\item O protocolo deve enviar mensagens de forma concisa, levando em consideração as limitações dos dispositivos envolvidos.
 \end{enumerate}
 
-\subsection{Sintaxe e Semântica}
+\subsection{Sintaxe e Semântica} \label{subsec:sintaxe}
 Levando-se em conta a natureza das mensagens a serem transmitidas, convém adotar uma estrutura de dados no formato chave-valor. Neste relatório, a representação dos dados seguindo este formato será feito de forma similar ao formato JSON:
 \begin{center}
 	\texttt{\{chave\_1:valor\_1, ..., chave\_n:valor\_n\}}
@@ -324,7 +324,76 @@ O controlador também pode definir um intervalo máximo em que o dispositivo deve 
 
 O processo de inicialização pode ser simplificado condensando-se os pacotes \texttt{iamcontroller}, \texttt{describeyourself} e \texttt{lifetime} (caso aplicável) em um único pacote, conforme ilustra o diagrama à direita da Figura \ref{fig:uml_handshake}.
 
-\paragraph*{Envio de dados.} Uma vez efetuado o processo de inicialização, dados de leitura podem ser enviados do sensor ao controlador através da mensagem \texttt{data}
+\paragraph*{Envio de dados.} Uma vez efetuado o processo de inicialização, dados de leitura podem ser enviados do sensor ao controlador através da mensagem \texttt{data}.
+
+\paragraph*{Envio de comandos.} Uma vez efetuado o processo de inicialização, comandos podem ser enviados do controlador ao atuador através da mensagem \texttt{command}.
+
+\subsection{A codificação CBOR}
+Como mencionado, redes de sensores sem fio são compostas por dispositivos com limitações de banda e de processamento. Por esta razão, é importante que as mensagens trafegadas sejam concisas (aliviando requisitos de banda) e de simples interpretação (aliviando requisitos de processamento). Com esses propósitos em mente, resolveu-se adotar a codificação CBOR (\textit{Concise Binary Object Representation}) \cite{rfc7049}.
+
+Esta codificação é baseada no formato de dados JSON, provendo uma maneira de representar objetos neste formato de forma binária. Sua especificação reconhece diversos tipos de dados, tais como inteiros negativos e não-negativos, cadeias de bytes e de caracteres, entre outros, cada qual com regras específicas de representação. Para identificar o tipo de cada dado, a codificação dedica um byte para cada item de dado para descrevê-lo.
+
+Considere como exemplo a codificação do objeto JSON a seguir:
+\begin{center}
+	\texttt{\{"a": 1, "b": 2\}}
+\end{center}
+
+Uma representação possível do objeto acima pode ser feito em forma de cadeia de caracteres. Apresar de ser uma forma comum e prática de se representar tais objetos, ela possui a desvantagem de ser extensa: no exemplo dado, considerando que um caractere ocupa 1 byte, o resultado gerado possui 13 bytes. Por outro lado, sua representação em CBOR ocupa 7 bytes, conforme apresentado na Tabela \ref{tab:cbor_exemplo}. Isso corresponde a uma redução de quase 50\% no resultado gerado.
+
+\begin{table}[h]
+	\centering
+	\caption{Exemplo de representação em CBOR de um objeto JSON.}\smallskip
+	\label{tab:cbor_exemplo}
+	\includegraphics[width=0.9\textwidth]{tabelas/cbor_exemplo.pdf}
+\end{table}
+
+\subsection{Codificação dos Itens nas Mensagens}
+Seguindo a ideia de manter concisão nas mensagens trocadas, e levando em conta o funcionamento da codificação CBOR, os campos e valores especificados na seção \ref{subsec:sintaxe} devem ser codificados antes da transmissão. As Tabelas \ref{tab:codificacao_chaves_principais}, \ref{tab:codificacao_tipo_dc} e \ref{tab:codificacao_dc} listam as codificações adotadas para as chaves das mensagens transmitidas.
+
+\begin{table}[h]
+	\centering
+	\caption{Codificação das chaves principais de uma mensagem.}\smallskip
+	\label{tab:codificacao_chaves_principais}
+	\includegraphics[width=0.7\textwidth]{tabelas/codificacao_chaves_principais.pdf}
+	
+	\caption{Codificação de chaves utilizadas nos campos \texttt{datatype} e \texttt{commandtype}.}\smallskip
+	\label{tab:codificacao_tipo_dc}
+	\includegraphics[width=0.7\textwidth]{tabelas/codificacao_tipo_dc.pdf}
+	
+	\caption{Codificação de chaves utilizadas em mensagens do tipo \texttt{data} e \texttt{command}.}\smallskip
+	\label{tab:codificacao_dc}
+	\includegraphics[width=0.7\textwidth]{tabelas/codificacao_dc.pdf}
+	
+\end{table}
+
+De modo similar, as Tabelas \ref{tab:cod_valores_packagetype}, \ref{tab:cod_valores_nodeclass}, \ref{tab:cod_valores_measurestrat}, \ref{tab:cod_data_category}, \ref{tab:cod_command_category} e \ref{tab:cod_type_category} listam as codificações adotadas para os valores utilizados em diversos campos das mensagens. Observe que os valores utilizados nos campos \texttt{packageType} (Tabela \ref{tab:cod_valores_packagetype}) e \texttt{nodeClass} (Tabela \ref{tab:cod_valores_nodeclass}) evoluem em potências de 2. Isso ocorre pois, conforme apontado na seção \ref{subsec:sintaxe}, tais campos permitem múltiplos valores. Deste modo, a representação de mais de um valor é feita efetuando-se uma operação de OR binário. Por exemplo, se um dado dispositivo for tanto sensor (código 1) quanto atuador (código 2), sua representação se dará enviando um pacote contendo o campo \texttt{nodeClass} definido para 3.
+
+\begin{table}[hp]
+	\centering
+	\caption{Codificação dos valores do campo \texttt{packageType}.}\smallskip
+	\label{tab:cod_valores_packagetype}
+	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_packagetype.pdf}
+	
+	\caption{Codificação de valores do campo \texttt{nodeClass}.}\smallskip
+	\label{tab:cod_valores_nodeclass}
+	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_nodeclass.pdf}
+	
+	\caption{Codificação de valores do campo \texttt{measureStrategy}.}\smallskip
+	\label{tab:cod_valores_measurestrat}
+	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_measurestrat.pdf}
+	
+	\caption{Codificação de valores de categoria para sensores}\smallskip
+	\label{tab:cod_data_category}
+	\includegraphics[width=0.7\textwidth]{tabelas/cod_data_category.pdf}
+	
+	\caption{Codificação de valores de categoria para atuadores}\smallskip
+	\label{tab:cod_command_category}
+	\includegraphics[width=0.7\textwidth]{tabelas/cod_command_category.pdf}
+	
+	\caption{Codificação de tipos de dados e comandos}\smallskip
+	\label{tab:cod_type_category}
+	\includegraphics[width=0.7\textwidth]{tabelas/cod_type_category.pdf}
+\end{table}
 
 \section{Implementação de Biblioteca para o Protocolo de Aplicação}
 Uma vez analisados os protocolos de comunicação existentes e definido o protocolo de aplicação, passa-se para o projeto  de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
