@@ -1,0 +1,53 @@
+\chapter{Especificação}
+
+\section{Divisão do Projeto}
+O projeto pode ser dividido em dois sub-projetos, cada qual lidando com um objetivo listado na seção anterior. O primeiro sub-projeto tem a finalidade de estruturar uma \textbf{rede de sensores} e atuadores utilizando um protocolo aberto, conforme descreve o objetivo i. O segundo sub-projeto busca desenvolver um \textbf{serviço em nuvem} que agregue os dados coletados pela rede de sensores, efetuando, entre outras atividades, o processo de aprendizagem descrito no objetivo ii.
+
+A especificação do projeto será feita por meio de requisitos funcionais e não-funcionais, que estão listados em três classes:
+\begin{itemize}
+	\item Requisitos de sistema, relativos à integração de ambos os sub-projetos;
+	\item Requisitos da rede de sensores, referente ao sub-projeto dedicado a atingir o objetivo i; 
+	\item Requisitos do serviço em nuvem, referente ao sub-projeto dedicado a atingir o objetivo ii.
+\end{itemize}
+
+\section{Requisitos Funcionais}
+\subsection{De sistema}
+\begin{itemize}
+	\item O sistema deve coletar dados do ambiente domiciliar e possibilitar a ativação de atuadores automaticamente ou por ação humana;
+	\item O sistema deve permitir que o usuário visualize o estado atual do sistema;
+	\item O sistema deve se adaptar a alterações de gostos e preferências do usuário.
+\end{itemize}
+
+\subsection{Da rede de sensores}
+\begin{itemize}
+	\item Toda a comunicação deve ser realizada através de um protocolo único e formalizado;
+	\item O protocolo de comunicação deve permitir a identificação dos dispositivos da rede, bem como o envio de dados e de comandos de atuação.
+\end{itemize}
+
+\subsection{Do serviço em nuvem}
+\begin{itemize}
+	\item Permitir acesso remoto em qualquer localização para que usuário controle seus dispositivos à distância;
+	\item Aprender os hábitos do usuário e configurar a rede de sensores automaticamente para realizar os seus gostos.
+
+\end{itemize}
+
+\section{Requisitos Não-Funcionais}
+\subsection{De sistema}
+\begin{itemize}
+	\item Fácil instalação de sensores e integração com a nuvem;
+	\item Utilizar linguagens, ambientes e bibliotecas abertas.
+\end{itemize}
+
+\subsection{Da rede de sensores}
+\begin{itemize}
+	\item O protocolo de comunicação desenvolvido deve ser aberto, de modo que qualquer fabricante possa criar um dispositivo que compatível com a rede;
+	\item Deve possibilitar o uso de diversas tecnologias de comunicação, tais como ZigBee, 802.15.4, e UDP;
+	\item O protocolo deve gerar pacotes de tamanhos compatíveis com tecnologias de redes existentes para redes de sensores sem fio;
+	\item A rede deve continuar operante mesmo sem acesso à nuvem.
+\end{itemize}
+
+\subsection{Do serviço em nuvem}
+\begin{itemize}
+	\item Disponibilidade de 99\% do tempo; 
+	\item API que possibilite o acesso através de aplicações de terceiros/aplicativo/site.
+\end{itemize}
