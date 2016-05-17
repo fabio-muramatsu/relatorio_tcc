@@ -1,4 +1,4 @@
-\chapter{Projeto do Protocolo de Aplicação}\label{chp:redesensores}
+\chapter{Projeto da Rede de Sensores}\label{chp:redesensores}
 Esta seção tem como fim elaborar o protocolo de comunicação em nível de aplicação, a fim de alcançar o objetivo (i) do trabalho. Este item objetiva especificar aspectos como o formato e conteúdo das mensagens a serem transmitidas entre os dispositivos, provendo interoperabilidade entre os dispositivos aderentes à especificação.
 
 A seção \ref{sec:relwork} analisa protocolos existentes de aplicação voltados a rede de sensores sem fio, bem como \textit{frameworks} existentes que utilizam tais tecnologias. Em seguida, discutem-se na seção \ref{sec:commprot} protocolos de rede existentes que podem ser utilizados em conjunto com os protocolos de aplicação para prover a comunicação entre os dispositivos.
@@ -141,7 +141,7 @@ Uma mesma unidade pode participar como escrava em várias Piconets mas atuar como
 \begin{figure}[h]
 	\centering
 	\caption{Diagrama para rede Piconet e conjunto gerando Scatternet.}
-  \includegraphics[width=0.8\textwidth]{imagens/redesbluetooth.png}
+  \includegraphics[width=0.8\textwidth]{imagens/redesbluetooth.jpg}
   \label{fig:redesbluetooth}
   
   Fonte: \cite{redesbluetooth}
@@ -154,9 +154,6 @@ Em qualquer rede sem fio, a vulnerabilidade das informações é evidente. Como o m
 Para garantir a integridade das informações, aplicam-se modos de criptografia e autenticação. Isto é especialmente importante no projeto da casa conectada, no qual usuários externos e diferentes do dono do sistema não podem ter acesso aos dados trafegados. 
 
 Para iniciar uma conexão, um pedido de permissão deve ser enviado. Os dispositivos Bluetooth usam uma chave de acesso chamada número de identificação pessoal (PIN) para autenticação. Se a chave de acesso digitada pelo usuário que deseja conectar corresponder à chave de acesso ao dispositivo detectado, a autenticação é realizada com êxito. Caso contrário ela falhará. 
-
-
-
 
 \subsection{Z-Wave}
 Z-Wave é um protocolo de comunicação sem fio que tem como foco baixo consumo, baixa taxa de dados e confiabilidade. Foi criado pela empresa dinamarquesa Zen-Sys, que foi adquirida pela Sigma Designs e desde sua concepção é voltada para automação residencial \cite{wikizwave,zwavelayers}.
@@ -201,9 +198,9 @@ Por fim, nota-se que o Z-Wave possui vantagens em comum às do ZigBee e do 6LoWPA
 
 %Ponderando as características expostas, o grupo optou por adotar o protocolo ZigBee para implementar um protótipo de rede a ser utilizado como base para projetar o protocolo de nível de aplicação. Cabe ressaltar que o protocolo de aplicação deve ser genérico a ponto de funcionar corretamente independente da escolha dos protocolos de comunicação subjacentes.
 
-\section{Definição do Protocolo de Aplicação}
+\section{Definição do Protocolo de Aplicação \textit{Rainfall}}
 \subsection{Requisitos} \label{subsec:requisitos}
-Uma vez analisados os protocolos de aplicação e frameworks existentes (seção \ref{sec:relwork}), bem como os protocolos de rede (seção \ref{sec:commprot}), pode-se especificar os requisitos do protocolo de aplicação a ser desenvolvido neste trabalho.
+Uma vez analisados os protocolos de aplicação e frameworks existentes (seção \ref{sec:relwork}), bem como os protocolos de rede (seção \ref{sec:commprot}), e tendo em vista os requisitos levantados para a rede de sensores (seções \ref{sec:reqfunc} e \ref{sec:reqnfunc}), pode-se passar para a especificação do protocolo de aplicação proposto, batizado de \textit{Rainfall}. Os requisitos relativos ao protocolo estão reescritos abaixo, por fins de claridade.
 
 \begin{enumerate}[\quad R1.]
 	\item O protocolo a ser desenvolvido deve funcionar com diversos protocolos de rede. Conforme a análise realizada, existem diversos protocolos de redes voltados a redes de sensores sem fio existentes, e convém que o protocolo de aplicação desenvolvido não seja restrito a nenhum deles de forma específica. Uma abordagem similar à do IoTivity pode ser interessante, criando-se uma interface comum a vários protocolos de rede subjacentes;
@@ -303,7 +300,13 @@ A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais camp
 
 \paragraph*{\texttt{keepalive}.} Especifica uma mensagem que deve ser interpretada como sinal de  \textit{heartbeat}.
 
-Cabe apontar que as mensagens de todos os tipos citados devem possuir o campo \texttt{id}, que identifica o dispositivo. A exceção são mensagens de tipo \texttt{whoiscontroller}, pois no momento em que esse tipo de mensagem é enviado, o dispositivo pode não estar ciente de seu identificador.
+\paragraph*{\texttt{iamback}.} Emitida por um sensor ou atuador caso ele tenha recebido um identificador anteriormente, mas devido a alguma razão, foi desconectado da rede e necessita se reconectar.
+
+\paragraph*{\texttt{welcomeback}.} Mensagem emitida por um controlador ao receber uma mensagem do tipo \texttt{iamback}, indicando que o dispositivo foi reconhecido e aceito na rede.
+
+\paragraph*{\texttt{externalcommand}.} Mensagem emitida por um dispositivo atuador, indicando que um comando de origem externa ao sistema foi recebido. A estrutura desta mensagem é igual às do tipo \texttt{command}.
+
+Cabe apontar que as mensagens dos tipos \texttt{description}, \texttt{data}, \texttt{command}, \texttt{keepalive}, \texttt{iamback} e \texttt{externalcommand} devem possuir o campo \texttt{id}, que identifica o dispositivo.
 
 Note, ainda, que chaves do tipo \texttt{packageType} e \texttt{nodeClass} podem ter múltiplos valores associados. Por exemplo, uma mensagem pode ser enviada com os tipos \texttt{iamcontroller}, \texttt{describeyourself} e \texttt{lifetime}, indicando que ela tem as funções de identificar o controlador, solicitar informações ao dispositivo-destino e definir o intervalo de envio de sinais de \textit{heartbeat}.
 
@@ -318,7 +321,8 @@ O controlador também pode definir um intervalo máximo em que o dispositivo deve 
 
 \begin{figure}[h]
 	\centering
-	\caption{Processo de inicialização de um dispositivo. O diagrama à esquerda mostra o processo completo de inicialização, com três mensagens enviadas pelo controlador. O diagrama à direita mostra uma versão compacta, embutindo as três mensagens em uma.}
+
+	\caption{Processo de inicialização de um dispositivo.} 
 	\medskip
   \includegraphics[width=\textwidth]{imagens/uml_handshake.pdf}
   \label{fig:uml_handshake}
@@ -329,6 +333,16 @@ O processo de inicialização pode ser simplificado condensando-se os pacotes \tex
 \paragraph*{Envio de dados.} Uma vez efetuado o processo de inicialização, dados de leitura podem ser enviados do sensor ao controlador através da mensagem \texttt{data}.
 
 \paragraph*{Envio de comandos.} Uma vez efetuado o processo de inicialização, comandos podem ser enviados do controlador ao atuador através da mensagem \texttt{command}.
+
+\paragraph*{Retorno à rede.} Caso um dispositivo operante se desconecte da rede por algum motivo, ele pode se reconectar enviando uma mensagem do tipo \texttt{imback}, conforme ilustra a Figura \ref{fig:uml_reconnect}. Ao receber uma mensagem deste tipo, o controlador pode responder de duas maneiras. Caso ele reconheça o identificador enviado pelo dispositivo na mensagem \texttt{imback}, ele responde com outra mensagem do tipo \texttt{welcomeback}, conforme ilustra o diagrama à esquerda da Figura \ref{fig:uml_reconnect}. A partir deste momento, o dispositivo pode operar regularmente. Por outro lado, caso o controlador não reconheça o dispositivo, ele solicita uma nova declaração, como ilustrado no diagrama à direita da Figura \ref{fig:uml_reconnect}.
+
+\begin{figure}[h]
+	\centering
+	\caption{Processo de retorno de um dispositivo à rede.}
+	\medskip
+  \includegraphics[width=\textwidth]{imagens/uml_reconnect.pdf}
+  \label{fig:uml_reconnect}
+\end{figure}
 
 \subsection{A codificação CBOR}
 Como mencionado, redes de sensores sem fio são compostas por dispositivos com limitações de banda e de processamento. Por esta razão, é importante que as mensagens trafegadas sejam concisas (aliviando requisitos de banda) e de simples interpretação (aliviando requisitos de processamento). Com esses propósitos em mente, resolveu-se adotar a codificação CBOR (\textit{Concise Binary Object Representation}) \cite{rfc7049}.
@@ -352,7 +366,7 @@ Uma representação possível do objeto acima pode ser feito em forma de cadeia de 
 \subsection{Codificação dos Itens nas Mensagens}
 Seguindo a ideia de manter concisão nas mensagens trocadas, e levando em conta o funcionamento da codificação CBOR, os campos e valores especificados na seção \ref{subsec:sintaxe} devem ser codificados antes da transmissão. As Tabelas \ref{tab:codificacao_chaves_principais}, \ref{tab:codificacao_tipo_dc} e \ref{tab:codificacao_dc} listam as codificações adotadas para as chaves das mensagens transmitidas.
 
-\begin{table}[h]
+\begin{table}[hp]
 	\centering
 	\caption{Codificação das chaves principais de uma mensagem.}\smallskip
 	\label{tab:codificacao_chaves_principais}
@@ -405,25 +419,34 @@ De modo similar, as Tabelas \ref{tab:cod_valores_packagetype}, \ref{tab:cod_valo
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_command_category.pdf}
 \end{table}
 
-\begin{table}[h]	
+\begin{table}[hp]	
 	\centering
 	\caption{Codificação de tipos de dados e comandos}\smallskip
 	\label{tab:cod_type_category}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_type_category.pdf}
 \end{table}
 
-\section{Implementação de Biblioteca para o Protocolo de Aplicação}
-Uma vez analisados os protocolos de comunicação existentes e definido o protocolo de aplicação, passa-se para o projeto  de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
+\clearpage
+\section{Implementação de Bibliotecas para o Protocolo de Aplicação}
+Uma vez analisados os protocolos de comunicação existentes e definido o protocolo de aplicação, passa-se para o projeto de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
 
 \subsection{Arquitetura}
-A biblioteca desenvolvida possuirá uma biblioteca dividida em camadas, conforme ilustra a Figura \ref{fig:libarchitecture}. As camadas apresentadas em cor verde compõem a biblioteca a ser desenvolvida no projeto.
+A biblioteca desenvolvida possuirá uma arquitetura em camadas, conforme ilustra a Figura \ref{fig:libarchitecture}. As camadas apresentadas em cor verde compõem a biblioteca a ser desenvolvida no projeto. A descrição de cada camada está apresentada a seguir.
 
-%\begin{figure}[h]
-%	\centering
-%	\caption{Arquitetura em camadas da biblioteca}
-%	\includegraphics[width=0.8\textwidth]{imagens/zwavelayers.jpg}
-% 	\label{fig:libarchitecture}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\caption{Arquitetura em camadas da biblioteca}
+	\includegraphics[width=0.8\textwidth]{imagens/libarchitecture.pdf}
+ 	\label{fig:libarchitecture}
+\end{figure}
 
 \paragraph*{Drivers de rede.} A primeira camada da biblioteca consiste em drivers de rede, que proveem uma interface com as diferentes pilhas de rede existentes (cf. item \ref{sec:commprot}). Esta é a única camada da biblioteca que possui dependências com as particularidades de cada protocolo ou dispositivo de rede. Possui a função de prover um acesso uniformizado para funções comuns utilizadas pelas camadas superiores, tais como escutar e enviar pacotes.
-\paragraph*{Camada de tradução.} Esta camada tem como objetivo efetuar a transformação de um objeto estruturado segundo as especificações do protocolo e codificá-lo no formato de envio (mapeando campos e valores para números, e codificando no formato CBOR), e vice-versa. 
+
+\paragraph*{Biblioteca \textit{Rainfall}.} Esta camada tem como objetivo efetuar a transformação de um objeto estruturado segundo as especificações do protocolo \textit{Rainfall} e codificá-lo no formato de envio (mapeando campos e valores para números, e codificando no formato CBOR), e vice-versa. Além disso, ele efetua checagens sintáticas dos pacotes enviados, verificando se somente campos permitidos são utilizados para cada tipo de pacote, conforme as regras apresentadas no item \ref{subsec:sintaxe}. Observe que esta camada atua como um \textit{middleware}, provendo uma interface comum entre a lógica de aplicação e os diversos protocolos de rede.
+
+\paragraph*{Biblioteca \textit{Leaf}.} Esta camada atua sobre as funções fornecidas pela \textit{Rainfall}, fornecendo uma API que abstrai os detalhes do protocolo. Por exemplo, o processo de inicialização mostrado na Figura \ref{fig:uml_handshake} é abstraído através de um método de inicialização disponibilizado nesta biblioteca.
+
+\paragraph*{Aplicações de usuário.} As bibliotecas desenvolvidas permitem o desenvolvimento de \textit{software} de controle de dispositivos em conformidade com as especificações do protocolo \textit{Rainfall}. Dispositivos sensores e atuadores podem ser desenvolvidos facilmente através da biblioteca \textit{Leaf}, ao passo que a lógica de um dispositivo controlador pode ser descrita utilizando-se a biblioteca \textit{Rainfall} diretamente.
+
+\subsection{Implementação e Exemplos}
+Uma implementação das bibliotecas para desenvolvimento de dispositivos seguindo o protocolo \textit{Rainfall} foi feita utilizando a linguagem JavaScript, utilizando o ambiente Node.js \footnote{Disponível em \url{https://nodejs.org/}.}. O código-fonte desta implementação, além de exemplos de uso da biblioteca para o desenvolvimento de sensores, atuadores e controladores, estão hospedados no serviço GitHub \footnote{Disponível nos repositórios \url{https://github.com/HomeSkyLtd/sn-node} e \url{https://github.com/HomeSkyLtd/controller}}.
