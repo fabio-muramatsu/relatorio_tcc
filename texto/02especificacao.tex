@@ -3,11 +3,18 @@
 \section{Divisão do Projeto}
 O projeto pode ser dividido em dois sub-projetos, cada qual lidando com um objetivo listado na seção anterior. O primeiro sub-projeto tem a finalidade de estruturar uma \textbf{rede de sensores} e atuadores utilizando um protocolo aberto, conforme descreve o objetivo i. O segundo sub-projeto busca desenvolver um \textbf{serviço em nuvem} que agregue os dados coletados pela rede de sensores, efetuando, entre outras atividades, o processo de aprendizagem descrito no objetivo ii.
 
-A especificação do projeto será feita por meio de requisitos funcionais e não-funcionais, que estão listados em três classes:
+O primeiro passo na especificação consiste na identificação dos \textit{stakeholders}. Em seguida, a especificação do projeto será feita por meio de requisitos funcionais e não-funcionais, que estão listados em três classes:
 \begin{itemize}
 	\item Requisitos de sistema, relativos à integração de ambos os sub-projetos;
 	\item Requisitos da rede de sensores, referente ao sub-projeto dedicado a atingir o objetivo i; 
 	\item Requisitos do serviço em nuvem, referente ao sub-projeto dedicado a atingir o objetivo ii.
+\end{itemize}
+
+\section{Descrição dos \textit{stakeholders}}
+Os seguintes \textit{stakeholders} foram identificados no projeto:
+\begin{itemize}
+	\item Usuário final, cujo interesse seria adquirir e instalar dispositivos em sua residência, de modo a obter automação residencial. Um perfil possível para este tipo de stakeholder seria uma pessoa com conhecimento técnico básico em computação e redes de computadores. Ele deve ser capaz de conectar os dispositivos na rede desejada (por exemplo, na rede Wi-Fi por onde todo o tráfego deve passar), mas os demais procedimentos de estruturação da rede de sensores segundo o protocolo devem ser feitos de forma transparente;
+	\item Desenvolvedor, cujo interesse seria estudar a documentação dos protocolos e algoritmos desenvolvidos, e projetar dispositivos compatíveis. Este stakeholder seria usuário das bibliotecas (APIs) resultantes do projeto. Ele espera encontrar documentos explicando o funcionamento dos protocolos e dos algoritmos desenvolvidos, bem como documentações e exemplos de uso das APIs que deve utilizar. Ainda, estes desenvolvedores consideram como diferencial o fato de a licença de uso das tecnologias disponibilizadas serem abertas e isentas de pagamento.
 \end{itemize}
 
 \section{Requisitos Funcionais} \label{sec:reqfunc}
