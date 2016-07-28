@@ -17,7 +17,7 @@ No domínio selecionado para este trabalho, o dado de atuação relevante seria o e
 
 Observe que o problema em questão consiste em receber dados de treino, que representam o comportamento do usuário, e desenvolver um modelo que preveja o estado do atuador de forma fiel aos dados observados. Trata-se, portanto, de um problema de aprendizagem supervisionada, definido em \cite{james2014} como sendo a geração de um modelo que relaciona uma variável-alvo (no caso, o estado da lâmpada) com variáveis preditoras (presença, luminosidade, entre outros). O estado da lâmpada, então, é visto como uma classe associada a cada entrada do conjunto de dados, e o processo de aprendizagem supervisionado que infere esta classe para entradas não vistas anteriormente é denominado Classificação.
 
-\subsection{Algoritmos de Classificação Existentes}
+\subsection{Algoritmos de Classificação Existentes}\label{subsec:algclass}
 Existem diversos algoritmos de classificação documentados na literatura, cada qual adotando uma abordagem distinta para geração de modelos e classificação de dados novos \cite{han2005, james2014}. A seguir serão descritos de forma sucinta três técnicas candidatas a serem utilizadas no processo de derivação de regras para este projeto.
 
 \subsubsection{Indução por Árvore de Decisão}
@@ -67,3 +67,25 @@ O SVM é uma técnica de classificação que se baseia na definição de um hiperplano
 \end{figure}
 
 A técnica de SVM se baseia nesta ideia de definir um plano de separação ótimo, mas efetua a adição de mais dimensões aos dados originais para lidar com situações de margens não-lineares. Este aumento na dimensionalidade dos dados é feito com base na utilização de \textit{kernels}. A descrição matemática deste processo está fora do escopo deste trabalho, e pode ser encontrado em \cite{james2014}.
+
+\subsection{Considerações sobre a Escolha do Algoritmo}
+A seção \ref{subsec:algclass} apresentou três algoritmos de classificação passíveis de serem aplicados no projeto. Conforme mencionado, cada algoritmo possui uma abordagem distinta na construção do modelo e na avaliação de entradas novas para efetuar a classificação, possuindo vantagens e desvantagens particulares. Esta seção lista as considerações adotadas para a seleção do algoritmo a ser utilizado na geração de regras.
+
+O fator principal utilizado para selecionar o algoritmo de aprendizagem é a interpretabilidade do modelo gerado. Dentre as razões para a priorização deste fator, destaca-se a necessidade de o usuário ter capacidade de analisar as regras propostas pelo algoritmo, de modo a dar-lhe a escolha de aceitá-la ou recusá-la. Essa possibilidade é extremamente importante, levando-se em conta que os sensores utilizados em ambiente doméstico podem possuir imprecisões que resultem na geração de regras estatisticamente precisas, mas ainda assim indesejadas pelo usuário.
+
+Nesse contexto, \cite{james2014} menciona haver um \textit{tradeoff} entre a flexibilidade e a interpretabilidade dos métodos de aprendizagem, como mostra a Figura \ref{fig:interpretabilidade_algoritmos}. Métodos flexíveis possuem alta capacidade de gerar modelos que se adaptem a dados de natureza complexa, mas tais modelos acabam sendo de difícil interpretação pelo usuário. 
+
+\begin{figure}[h]
+	\centering
+	\caption{\textit{Tradeoff} entre flexibilidade e interpretabilidade de métodos de aprendizagem}
+  \includegraphics[width=0.8\textwidth]{imagens/interpretabilidade_algoritmos.pdf}
+  \label{fig:interpretabilidade_algoritmos}  
+  
+  Fonte: \cite{james2014}
+\end{figure}
+
+Note que, dentre as técnicas apresentadas, redes neurais e SVM possuem alta flexibilidade, permitindo gerar modelos para dados com variáveis cuja relação é desconhecida, a princípio (no caso das redes neurais), e para dados com fronteira de decisão não-linear (no caso do SVM). Entretanto, os modelos gerados por estas técnicas são pouco interpretáveis: redes neurais expõem um conjunto de pesos que processam os dados, de acordo com a topologia selecionada, e o SVM gera um hiperplano de separação.
+
+No extremo oposto encontra-se a técnica de classificação por árvores de decisão. Este método é mais restritivo em termos de flexibilidade, mas gera modelos facilmente interpretáveis. De posse de um modelo como o da Figura \ref{fig:exemplo_arvore}, por exemplo, é intuitivo obter os fatores que influenciam na classificação das entradas.
+
+Pelas razões mencionadas anteriormente, o algoritmo de classificação por árvore de decisão foi adotado para derivar regras de atuação. A seguir serão descritos os experimentos feitos com  dados de iluminação, englobando o preprocessamento dos dados e a aplicação do algoritmo de classificação propriamente dito.
