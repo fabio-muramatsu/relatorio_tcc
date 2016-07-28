@@ -1,0 +1,69 @@
+\chapter{Projeto do Serviço em Nuvem}\label{chp:serviconuvem}
+Este capítulo possui a finalidade de projetar e implementar um serviço em nuvem acessível aos controladores locais da rede de sensores, de modo a alcançar o objetivo (ii) do trabalho. Os tópicos abordados neste capítulo englobam o método de troca de dados entre o controlador local e o servidor em nuvem, a interface de controle do usuário e a especificação de um algoritmo de aprendizagem específico para o domínio de controle de iluminação.
+
+
+\section{Desenvolvimento do Algoritmo de Aprendizagem}
+Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
+
+\subsection{Formato de Entrada dos Dados}
+No domínio selecionado para este trabalho, o dado de atuação relevante seria o estado da lâmpada a ser controlada. O objetivo do algoritmo, então, é prever o valor deste estado baseado nas leituras de outros sensores existentes na rede doméstica, tais como de luminosidade e presença. A Tabela \ref{tab:entrada_learning} ilustra o formato de entrada dos dados.
+
+\begin{table}[h]
+	\centering
+	\caption{Formato dos dados de entrada para o algoritmo de aprendizagem}\smallskip
+	\label{tab:entrada_learning}
+	\includegraphics[width=0.5\textwidth]{tabelas/entrada_learning.pdf}
+\end{table}
+
+Observe que o problema em questão consiste em receber dados de treino, que representam o comportamento do usuário, e desenvolver um modelo que preveja o estado do atuador de forma fiel aos dados observados. Trata-se, portanto, de um problema de aprendizagem supervisionada, definido em \cite{james2014} como sendo a geração de um modelo que relaciona uma variável-alvo (no caso, o estado da lâmpada) com variáveis preditoras (presença, luminosidade, entre outros). O estado da lâmpada, então, é visto como uma classe associada a cada entrada do conjunto de dados, e o processo de aprendizagem supervisionado que infere esta classe para entradas não vistas anteriormente é denominado Classificação.
+
+\subsection{Algoritmos de Classificação Existentes}
+Existem diversos algoritmos de classificação documentados na literatura, cada qual adotando uma abordagem distinta para geração de modelos e classificação de dados novos \cite{han2005, james2014}. A seguir serão descritos de forma sucinta três técnicas candidatas a serem utilizadas no processo de derivação de regras para este projeto.
+
+\subsubsection{Indução por Árvore de Decisão}
+O modelo de classificação gerado por esta técnica consiste em uma árvore de decisão, em que cada nó interno representa um teste a uma variável preditora, cada aresta representa uma saída do teste, e cada nó terminal (folha) indica a classe resultante. A Figura \ref{fig:exemplo_arvore} mostra o exemplo de uma árvore de decisão obtida por esta técnica. 
+
+Neste exemplo, o conjunto de dados refere-se a consumidores de uma loja de eletrônicos, e as classes mostradas nos nós-folha indicam se um consumidor adquire ou não certo produto. No caso, uma das regras geradas pelo modelo diz que se o consumidor é jovem e estudante, então ele adquire o produto.
+
+\begin{figure}[h]
+	\centering
+	\caption{Exemplo de modelo gerado pela técnica de Indução por Árvore de Decisão}
+  \includegraphics[width=0.8\textwidth]{imagens/exemplo_arvore.png}
+  \label{fig:exemplo_arvore}  
+  
+  Fonte: \cite{han2005}
+\end{figure}
+
+Existem diversas implementações desta técnica de classificação, tais como ID3, C4.5 e CART, que adotam uma estratégia \textit{greedy} e \textit{top-down} de construção da árvore. Cada uma dessas implementações efetua o particionamento dos dados de forma particular, efetuando seleção de variáveis por critérios tais como ganho de informação, razão de ganho ou índice Gini. As descrições dessas técnicas fogem do escopo deste trabalho, e podem ser encontradas em \cite{han2005}.
+
+\subsubsection{Redes Neurais}
+A técnica de aprendizagem por redes neurais foi inspirada pelos ramos da psicologia e neurobiologia, que buscaram modelar computacionalmente o comportamento de neurônios. Uma rede neural é composta por diversas unidades interconectadas arranjadas em camadas, conforme ilustra a Figura \ref{fig:elem_rede_neural}. 
+
+Os dados de entrada do classificador são passados para as unidades da camada de entrada. Esses dados, então, são combinados linearmente através de pesos determinados nas interconexões e passados às unidades das camadas intermediárias, denominadas \textit{hidden layers}. As saídas da última camada intermediária são passadas às unidades da camada de saída, que define a classe resultante.
+
+\begin{figure}[h]
+	\centering
+	\caption{Elementos de uma rede neural}
+  \includegraphics[width=0.8\textwidth]{imagens/elem_rede_neural.png}
+  \label{fig:elem_rede_neural}  
+  
+  Fonte: \cite{han2005}
+\end{figure}
+
+O processo de aprendizagem das redes neurais é computacionalmente caro e complexo, envolvendo um processo denominado \textit{backpropagation}. Este é um processo iterativo que consiste em alimentar os dados de treino na rede neural, obter a saída com o modelo corrente, e reajustar os pesos do modelo em ordem reversa, partindo das unidades da camada de saída.
+
+No entanto, as redes neurais possuem a vantagem de possuírem alta tolerância a dados ruidosos, além de não requerer conhecimento da relação entre as classes a serem previstas e as variáveis preditoras \cite{han2005}.
+
+\subsubsection{\textit{Support Vector Machines} (SVM)}
+O SVM é uma técnica de classificação que se baseia na definição de um hiperplano ótimo para efetuar a segregação dos dados pertencentes às diferentes classes. No caso, o hiperplano ótimo seria o que provê maior margem entre os dados, conforme ilustra a Figura \ref{fig:svm_max_margin}. Neste exemplo, o conjunto de dados é bidimensional, e o hiperplano de separação é uma reta. Observe que das diversas retas possíveis mostradas à esquerda, seleciona-se a que resulta em maior margem, mostrada à direita.
+
+\begin{figure}[h]
+	\centering
+	\caption{Retas candidatas para efetuar a segregação dos dados (esq.), e a reta ótima selecionada, que provê a maior margem no conjunto de dados}
+  \includegraphics[width=0.8\textwidth]{imagens/svm_max_margin.png}
+  \label{fig:svm_max_margin}  
+  
+  Fonte: \cite{james2014}
+\end{figure}
+
+A técnica de SVM se baseia nesta ideia de definir um plano de separação ótimo, mas efetua a adição de mais dimensões aos dados originais para lidar com situações de margens não-lineares. Este aumento na dimensionalidade dos dados é feito com base na utilização de \textit{kernels}. A descrição matemática deste processo está fora do escopo deste trabalho, e pode ser encontrado em \cite{james2014}.
