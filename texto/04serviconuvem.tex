@@ -5,7 +5,7 @@ Este capítulo possui a finalidade de projetar e implementar um serviço em nuvem 
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
 Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
 
-\subsection{Formato de Entrada dos Dados}
+\subsection{Formato de Entrada dos Dados}\label{subsec:formatoentrada}
 No domínio selecionado para este trabalho, o dado de atuação relevante seria o estado da lâmpada a ser controlada. O objetivo do algoritmo, então, é prever o valor deste estado baseado nas leituras de outros sensores existentes na rede doméstica, tais como de luminosidade e presença. A Tabela \ref{tab:entrada_learning} ilustra o formato de entrada dos dados.
 
 \begin{table}[h]
@@ -89,3 +89,16 @@ Note que, dentre as técnicas apresentadas, redes neurais e SVM possuem alta flex
 No extremo oposto encontra-se a técnica de classificação por árvores de decisão. Este método é mais restritivo em termos de flexibilidade, mas gera modelos facilmente interpretáveis. De posse de um modelo como o da Figura \ref{fig:exemplo_arvore}, por exemplo, é intuitivo obter os fatores que influenciam na classificação das entradas.
 
 Pelas razões mencionadas anteriormente, o algoritmo de classificação por árvore de decisão foi adotado para derivar regras de atuação. A seguir serão descritos os experimentos feitos com  dados de iluminação, englobando o preprocessamento dos dados e a aplicação do algoritmo de classificação propriamente dito.
+
+\subsection{Coleta de Dados}
+Conforme mencionado, o domínio de aplicação abordado para concepção de um algoritmo de aprendizagem de regras é o de controle de iluminação. Para iniciar os testes, é necessário ter em mãos um \textit{dataset} em formato similar ao descrito na seção \ref{subsec:formatoentrada}. Para obter tais dados de treino, os membros do grupo adquiriram sensores de presença PIR e de iluminação, associando-os a um Raspberry Pi, a fim de coletar dados nas respectivas residências. A Figura \ref{fig:montagem_coleta} mostra as montagens utilizadas para efetuar as coletas nas residências.
+
+\begin{figure}[h]
+	\centering
+	\caption{Montagens experimentais para coleta de dados de iluminação}
+	\smallskip
+  \includegraphics[width=0.8\textwidth]{imagens/montagem_coleta.png}
+  \label{fig:montagem_coleta}  
+\end{figure}
+
+Neste processo, os dados foram amostrados a cada minuto. Em uma das montagens, foi utilizado um botão para sinalizar o momento em que o interruptor foi acionado, devido à inviabilidade de conectar o interruptor existente no processo de coleta. Na outra montagem, o estado do interruptor foi inferido posteriormente, de acordo com o horário do dia e da iluminação ambiente. O \textit{timestamp}, mostrado na Tabela \ref{tab:entrada_learning}, foi registrado para cada amostra coletada, e consiste na representação POSIX do instante de coleta do dado.
