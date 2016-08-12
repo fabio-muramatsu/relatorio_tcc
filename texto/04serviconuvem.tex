@@ -110,7 +110,7 @@ Como mencionado, o grupo pretende usar um algoritmo de classificação baseado em 
 	\item Apague a luz quando não há ninguém no ambiente
 \end{itemize}
 
-Para a geração das árvores de decisão, o grupo usou a ferramenta Rattle \footnote{Disponível em \url{http://rattle.togaware.com/}.}, que utiliza um algoritmo recursivo \textit{top-down} \cite{williams2011} implementado na biblioteca \texttt{rpart} \footnote{Documentação disponível em \url{https://cran.r-project.org/web/packages/rpart/index.html}}. O objetivo, nesta seção, é estudar modos de preprocessamento dos dados utilizados pelo algoritmo, e analisar a qualidade das regras criadas.
+Para a geração das árvores de decisão, o grupo usou a ferramenta Rattle\footnote{Disponível em \url{http://rattle.togaware.com/}.}, que utiliza um algoritmo recursivo \textit{top-down} \cite{williams2011} implementado na biblioteca \texttt{rpart}\footnote{Documentação disponível em \url{https://cran.r-project.org/web/packages/rpart/index.html}}. O objetivo, nesta seção, é estudar modos de preprocessamento dos dados utilizados pelo algoritmo, e analisar a qualidade das regras criadas. Todo o processamento efetuado sobre os dados foi feito utilizando a linguagem R\footnote{Disponível em \url{https://www.r-project.org/}}.
 
 \subsubsection{Utilização de dados \textit{raw}}
 A primeira tentativa de geração de regras foi feita alimentando o algoritmo de geração do modelo sem efetuar nenhum tipo de preprocessamento dos dados. Os resultados obtidos estão apresentados na Figura \ref{fig:teste_1}, para cada \textit{dataset} utilizado. Para auxiliar na interpretabilidade dos dados, tenha em mente que valores de luminância na ordem de 40 lx correspondem a um ambiente noturno, com uma lâmpada acesa.
@@ -240,3 +240,35 @@ No caso da segunda árvore da Figura \ref{fig:teste_5_1}, tem-se as regras:
 \end{itemize}
 
 Observe que a primeira árvore obtida gerou regras ótimas, levando em conta os \textit{datasets} utilizados. A segunda, no entanto, ainda sugeria regras que simplesmente apagavam a luz quando ela estivesse acesa. Este problema é similar ao obtido no teste \ref{subsubsec:elim_pts_sem_acao}, e provavelmente se deve ao fato de não terem sido escolhidos pontos suficientes da classe Ação=0 no processo de \textit{undersampling}.
+
+\subsubsection{\textit{Undersampling} com clusterização}
+Uma maneira de melhorar o processo de \textit{undersampling}, de modo que os dados coletados representem mais fielmente o \textit{dataset} original, seria aplicar técnicas de clusterização à classe majoritária. Desse modo, o procedimento de amostragem consistiria em coletar alguns pontos de cada cluster identificado.
+
+O algoritmo de clusterização utilizado nesta etapa foi o CLARA (\textit{Clustering LARge Applications}), que é classificado como um algoritmo de clusterização por particionamento \cite{han2005}. O CLARA é resultado de uma série de incrementos efetuados sobre outros algoritmos de particionamento, partindo do mais simples: o \textit{k-means}.
+
+O \textit{k-means} é um algoritmo de clusterização iterativo que utiliza a noção de centroides como pontos representativos de um cluster. Um centroide pode ser visto como o centro geométrico de um \textit{dataset}. Os clusters são definidos da seguinte forma. Seja $C=\{c_1,c_2,...,c_k\}$ o conjunto de pontos representativos (centroides), onde $k$ é o número de clusters, e $dist(x,y)$ uma função de cálculo de distância entre dois pontos (por exemplo, distância euclidiana). Para cada ponto $p$ do \textit{dataset}, $p$ é alocado ao cluster correspondente ao centroide $c_i$ que minimize $dist(p,c_i)$. 
+
+Inicialmente, os $k$ centroides são escolhidos de forma aleatória do \textit{dataset}. Então, o algoritmo efetua dois passos de forma iterativa:
+\begin{enumerate}
+	\item Aloque cada ponto $p$ ao cluster correspondente, seguindo o procedimento descrito anteriormente;
+	\item Recalcule os centroides, atualizando $C$.
+\end{enumerate}
+
+O procedimento listado é repetido até que não haja nenhuma alteração nos centroides calculados. A Figura \ref{fig:kmeans} mostra um exemplo de aplicação do algoritmo, em que centroides são representados pelo símbolo $+$. 
+
+\begin{figure}[h]
+	\centering
+	\caption{Exemplo de execução do algoritmo \textit{k-means}}
+  \includegraphics[width=0.8\textwidth]{imagens/kmeans.png}
+  \label{fig:kmeans}  
+  
+  Fonte: \cite{han2005}
+\end{figure}
+
+Note que, por definição, os centroides podem não ser coincidentes com um ponto do \textit{dataset}. Isso torna o algoritmo suscetível a valores atípicos (\textit{outliers}), pois a incorporação de tais valores acabaria deslocando os centroides em direção a eles.
+
+Assim, foi proposto um algoritmo que utiliza o conceito de medoide como pontos representativos de um cluster. De modo intuitivo, o medoide $m$ de um \textit{dataset} é um ponto "central" pertencente ao \textit{dataset} original. Formalmente, se $P$ é o conjunto de pontos do \textit{dataset}, $m$ é escolhido de tal forma a minimizar $\sum_{p \in P}{dist(m,p)}$, para todo $m \in P$.
+
+A utilização de medoides como pontos representativos torna o algoritmo mais resistente a \textit{outliers}, mas a computação do medoide a cada iteração é relativamente complexa. O algoritmo PAM (\textit{Partitioning Around Medoids}), uma implementação dessa técnica de clusterização utilizando medoides, possui complexidade $O\left(n(n-k)^2\right)$ por iteração, prejudicando sua aplicação em larga escala \cite{han2005}.
+
+O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um método de amostragem é aplicado, e os medoides são calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execução do algoritmo, tornando-o adequado para aplicação sobre conjuntos de dados grandes. Por esta razão, bem como pelo fato de existirem implementações disponíveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponível em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterização da classe majoritária.
