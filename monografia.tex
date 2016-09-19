@@ -18,9 +18,15 @@
 \usepackage{graphicx}
 \usepackage{enumerate}
 %\usepackage{enumitem}
-\usepackage{tabu}
+%\usepackage{tabu}
 \usepackage{hyperref}
 \usepackage{subcaption}
+\usepackage{inconsolata}
+\usepackage{listings}
+\lstset{ %Personalizar a formatação de listagens de código
+	tabsize=2,
+	basicstyle=\ttfamily\linespread{0.8}\small 
+}
 
 %\fontfamily{arial}\selectfont
 %\renewcommand{\rmdefault}{arial}
@@ -46,6 +52,9 @@
 \sloppy
 
 \begin{document}
+\renewcommand{\lstlistingname}{Listagem} 
+\renewcommand{\thelstlisting}{\arabic{lstlisting}}% Imprimir legenda como Listagem X
+
 
 \input{texto/00inicializa.tex}
 \input{texto/01introducao.tex}

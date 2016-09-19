@@ -1,0 +1,9 @@
+{
+	"function": "actionResult",
+	"result": 1 | 0,
+	"action": {
+		"nodeId": <ID_DO_NO>,
+		"commandId": <ID_DO_COMANDO>,
+		"value": <VALOR>,
+	}
+}

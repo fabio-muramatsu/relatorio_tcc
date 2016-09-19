@@ -58,3 +58,17 @@ Os seguintes \textit{stakeholders} foram identificados no projeto:
 	\item Disponibilidade de 99\% do tempo; 
 	\item API que possibilite o acesso através de aplicações de terceiros/aplicativo/site.
 \end{itemize}
+
+\section{Arquitetura do Sistema} \label{sec:arquitetura}
+Seguindo a descrição apresentada do projeto, o grupo definiu a arquitetura do sistema de automação residencial conforme mostra a Figura \ref{fig:arquitetura}.
+
+\begin{figure}[h]
+	\centering
+	\caption{Arquitetura do sistema de automação.}
+  \includegraphics[width=0.8\textwidth]{imagens/arquitetura.jpg}
+  \label{fig:arquitetura}  
+\end{figure}
+
+A arquitetura contém dispositivos sensores e atuadores, que efetuam a coleta de dados nas residência e atuam nelas. Esses dispositivos se conectam a um controlador local, que efetua o gerenciamento dos nós locais (a aceitação de nós na rede, por exemplo), e a interface entre os dispositivos locais e a infraestrutura em nuvem. Tais dispositivos (excluindo a infraestrutura em nuvem) compõem a rede local de sensores e atuadores, e serão o foco do primeiro sub-projeto.
+
+Além disso, constam no diagrama um servidor em nuvem e um serviço de \textit{analytics}. O servidor em nuvem atua como um agregador dos dados coletados pelos diversos controladores locais. Sobre este banco de dados, o serviço de \textit{analytics} (mineração de dados e aprendizagem de máquina) atuará no sentido de derivar padrões de comportamento dos usuários, sugerindo regras de automação residencial. Por fim, aponta-se a existência de um elemento de interface gráfica com a qual o usuário pode interagir com o sistema, representado na arquitetura apresentada como um \textit{smartphone}. O elemento de interface com o usuário se comunica com o servidor em nuvem, e pode eventualmente se comunicar com o controlador local. Tais componentes da arquitetura serão foco do segundo sub-projeto.

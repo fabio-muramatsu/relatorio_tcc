@@ -1,0 +1,12 @@
+{
+	"function": "newCommand",
+	"command": [
+		{ 
+			"nodeId": <ID_DO_NO>,
+			"commandId": <ID_DO_COMANDO>,
+			"value": <VALOR>,
+			"timestamp": <TIMESTAMP>
+		},
+		...
+	]
+}

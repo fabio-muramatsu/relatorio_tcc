@@ -1,6 +1,60 @@
 \chapter{Projeto do Serviço em Nuvem}\label{chp:serviconuvem}
-Este capítulo possui a finalidade de projetar e implementar um serviço em nuvem acessível aos controladores locais da rede de sensores, de modo a alcançar o objetivo (ii) do trabalho. Os tópicos abordados neste capítulo englobam o método de troca de dados entre o controlador local e o servidor em nuvem, a interface de controle do usuário e a especificação de um algoritmo de aprendizagem específico para o domínio de controle de iluminação.
+Este capítulo possui a finalidade de projetar e implementar um serviço em nuvem acessível aos controladores locais da rede de sensores, de modo a alcançar o objetivo (ii) do trabalho. Os tópicos abordados neste capítulo englobam o protocolo de troca de dados envolvendo o servidor em nuvem (batizado de Homecloud), a interface de controle do usuário e a especificação de um algoritmo de aprendizagem específico para o domínio de controle de iluminação.
 
+\section{O Protocolo Homecloud}
+Conforme mencionado na seção \ref{sec:arquitetura}, o servidor em nuvem se comunica tanto com o controlador local quanto com o dispositivo de interface do usuário. O protocolo Homecloud, definido pelo grupo, define o formato das mensagens a serem trocados pelos dispositivos, e em quais circunstâncias. As próximas seções especificarão em detalhes o funcionamento deste protocolo.
+
+\subsection{Sintaxe e Semântica}
+Para melhor organizar as mensagens do protocolo, elas serão agrupadas no decorrer deste relatório em quatro classes de acordo com a sua função, a saber:
+
+\begin{itemize}
+	\item Mensagens de Estado: Transmitem informações relativas ao estado da casa, incluindo dados lidos de sensores, estados de atuadores e ações tomadas pelo usuário;
+	\item Mensagens de Regras: Referem-se à definição de regras de automação pelo usuário ou pelo sistema de aprendizagem de máquina;
+	\item Mensagens de Gerenciamento dos Nós: Transmitem informações e comandos relativos aos nós (sensores e atuadores) da rede local;
+	\item Mensagens de Autenticação: Responsáveis por carregar dados de autenticação dos agentes do sistema.
+\end{itemize}
+
+A seguir serão definidas as mensagens, de acordo com a classificação apresentada. 
+
+\subsection{Mensagens de Estado}
+As mensagens de estado estão listadas e descritas na Tabela \ref{tab:mensagens_estado}. Nesta tabela, o sentido de tráfego das mensagens estão especificadas. Neste item, o termo "aplicativo" foi utilizado para se referir ao dispositivo utilizado pelo usuário para interagir com o sistema, que poderia ser um aplicativo em um \textit{smartphone}.
+
+\begin{table}[h]
+	\centering
+	\caption{Listagem e descrição das Mensagens de Estado.}\smallskip
+	\label{tab:mensagens_estado}
+	\includegraphics[width=\textwidth]{tabelas/mensagens_estado.pdf}
+\end{table}
+
+A seguir, será detalhado o conteúdo de cada mensagem listada na Tabela \ref{tab:mensagens_estado}. As mensagens seguem o formato JSON, e os campos com valor variável estão circundados pelos símbolos \texttt{< >}.
+
+\paragraph*{\texttt{New Data}.} A Listagem \ref{lst:newData} ilustra o formato da mensagem. O campo \texttt{function} contém o nome da mensagem, a ser utilizado pelo servidor para efetuar o tratamento adequado. O campo \texttt{data} contém uma lista de objetos, cada qual representando uma leitura de um sensor.
+
+\lstinputlisting[label=lst:newData, caption=Formato da mensagem \texttt{newData}]{codigos/newData.json}
+
+\paragraph*{\texttt{New Command}.} A Listagem \ref{lst:newCommand} ilustra o formato da mensagem. O campo \texttt{command} contém uma lista de objetos, cada qual representando uma estado de um atuador.
+
+\lstinputlisting[label=lst:newCommand, caption=Formato da mensagem \texttt{newCommand}]{codigos/newCommand.json}
+
+\paragraph*{\texttt{Get House State}.} A Listagem \ref{lst:getHouseState} ilustra o formato da mensagem.
+
+\lstinputlisting[label=lst:getHouseState, caption=Formato da mensagem \texttt{getHouseState}]{codigos/getHouseState.json}
+
+\paragraph*{\texttt{New Action}.} A Listagem \ref{lst:newAction} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa uma ação a ser tomada. Lembre-se de que uma ação é definida pelo estado de um comando de um atuador, que o usuário supostamente deseja alterar.
+
+\lstinputlisting[label=lst:newAction, caption=Formato da mensagem \texttt{newAction}]{codigos/newAction.json}
+
+\paragraph*{\texttt{Notify New Action}.} A Listagem \ref{lst:notifyNewAction} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa uma ação a ser tomada. Note que as mensagens originadas do servidor e destinadas ao aplicativo ou ao controlador possuem um campo \texttt{notification} que lista o nome da mensagem, em contraste com as mensagens destinadas ao servidor.
+
+\lstinputlisting[label=lst:notifyNewAction, caption=Formato da mensagem \texttt{notifyNewAction}]{codigos/notifyNewAction.json}
+
+\paragraph*{\texttt{Send Action Result}.} A Listagem \ref{lst:sendActionResult} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa a ação que o usuário solicitou. O campo \texttt{result} contém um valor booleano que indica se a ação solicitada foi efetuada com sucesso.
+
+\lstinputlisting[label=lst:sendActionResult, caption=Formato da mensagem \texttt{sendActionResult}]{codigos/sendActionResult.json}
+
+\paragraph*{\texttt{Notify Action Result}.} A Listagem \ref{lst:notifyActionResult} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa a ação que o usuário solicitou. O campo \texttt{result} contém um valor booleano que indica se a ação solicitada foi efetuada com sucesso.
+
+\lstinputlisting[label=lst:notifyActionResult, caption=Formato da mensagem \texttt{notifyActionResult}]{codigos/notifyActionResult.json}
 
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
 Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
@@ -10,7 +64,7 @@ No domínio selecionado para este trabalho, o dado de atuação relevante seria o e
 
 \begin{table}[h]
 	\centering
-	\caption{Formato dos dados de entrada para o algoritmo de aprendizagem}\smallskip
+	\caption{Formato dos dados de entrada para o algoritmo de aprendizagem.}\smallskip
 	\label{tab:entrada_learning}
 	\includegraphics[width=0.5\textwidth]{tabelas/entrada_learning.pdf}
 \end{table}

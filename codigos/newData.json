@@ -1,0 +1,12 @@
+{
+	"function": "newData",
+	"data":[ 
+		{
+			"nodeId": <ID_DO_NO>,
+			"dataId": <ID_DO_DADO>,
+			"value": <VALOR>,
+			"timestamp": <TIMESTAMP>
+		},
+		...
+	]
+}

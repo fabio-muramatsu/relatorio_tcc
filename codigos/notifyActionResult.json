@@ -1,0 +1,10 @@
+{
+	"notification": "actionResult",
+	"action": {
+		"nodeId": <ID_DO_NO>,
+		"controllerId": <ID_DO_CONTROLADOR>,
+		"commandId": <ID_DO_COMANDO>,
+		"value": <VALOR>,
+	},
+	"result": 1 | 0
+}
