@@ -1,0 +1,4 @@
+{
+	"notification": "detectedNode",
+	"quantity": <NUMBER_OF_NODES>
+}

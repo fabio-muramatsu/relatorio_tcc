@@ -1,0 +1,6 @@
+{
+	"function": "acceptNode",
+	"nodeId": <ID_DO_NO>,
+	"controllerId": <ID_DO_CONTROLADOR>,
+	"accept": <0 | 1>
+}

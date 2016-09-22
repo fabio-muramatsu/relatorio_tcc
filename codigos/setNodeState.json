@@ -1,0 +1,5 @@
+{
+	"function": "setNodeState",
+	"nodeId": <ID_DO_NO>,
+	"alive": <0 | 1>
+}

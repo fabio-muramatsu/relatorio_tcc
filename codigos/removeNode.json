@@ -1,0 +1,5 @@
+{
+	"function": "removeNode",
+	"controllerId": <ID_DO_CONTROLADOR>,
+	"nodeId": <ID_DO_NO>
+}

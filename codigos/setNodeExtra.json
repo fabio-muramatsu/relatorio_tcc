@@ -1,0 +1,9 @@
+{
+	"function": "setNodeExtra",
+		"nodeId": ID_DO_NO,
+	"controllerId": ID_DO_CONTROLADOR,
+	"extra": {
+		"name": NOME,
+		...
+	}
+}

@@ -1,0 +1,5 @@
+{
+	"notification": "acceptedNode",
+	"nodeId": <NODE_ID> ,
+	"accept": <0 | 1>
+}

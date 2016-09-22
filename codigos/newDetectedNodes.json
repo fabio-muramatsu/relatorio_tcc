@@ -1,0 +1,23 @@
+{
+	"function": "newDetectedNodes",
+	"node": [
+		{
+			"nodeId": <ID_DO_NO>,
+			"nodeClass": <CLASSE_DO_NO>,
+			"dataType": [
+				{
+					"dataId": <ID_DO_DADO>,
+					...
+				}
+				...
+			],
+			"commandType": [{
+					"commandId": <ID_DO_COMANDO>,
+					...
+				}
+				...
+			]
+		},
+		...
+	]
+}

@@ -14,9 +14,11 @@ Para melhor organizar as mensagens do protocolo, elas serão agrupadas no decorre
 	\item Mensagens de Autenticação: Responsáveis por carregar dados de autenticação dos agentes do sistema.
 \end{itemize}
 
-A seguir serão definidas as mensagens, de acordo com a classificação apresentada. 
+As mensagens são enviadas ao servidor através de requisições HTTP. Portanto, cada mensagem uma resposta de um determinado tipo, a depender da natureza das informações solicitadas.  Notificações destinadas aos usuários ou aos controladores não esperam resposta, pois são enviadas por meio protocolos que não esperam resposta. 
 
-\subsection{Mensagens de Estado}
+A seguir serão definidas as mensagens, de acordo com a classificação apresentada, bem como as respectivas respostas esperadas. 
+
+\subsubsection{Mensagens de Estado}
 As mensagens de estado estão listadas e descritas na Tabela \ref{tab:mensagens_estado}. Nesta tabela, o sentido de tráfego das mensagens estão especificadas. Neste item, o termo "aplicativo" foi utilizado para se referir ao dispositivo utilizado pelo usuário para interagir com o sistema, que poderia ser um aplicativo em um \textit{smartphone}.
 
 \begin{table}[h]
@@ -50,11 +52,146 @@ A seguir, será detalhado o conteúdo de cada mensagem listada na Tabela \ref{tab:
 
 \paragraph*{\texttt{Send Action Result}.} A Listagem \ref{lst:sendActionResult} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa a ação que o usuário solicitou. O campo \texttt{result} contém um valor booleano que indica se a ação solicitada foi efetuada com sucesso.
 
+\noindent
+\begin{minipage}{\linewidth}
 \lstinputlisting[label=lst:sendActionResult, caption=Formato da mensagem \texttt{sendActionResult}]{codigos/sendActionResult.json}
+\end{minipage}
 
 \paragraph*{\texttt{Notify Action Result}.} A Listagem \ref{lst:notifyActionResult} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa a ação que o usuário solicitou. O campo \texttt{result} contém um valor booleano que indica se a ação solicitada foi efetuada com sucesso.
 
 \lstinputlisting[label=lst:notifyActionResult, caption=Formato da mensagem \texttt{notifyActionResult}]{codigos/notifyActionResult.json}
+
+\subsubsection{Mensagens de Regra}
+As mensagens de regra estão listadas e descritas na Tabela \ref{tab:mensagens_regra}.
+
+\begin{table}[h]
+	\centering
+	\caption{Listagem e descrição das Mensagens de Regra.}\smallskip
+	\label{tab:mensagens_regra}
+	\includegraphics[width=\textwidth]{tabelas/mensagens_regra.pdf}
+\end{table}
+
+\paragraph*{\texttt{New Rules}.} A Listagem \ref{lst:newRules} ilustra o formato da mensagem. Uma mensagem deste tipo pode definir diversas regras, declaradas no campo \texttt{rules}. Cada regra especifica o nó-alvo(\texttt{nodeId}), o controlador associado (\texttt{controllerId}), o comando interno do nó (\texttt{commandId}) e o valor que este comando deve assumir (\texttt{value}) caso a condição representada pela cláusula (\texttt{clause}) se mostre verdadeira. Uma cláusula consiste em uma expressão booleana representada em CNF, codificada, na listagem, como uma lista de listas de proposições.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:newRules, caption=Formato da mensagem \texttt{newRules}]{codigos/newRules.json}
+\end{minipage}
+
+\paragraph*{\texttt{Accept Rule}.} A Listagem \ref{lst:acceptRule} ilustra o formato da mensagem. Esta mensagem indica a decisão do usuário em aceitar ou rejeitar a regra explicitada no corpo da mensagem, através do campo \texttt{accept}.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:acceptRule, caption=Formato da mensagem \texttt{acceptRule}]{codigos/acceptRule.json}
+\end{minipage}
+
+\paragraph*{\texttt{Remove Rule}.} A Listagem \ref{lst:removeRule} ilustra o formato da mensagem. Esta mensagem indica a decisão do usuário em remover uma regra já cadastrada no sistema (definida ou previamente aceita por ele).
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:removeRule, caption=Formato da mensagem \texttt{removeRule}]{codigos/removeRule.json}
+\end{minipage}
+
+\paragraph*{\texttt{Get Rules}.} A Listagem \ref{lst:getRules} ilustra o formato da mensagem.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:getRules, caption=Formato da mensagem \texttt{getRules}]{codigos/getRules.json}
+\end{minipage}
+
+\paragraph*{\texttt{Get Learnt Rules}.} A Listagem \ref{lst:getLearntRules} ilustra o formato da mensagem.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:getLearntRules, caption=Formato da mensagem \texttt{getLearntRules}]{codigos/getLearntRules.json}
+\end{minipage}
+
+\paragraph*{\texttt{Notify New Rules}.} A Listagem \ref{lst:notifyNewRules} ilustra o formato da mensagem. O campo \texttt{quantity} contém o número de novas regras disponíveis para adicionar ao banco de dados do controlador.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:notifyNewRules, caption=Formato da mensagem \texttt{notifyNewRules}]{codigos/notifyNewRules.json}
+\end{minipage}
+
+\paragraph*{\texttt{Notify Learnt Rules}.} A Listagem \ref{lst:notifyLearntRules} ilustra o formato da mensagem. O campo \texttt{quantity} contém o número de novas regras disponíveis para análise do usuário.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:notifyLearntRules, caption=Formato da mensagem \texttt{notifyLearntRules}]{codigos/notifyLearntRules.json}
+\end{minipage}
+
+\subsubsection{Mensagens de Gerenciamento de Nós}
+As mensagens de gerenciamento de nós estão listadas e descritas na Tabela \ref{tab:mensagens_nos}.
+
+\begin{table}[hp]
+	\centering
+	\caption{Listagem e descrição das Mensagens de Gerenciamento de Nós.}\smallskip
+	\label{tab:mensagens_nos}
+	\includegraphics[width=\textwidth]{tabelas/mensagens_nos.pdf}
+\end{table}
+
+\paragraph*{\texttt{New Detected Nodes}.} A Listagem \ref{lst:newDetectedNodes} ilustra o formato da mensagem. O campo \texttt{node} contém informações utilizadas na descrição do nó, e reflete os campos utilizados nas mensagens de \texttt{description} do protocolo \textit{Rainfall}, definido na \ref{subsec:sintaxe}. Por exemplo, estão presentes na mensagem o identificador do nó (\texttt{nodeId}), sua classe (\texttt{nodeClass}), informações dos dados lidos pelo nó (\texttt{dataType}) bem como dos comandos aceitos por ele (\texttt{commandType}).
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:newDetectedNodes, caption=Formato da mensagem \texttt{newDetectedNodes}]{codigos/newDetectedNodes.json}
+\end{minipage}
+
+\paragraph*{\texttt{Set Node Extra}.} A Listagem \ref{lst:setNodeExtra} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} definem o nó para o qual se deseja definir informações extras. O campo \texttt{extra}, por sua vez, contém as informações propriamente ditas. Por exemplo, o mapeamento poderia incluir uma chave "Nome" com valor "Interruptor de luz", atribuindo, assim, um nome a um dado nó da casa.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:setNodeExtra, caption=Formato da mensagem \texttt{setNodeExtra}]{codigos/setNodeExtra.json}
+\end{minipage}
+
+\paragraph*{\texttt{Get Nodes Info}.} A Listagem \ref{lst:getNodesInfo} ilustra o formato da mensagem.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:getNodesInfo, caption=Formato da mensagem \texttt{getNodesInfo}]{codigos/getNodesInfo.json}
+\end{minipage}
+
+\paragraph*{\texttt{Notify Detected Nodes}.} A Listagem \ref{lst:notifyDetectedNode} ilustra o formato da mensagem. O campo \texttt{quantity} contém a quantidade de novos nós na rede.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:notifyDetectedNode, caption=Formato da mensagem \texttt{notifyDetectedNode}]{codigos/notifyDetectedNode.json}
+\end{minipage}
+
+\paragraph*{\texttt{Accept Node}.} A Listagem \ref{lst:acceptNode} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} identificam o nó que será aceito ou rejeitado, a depender do valor do campo \texttt{accept}.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:acceptNode, caption=Formato da mensagem \texttt{acceptNode}]{codigos/acceptNode.json}
+\end{minipage}
+
+\paragraph*{\texttt{Notify Accepted Node}.} A Listagem \ref{lst:notifyAcceptedNode} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o nó que será aceito ou rejeitado, a depender do valor do campo \texttt{accept}.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:notifyAcceptedNode, caption=Formato da mensagem \texttt{notifyAcceptedNode}]{codigos/notifyAcceptedNode.json}
+\end{minipage}
+
+\paragraph*{\texttt{Remove Node}.} A Listagem \ref{lst:removeNode} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} identificam o nó que será removido.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:removeNode, caption=Formato da mensagem \texttt{removeNode}]{codigos/removeNode.json}
+\end{minipage}
+
+\paragraph*{\texttt{Notify Removed Node}.} A Listagem \ref{lst:notifyRemovedNode} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o nó que será removido.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:notifyRemovedNode, caption=Formato da mensagem \texttt{notifyRemovedNode}]{codigos/notifyRemovedNode.json}
+\end{minipage}
+
+\paragraph*{\texttt{Set Node State}.} A Listagem \ref{lst:setNodeState} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o nó a que a mensagem se refere, ao passo que o campo \texttt{alive} indica se o nó está ativo (1) ou não (0).
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:setNodeState, caption=Formato da mensagem \texttt{setNodeState}]{codigos/setNodeState.json}
+\end{minipage}
 
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
 Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
