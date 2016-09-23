@@ -318,6 +318,26 @@ A definição de uma ação pelo usuário envolve a utilização de diversas mensagens,
   \label{fig:mensagens_new_action}  
 \end{figure}
 
+\paragraph{Aceitação/Rejeição de um Nó.}
+A Figura \ref{fig:mensagens_accept_node} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usuário (aplicativo) que existe um novo nó com aceitação pendente através da mensagem \texttt{Notify Detected Node}. O usuário, então, responde com uma mensagem \texttt{Accept Node}, informando sua decisão ao servidor. Este, por fim, envia uma notificação \texttt{Notify Accepted Node} ao controlador, informando-o da decisão do usuário.
+
+\begin{figure}[h]
+	\centering
+	\caption{Sequência de trocas de mensagens na aceitação ou rejeição de um nó.}
+  \includegraphics[width=0.7\textwidth]{imagens/mensagens_accept_node.png}
+  \label{fig:mensagens_accept_node}  
+\end{figure}
+
+\paragraph{Definição de Novas Regras.}
+A Figura \ref{fig:mensagens_new_rule} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usuário (aplicativo) que existem novas regras para análise através da mensagem \texttt{Notify Learnt Rules}. O usuário, então, envia uma mensagem \texttt{Get Rules}, para que o servidor lhe envie as regras aprendidas através da Resposta de Regras. Após análisá-las, o usuário envia as regras aceitas na mensagem \texttt{New Rules} ao servidor. Este, por fim, envia uma notificação \texttt{Notify New Rules} ao controlador, informando-o sobre as novas regras.
+
+\begin{figure}[h]
+	\centering
+	\caption{Sequência de trocas de mensagens na aceitação ou rejeição de um nó.}
+  \includegraphics[width=0.7\textwidth]{imagens/mensagens_new_rule.png}
+  \label{fig:mensagens_new_rule}  
+\end{figure}
+
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
 Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
 
