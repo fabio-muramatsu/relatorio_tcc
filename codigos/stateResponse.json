@@ -1,0 +1,20 @@
+{
+    "status": <200 | 400 | 403 | 404 | 500>,
+    "errorMessage": <MENSAGEM_DE_ERRO>,
+    "state": [
+        {
+            "nodeId": <ID_DO_NO>,
+            "controllerId": <ID_DO_CONTROLADOR>,
+            "data": {
+                <ID_DO_DADO>: <VALOR_DO_DADO>,
+                ...
+            },
+            "command": {
+                <ID_DO_COMANDO>: <VALOR_DO_COMANDO>,
+                ...
+            }
+        },
+        ...
+    ]
+        ...
+}

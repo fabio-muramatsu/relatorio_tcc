@@ -1,0 +1,32 @@
+{
+	"status": <200 | 400 | 403 | 404 | 500> ,
+	"errorMessage": < MENSAGEM_DE_ERRO > ,
+	"nodes": [
+		{
+			"nodeId": ID_DO_NO,
+			"controllerId": ID_DO_CONTROLADOR,
+			"nodeClass": CLASSE_DO_NO,
+			"accepted": 0 | 1,
+			"alive": 0 | 1,
+			"extra": {
+				"name": NOME_DO_NO,
+				...
+			},
+			"dataType": [
+				{
+					"dataId": ID_DO_DADO,
+					...
+				},
+				...
+			],
+			"commandType": [
+				{
+					"commandId": ID_DO_COMANDO,
+					...
+				},
+				...
+			]
+		},
+		...
+	]
+}

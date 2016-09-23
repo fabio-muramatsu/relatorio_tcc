@@ -1,0 +1,4 @@
+{
+	"status": <200 | 400 | 403 | 404 | 500>,
+	"errorMessage": <MENSAGEM_DE_ERRO>
+}

@@ -1,0 +1,4 @@
+{
+	"killToken": <OLD_TOKEN>,
+	"token": <NEW_TOKEN>
+}

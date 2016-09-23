@@ -1,0 +1,5 @@
+{
+	"function": "newAdmin",
+	"username": <NOME>,
+	"password": <SENHA>
+}

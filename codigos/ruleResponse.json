@@ -1,0 +1,20 @@
+{
+    "status": <200 | 400 | 403 | 404 | 500>,
+    "errorMessage": <MENSAGEM_DE_ERRO>,
+    "rules": [
+        {
+            "controllerId": <ID_CONTROLADOR>,
+            "command": {
+                "nodeId": <ID_DO_NO>,
+                "commandId": <ID_DO_COMANDO>,
+                "value": <VALOR>,
+            }
+            "clauses":
+            [
+                [<PROPOSICAO 1>, <PROPOSICAO 2>, ...],
+                ...
+            ]
+        },
+        ...
+    ]
+}
