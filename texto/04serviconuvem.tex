@@ -286,10 +286,8 @@ Conforme apresentado nas Tabelas \ref{tab:mensagens_estado}, \ref{tab:mensagens_
 
 \paragraph*{Resposta de Nós.} O formato desta resposta está ilustrado na Listagem \ref{lst:nodeResponse}. Esta resposta possui um campo \texttt{nodes} que lista todas os nós instalados em uma casa.
 
-\noindent
-\begin{minipage}[l]{\linewidth}
-\lstinputlisting[label=lst:nodeResponse, caption=Formato de uma Resposta de Nós. ]{codigos/nodeResponse.json}
-\end{minipage}
+\lstinputlisting[label=lst:nodeResponse, caption=Formato de uma Resposta de Nós.,float=h]{codigos/nodeResponse.json}
+
 
 \subsection{Protocolo de Troca de Mensagens}
 Uma vez definidas as mensagens a serem trocadas, pode-se abordar a sequência esperada de troca de mensagens para os cenários de uso do protocolo. A maioria das mensagens definidas possuem uma dinâmica de troca de mensagens simples:
@@ -394,7 +392,23 @@ A relação entre as coleções do banco de dados estão esquematizadas através do di
 
 Observe que existem seis coleções definidas em uma casa. A coleção \texttt{house} agrupa todos os itens em uma abstração de "casa", permitindo que se façam \textit{queries} da natureza "Obtenha todos os nós da casa a que eu (usuário) estou associado)", ou "Obtenha o estado da minha casa". Todas as relações são do tipo "um para muitos", notando-se que a relação entre \texttt{house} e \texttt{agent} possui participação obrigatória de ambas as partes.
 
+O código-fonte do servidor está disponível no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
+
 \subsection{Implementação de Biblioteca para Aplicativo}
+De modo similar ao servidor, a implementação do suporte ao protocolo Homecloud no aplicativo também foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como dependência em projetos Android para efetuar a troca de mensagens seguindo o protocolo. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
+
+\begin{figure}[h]
+	\centering
+	\caption{Diagrama de classes mostrando a estrutura da biblioteca para aplicativos.}
+  \includegraphics[width=0.7\textwidth]{imagens/classes_lib_app.png}
+  \label{fig:classes_lib_app}  
+\end{figure}
+
+A interface a ser utilizada pelo aplicativo está contida majoritariamente na classe \texttt{HomeCloud}. Esta classe contém métodos que permitem efetuar todas as requisições do protocolo que envolvam o aplicativo, utilizando, para tanto, classes que implementam a interface \texttt{Request}. Conforme mencionado, cada requisição ao servidor possui uma resposta associada, que é retornada ao aplicativo cliente através da classe \texttt{SimpleResponse} ou de uma de suas filhas.
+
+A biblioteca também lida com notificações recebidas pelo dispositivo, através das classes que implementam a interface \texttt{Notification}. Não existe dependência entre estas classes e a classe \texttt{HomeCloud}, pois foi decidido por deixar sob responsabilidade do usuário a captura dos dados de notificação. Tais classes, então, são acessíveis diretamente pelo usuário, e possuem métodos de \textit{parse} que recebem os dados de uma notificação e retornam um objeto que permita à aplicação interagir de forma conveniente com os dados recebidos.
+
+A implementação da biblioteca foi feita na linguagem Java, e o código-fonte documentado, bem como um aplicativo de demonstração, estão disponíveis no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/homecloud-app}.}.
 
 \subsection{Implementação de Biblioteca para Controlador}
 %TODO
