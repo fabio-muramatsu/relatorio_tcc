@@ -1,7 +1,7 @@
 \chapter{Projeto do Serviço em Nuvem}\label{chp:serviconuvem}
 Este capítulo possui a finalidade de projetar e implementar um serviço em nuvem acessível aos controladores locais da rede de sensores, de modo a alcançar o objetivo (ii) do trabalho. Os tópicos abordados neste capítulo englobam o protocolo de troca de dados envolvendo o servidor em nuvem (batizado de Homecloud), a interface de controle do usuário e a especificação de um algoritmo de aprendizagem específico para o domínio de controle de iluminação.
 
-\section{O Protocolo Homecloud}
+\section{O Protocolo Homecloud} \label{sec:homecloud}
 Conforme mencionado na seção \ref{sec:arquitetura}, o servidor em nuvem se comunica tanto com o controlador local quanto com o dispositivo de interface do usuário. O protocolo Homecloud, definido pelo grupo, define o formato das mensagens a serem trocados pelos dispositivos, e em quais circunstâncias. As próximas seções especificarão em detalhes o funcionamento deste protocolo.
 
 \subsection{Sintaxe e Semântica} \label{subsec:hc_sintaxe}
@@ -308,7 +308,7 @@ Uma vez definidas as mensagens a serem trocadas, pode-se abordar a sequência esp
 
 A seguir, serão descritos alguns casos mais complexos de troca de mensagens, envolvendo múltiplas requisições e respostas definidos nas seções anteriores.
 
-\paragraph{Definição de uma Ação.}
+\paragraph*{Definição de uma Ação.}
 A definição de uma ação pelo usuário envolve a utilização de diversas mensagens, como mostra a Figura \ref{fig:mensagens_new_action}. O ciclo se inicia com uma mensagem \texttt{New Action} do usuário (aplicativo) ao servidor. Conforme definido na Tabela \ref{tab:mensagens_estado}, uma mensagem deste tipo espera uma Resposta Simples. Em seguida, o servidor notifica o controlador através de uma mensagem \texttt{Notify New Action}, não recebendo resposta. Este, então, envia o resultado através de uma mensagem \texttt{Send Action Result}, recebendo uma Resposta Simples como resposta. Por fim, o servidor notifica o usuário através de uma mensagem \texttt{Notify Action Result}, não recebendo resposta.
 
 \begin{figure}[h]
@@ -318,7 +318,7 @@ A definição de uma ação pelo usuário envolve a utilização de diversas mensagens,
   \label{fig:mensagens_new_action}  
 \end{figure}
 
-\paragraph{Aceitação/Rejeição de um Nó.}
+\paragraph*{Aceitação/Rejeição de um Nó.}
 A Figura \ref{fig:mensagens_accept_node} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usuário (aplicativo) que existe um novo nó com aceitação pendente através da mensagem \texttt{Notify Detected Node}. O usuário, então, responde com uma mensagem \texttt{Accept Node}, informando sua decisão ao servidor. Este, por fim, envia uma notificação \texttt{Notify Accepted Node} ao controlador, informando-o da decisão do usuário.
 
 \begin{figure}[h]
@@ -328,7 +328,7 @@ A Figura \ref{fig:mensagens_accept_node} mostra as mensagens trocadas neste proc
   \label{fig:mensagens_accept_node}  
 \end{figure}
 
-\paragraph{Definição de Novas Regras.}
+\paragraph*{Definição de Novas Regras.}
 A Figura \ref{fig:mensagens_new_rule} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usuário (aplicativo) que existem novas regras para análise através da mensagem \texttt{Notify Learnt Rules}. O usuário, então, envia uma mensagem \texttt{Get Rules}, para que o servidor lhe envie as regras aprendidas através da Resposta de Regras. Após análisá-las, o usuário envia as regras aceitas na mensagem \texttt{New Rules} ao servidor. Este, por fim, envia uma notificação \texttt{Notify New Rules} ao controlador, informando-o sobre as novas regras.
 
 \begin{figure}[h]
@@ -337,6 +337,67 @@ A Figura \ref{fig:mensagens_new_rule} mostra as mensagens trocadas neste process
   \includegraphics[width=0.7\textwidth]{imagens/mensagens_new_rule.png}
   \label{fig:mensagens_new_rule}  
 \end{figure}
+
+\section{Implementação do Protocolo Homecloud}
+Conforme explicado na seção \ref{sec:homecloud}, o servidor, controlador e aplicativo devem todos oferecer suporte às mensagens do protocolo Homecloud que lhes dizem respeito. Para tanto, o grupo desenvolveu bibliotecas modulares para serem executadas nos três componentes. Antes de detalhar o processo de implementação de cada componente, cabe reapresentar a arquitetura geral do sistema, com ênfase nas tecnologias de comunicação utilizadas.
+
+\subsection{Tecnologias de Comunicação Adotadas}
+A Figura \ref{fig:arquitetura_tecnologias} ilustra a arquitetura do sistema com as tecnologias de comunicação utilizadas na comunicação entre cada uma de suas partes.
+
+\begin{figure}[h]
+	\centering
+	\caption{Arquitetura do sistema com ênfase nas tecnologias de comunicação adotadas.}
+  \includegraphics[width=0.7\textwidth]{imagens/arquitetura_tecnologias.png}
+  \label{fig:arquitetura_tecnologias}  
+\end{figure}
+
+O primeiro ponto a destacar na arquitetura é o fato de toda a comunicação direcionada ao servidor ser feita através do protocolo HTTP. Essa escolha foi conveniente porque diversas mensagens do Homecloud exigem algum tipo de resposta (por exemplo, as mensagens \texttt{Get House State} e \texttt{Get Nodes Info}), e a natureza de requisição-resposta do HTTP supriu perfeitamente as necessidades do grupo. Soma-se a isso o fato de o HTTP ser amplamente adotado, possuindo bibliotecas nativas nas plataformas utilizadas para implementar os componentes do sistema.
+
+Na seção \ref{subsec:hc_sintaxe}, foi apontado que mensagens destinadas ao controlador e ao aplicativo não esperavam resposta, devido ao protocolo de comunicação subjacente. Da Figura \ref{fig:arquitetura_tecnologias}, nota-se que a comunicação do servidor ao controlador é feito por meio do protocolo WebSocket \cite{rfc6455}, que não funciona no modo requisição-resposta como o HTTP.
+
+A adoção deste protocolo nas comunicações do servidor ao controlador foi feita por satisfazer dois requisitos essenciais:
+\begin{itemize}
+	\item O protocolo deve permitir que um canal de comunicação persistente e confiável do servidor ao controlador seja aberto no momento em que o controlador se autentica com o servidor. Isso permite o envio de notificações ao controlador em tempo real;
+	\item O protocolo deve ser padronizado, possuindo implementações disponíveis nas plataformas utilizadas para implementar o controlador e o servidor.
+\end{itemize}
+
+O protocolo WebSocket satisfaz aos dois requisitos mencionados. Em primeiro lugar, ele permite o estabelecimento de um canal \textit{full-duplex} entre as partes envolvidas sobre um canal TCP. Em segundo, ele é um padrão IETF definido com base no protocolo HTTP, possuindo diversas bibliotecas nas plataformas utilizadas.
+
+Por fim, note que a comunicação entre o servidor e o aplicativo envolve um servidor externo ao sistema, de um serviço chamado Firebase. O Firebase expõe uma API REST, permitindo que mensagens sejam enviadas a dispositivos móveis mediante a especificação de um token único para cada dispositivo. Efetivamente, a comunicação do servidor de aplicação com o aplicativo móvel é unidirecional através desse canal, justificando o porquê de não se esperarem respostas nas mensagens destinadas ao aplicativo.
+
+\subsection{Implementação do Servidor}
+A implementação do servidor de aplicação foi feita de forma modular, conforme esquematiza a Figura \ref{fig:componentes_servidor}. O intuito de efetuar tal abordagem foi de desvincular a implementação da lógica do protocolo da implementação da aplicação em si, permitindo, por exemplo, que o protocolo seja implementado em outras soluções na mesma plataforma.
+
+\begin{figure}[h]
+	\centering
+	\caption{Diagrama de componentes explicitando a estrutura modular do servidor de aplicação.}
+  \includegraphics[width=0.6\textwidth]{imagens/componentes_servidor.png}
+  \label{fig:componentes_servidor}  
+\end{figure}
+
+O diagrama explicita seis componentes no servidor. O servidor \textit{web} essencialmente escuta por requisições contendo mensagens JSON do protocolo Homecloud, descritas na seção \ref{subsec:hc_sintaxe}. Além disso, ele efetua a manutenção das sessões dos agentes do sistema. No entanto, o tratamento das mensagens são feitas chamando funções dos módulos de Nós, Regras, Estado e de Autenticação.
+
+Cada um dos módulos citados lida com as mensagens de seu respectivo tipo, conforme classificação apresentada na seção \ref{subsec:hc_sintaxe}. Esses módulos expõem funções seguindo uma interface definida que podem ser referenciadas pelo servidor \textit{web} para tratar as mensagens recebidas.
+
+Para implementação do servidor, foi utilizada a linguagem Clojure\footnote{Disponível em \url{https://clojure.org/}.}. O Clojure foi utilizado por ser uma linguagem funcional altamente paralelizável, contribuindo para a escalabilidade do servidor. Isso se dá pelo fato de as estruturas da linguagem serem imutáveis por padrão, somado ao de as referências serem \textit{thread-safe}.
+
+O banco de dados utilizado no servidor foi o MongoDB\footnote{Disponível em \url{https://www.mongodb.com/}.}. O MongoDB é um banco de dados NoSQL orientado a documentos. Diferentemente dos banco de dados relacionais, o MongoDB não exige que se faça uma definição da estrutura dos dados armazenados nas tabelas. Em vez disso, ele trabalha com uma estrutura denominada "documento", que se assemelha a um objeto JSON. A vantagem dele é a possibilidade de documentos em uma mesma coleção possuírem estruturas distintas. Isso permite, por exemplo, que se construa uma coleção de nós para uma casa englobando tanto atuadores (que possuem uma estrutura de comandos) e sensores (que possuem uma de dados).
+
+A relação entre as coleções do banco de dados estão esquematizadas através do diagrama da Figura \ref{fig:servidor_bd}.
+
+\begin{figure}[h]
+	\centering
+	\caption{Diagrama de relacionamentos explicitando as coleções utilizadas no banco de dados do servidor.}
+  \includegraphics[width=0.7\textwidth]{imagens/servidor_bd.png}
+  \label{fig:servidor_bd}  
+\end{figure}
+
+Observe que existem seis coleções definidas em uma casa. A coleção \texttt{house} agrupa todos os itens em uma abstração de "casa", permitindo que se façam \textit{queries} da natureza "Obtenha todos os nós da casa a que eu (usuário) estou associado)", ou "Obtenha o estado da minha casa". Todas as relações são do tipo "um para muitos", notando-se que a relação entre \texttt{house} e \texttt{agent} possui participação obrigatória de ambas as partes.
+
+\subsection{Implementação de Biblioteca para Aplicativo}
+
+\subsection{Implementação de Biblioteca para Controlador}
+%TODO
 
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
 Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
