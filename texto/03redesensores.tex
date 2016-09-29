@@ -427,6 +427,51 @@ De modo similar, as Tabelas \ref{tab:cod_valores_packagetype}, \ref{tab:cod_valo
 \end{table}
 
 \clearpage
+A Figura \ref{fig:tamanho_pacote} mostra os resultados da aplicação das técnicas de compressão de tamanho aos pacotes enviados. No gráfico, são comparados os tamanhos de cada tipo de pacote em três codificações: JSON original (todos os campos são \textit{strings} legíveis, JSON com campos e valores mapeados conforme documentado nesta seção, e JSON mapeado seguido da aplicação da codificação CBOR.
+
+\begin{figure}[h]
+	\centering
+	\caption{Tamanho resultante do pacote em função da codificação aplicada}
+	\includegraphics[width=\textwidth]{imagens/tamanho_pacote.pdf}
+ 	\label{fig:tamanho_pacote}
+\end{figure}
+
+Do gráfico, verifica-se que houve redução média de aproximadamente 74\% no tamanho dos pacotes, representando uma redução significativa na quantidade de dados transmitidos na rede. No entanto, em termos práticos, espera-se que pacotes do tipo \texttt{data} e \texttt{command} sejam os mais frequentes em uma rede, visto que os demais ocorrem principalmente durante o \textit{handshake} inicial. A redução de tamanho verificada nestes pacotes foi de 56\% e 58\%, respectivamente, logo espera-se que haja uma redução efetiva no tamanho dos pacotes próxima a esses valores. 
+
+\subsection{Exemplo de Funcionamento}
+Para ilustrar o funcionamento do protocolo, considere a rede mostrada na Figura \ref{fig:exemplo_rede}. Nesta rede, existem um sensor (botão), um atuador (interruptor de luz) e um controlador local interligando-os. O botão funciona como um sensor com estado binário: a cada acionamento, seu estado é invertido. De modo similar, o interruptor aceita comandos em formato binário, fechando o contato caso um comando "1" seja recebido e abrindo caso "0" seja recebido.
+
+\begin{figure}[h]
+	\centering
+	\caption{Exemplo de aplicação do protocolo \textit{Rainfall}.}
+	\includegraphics[width=0.7\textwidth]{imagens/exemplo_rede.png}
+ 	\label{fig:exemplo_rede}
+\end{figure}
+
+A Figura \ref{fig:exemplo_handshake} ilustra o processo de \textit{handshake} no exemplo dado. Observe que as mensagens já exploram a possibilidade de enviar múltiplas mensagens em um mesmo pacote, tal como mostrado na Figura \ref{fig:uml_handshake}.
+
+\begin{figure}[hp]
+	\centering
+	\caption{Processo de \textit{handshake} no exemplo.}
+	\includegraphics[width=0.9\textwidth]{imagens/exemplo_handshake.png}
+ 	\label{fig:exemplo_handshake}
+\end{figure}
+
+A Figura \ref{fig:exemplo_dados} ilustra o processo de troca de dados e o envio de comandos na rede de exemplo. No caso, o controlador foi configurado com as seguintes regras:
+\begin{itemize}
+	\item Caso o botão envie um dado "0", o comando "0" (abrir contato ou apagar a luz) é enviado ao interruptor;
+	\item Caso o botão envie um dado "1", o comando "1" (fechar contato ou acender a luz) é enviado ao interruptor.
+\end{itemize}
+
+\begin{figure}[hp]
+	\centering
+	\caption{Processo de troca de dados e aplicação de regras no exemplo.}
+	\includegraphics[width=0.9\textwidth]{imagens/exemplo_dados.png}
+ 	\label{fig:exemplo_dados}
+\end{figure}
+
+\clearpage
+
 \section{Implementação de Bibliotecas para o Protocolo de Aplicação}
 Uma vez analisados os protocolos de comunicação existentes e definido o protocolo de aplicação, passa-se para o projeto de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
 
