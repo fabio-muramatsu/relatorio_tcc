@@ -317,7 +317,7 @@ A definição de uma ação pelo usuário envolve a utilização de diversas mensagens,
 \end{figure}
 
 \paragraph*{Aceitação/Rejeição de um Nó.}
-A Figura \ref{fig:mensagens_accept_node} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usuário (aplicativo) que existe um novo nó com aceitação pendente através da mensagem \texttt{Notify Detected Node}. O usuário, então, responde com uma mensagem \texttt{Accept Node}, informando sua decisão ao servidor. Este, por fim, envia uma notificação \texttt{Notify Accepted Node} ao controlador, informando-o da decisão do usuário.
+A Figura \ref{fig:mensagens_accept_node} mostra as mensagens trocadas neste processo. O controlador inicia enviando uma mensagem \texttt{Notify Detected Nodes} informando o servidor sobre a existência de novos nós. Este, por sua vez, informa ao usuário (aplicativo) que existe um novo nó com aceitação pendente através da mensagem \texttt{Notify Detected Node}. O usuário, então, responde com uma mensagem \texttt{Accept Node}, informando sua decisão ao servidor. Ele, por fim, envia uma notificação \texttt{Notify Accepted Node} ao controlador, informando-o da decisão do usuário.
 
 \begin{figure}[h]
 	\centering
@@ -327,13 +327,13 @@ A Figura \ref{fig:mensagens_accept_node} mostra as mensagens trocadas neste proc
 \end{figure}
 
 \paragraph*{Definição de Novas Regras.}
-A Figura \ref{fig:mensagens_new_rule} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usuário (aplicativo) que existem novas regras para análise através da mensagem \texttt{Notify Learnt Rules}. O usuário, então, envia uma mensagem \texttt{Get Rules}, para que o servidor lhe envie as regras aprendidas através da Resposta de Regras. Após análisá-las, o usuário envia as regras aceitas na mensagem \texttt{New Rules} ao servidor. Este, por fim, envia uma notificação \texttt{Notify New Rules} ao controlador, informando-o sobre as novas regras.
+A Figura \ref{fig:mensagens_accept_rule} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usuário (aplicativo) que existem novas regras para análise através da mensagem \texttt{Notify Learnt Rules}. O usuário, então, envia uma mensagem \texttt{Get Rules}, para que o servidor lhe envie as regras aprendidas através da Resposta de Regras. Após analisá-las, o usuário envia as regras aceitas na mensagem \texttt{Accept Rule} ao servidor. Este, por fim, envia uma notificação \texttt{Notify New Rules} ao controlador, informando-o sobre as novas regras.
 
 \begin{figure}[h]
 	\centering
 	\caption{Sequência de trocas de mensagens na aceitação ou rejeição de um nó.}
-  \includegraphics[width=0.7\textwidth]{imagens/mensagens_new_rule.png}
-  \label{fig:mensagens_new_rule}  
+  \includegraphics[width=0.7\textwidth]{imagens/mensagens_accept_rule.png}
+  \label{fig:mensagens_accept_rule}  
 \end{figure}
 
 \section{Implementação do Protocolo Homecloud}
