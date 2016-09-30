@@ -14,7 +14,7 @@ Para melhor organizar as mensagens do protocolo, elas serão agrupadas no decorre
 	\item Mensagens de Autenticação: Responsáveis por carregar dados de autenticação dos agentes do sistema.
 \end{itemize}
 
-As mensagens são enviadas ao servidor através de requisições HTTP. Portanto, cada mensagem uma resposta de um determinado tipo, a depender da natureza das informações solicitadas.  Notificações destinadas aos usuários ou aos controladores não esperam resposta, pois são enviadas por meio protocolos que não seguem o modelo de requisição-resposta. 
+As mensagens são enviadas ao servidor através de requisições HTTP. Portanto, cada mensagem possui uma resposta de um determinado tipo, a depender da natureza das informações solicitadas.  Notificações destinadas aos usuários ou aos controladores não esperam resposta, pois são enviadas por meio protocolos que não seguem o modelo de requisição-resposta. 
 
 A seguir serão definidas as mensagens, de acordo com a classificação apresentada, bem como as respectivas respostas esperadas. 
 
@@ -411,7 +411,18 @@ A biblioteca também lida com notificações recebidas pelo dispositivo, através da
 A implementação da biblioteca foi feita na linguagem Java, e o código-fonte documentado, bem como um aplicativo de demonstração, estão disponíveis no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/homecloud-app}.}.
 
 \subsection{Implementação de Biblioteca para Controlador}
-%TODO
+Seguindo o padrão de desenvolvimento utilizado no projeto, a implementação
+do Controlador em si foi desacoplada da implementação da comunicação
+com o servidor. Conforme apresentado em \ref{sec:implsens}, a implementação
+da rede de sensores local foi realizada em \texttt{Javascript} utilizando o
+ambiente \texttt{Node.js}, portanto, a implementação da biblioteca também foi
+realizada utilizando-se estas tecnologias.
+
+A biblioteca expõe funções para que o Controlador envie e receba mensagens do servidor seguindo o protocolo \texttt{Homecloud}, realizando de forma transparente ao usuário da biblioteca a autenticação junto ao servidor, a conexão do \texttt{WebSocket} e o enfileramento das mensagens quando não é possível efetuar o seu envio.
+
+O código-fonte foi hospedado no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/homecloud-controller}.}. Além disso, a 
+biblioteca foi disponibilizada na \texttt{npm}\footnote{Disponível em \url{https://www.npmjs.com/package/homecloud-controller}.}, que além de um gerenciador de pacotes para o \texttt{Node.js}, é um respositório público de bibliotecas.
+
 
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
 Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
