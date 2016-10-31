@@ -1,0 +1,5 @@
+{
+    "status": <200 | 400>,
+    "error": <ERRO_SE_HOUVER>,
+    "users": <LISTA_DE_USUARIOS>
+}

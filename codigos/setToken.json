@@ -1,4 +1,5 @@
 {
+    "function": "setToken",
 	"killToken": <OLD_TOKEN>,
 	"token": <NEW_TOKEN>
 }

@@ -1,0 +1,5 @@
+{
+    "status": <200 | 400>,
+    "error": <MENSAGEM_DE_ERRO>,
+    "controllers": <LISTA_DE_IDS>
+}

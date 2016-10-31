@@ -253,6 +253,20 @@ As mensagens de autenticação estão listadas e descritas na Tabela \ref{tab:mensa
 \lstinputlisting[label=lst:setToken, caption=Formato da mensagem \texttt{setToken}.]{codigos/setToken.json}
 \end{minipage}
 
+\paragraph*{\texttt{Get Controllers}.} A Listagem \ref{lst:getControllers} ilustra o formato da mensagem.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:getControllers, caption=Formato da mensagem \texttt{getControllers}.]{codigos/getControllers.json}
+\end{minipage}
+
+\paragraph*{\texttt{Get Users}.} A Listagem \ref{lst:getUsers} ilustra o formato da mensagem.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:getUsers, caption=Formato da mensagem \texttt{getUsers}.]{codigos/getUsers.json}
+\end{minipage}
+
 \subsubsection{Mensagens de Resposta}
 Conforme apresentado nas Tabelas \ref{tab:mensagens_estado}, \ref{tab:mensagens_regra}, \ref{tab:mensagens_nos} e \ref{tab:mensagens_auth}, cada mensagem destinada ao servidor espera uma mensagem de uma determinada classe, a depender da natureza da requisição. Nesta seção, o formato dessas mensagens de resposta será detalhado.
 
@@ -284,10 +298,25 @@ Conforme apresentado nas Tabelas \ref{tab:mensagens_estado}, \ref{tab:mensagens_
 \lstinputlisting[label=lst:ruleResponse, caption=Formato de uma Resposta de Regras. ]{codigos/ruleResponse.json}
 \end{minipage}
 
+\paragraph*{Resposta de Controladores.} O formato desta resposta está ilustrado na Listagem \ref{lst:controllerResponse}. Esta resposta possui um campo \texttt{controllers} que lista todos os controladores associados ao usuário que efetuou a requisição.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:controllerResponse, caption=Formato de uma Resposta de Controladores.]{codigos/controllerResponse.json}
+\end{minipage}
+
+\paragraph*{Resposta de Usuários.} O formato desta resposta está ilustrado na Listagem \ref{lst:usersResponse}. Esta resposta possui um campo \texttt{users} que lista todos os usuários associados ao administrador que efetuou a requisição.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:usersResponse, caption=Formato de uma Resposta de Usuários.]{codigos/usersResponse.json}
+\end{minipage}
+
 \paragraph*{Resposta de Nós.} O formato desta resposta está ilustrado na Listagem \ref{lst:nodeResponse}. Esta resposta possui um campo \texttt{nodes} que lista todas os nós instalados em uma casa.
 
 \lstinputlisting[label=lst:nodeResponse, caption=Formato de uma Resposta de Nós.,float=h]{codigos/nodeResponse.json}
 
+\clearpage
 
 \subsection{Protocolo de Troca de Mensagens}
 Uma vez definidas as mensagens a serem trocadas, pode-se abordar a sequência esperada de troca de mensagens para os cenários de uso do protocolo. A maioria das mensagens definidas possuem uma dinâmica de troca de mensagens simples:
@@ -395,7 +424,14 @@ Observe que existem seis coleções definidas em uma casa. A coleção \texttt{house
 O código-fonte do servidor está disponível no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
 
 \subsection{Implementação de Biblioteca para Aplicativo}
-De modo similar ao servidor, a implementação do suporte ao protocolo Homecloud no aplicativo também foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como dependência em projetos Android para efetuar a troca de mensagens seguindo o protocolo. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
+De modo similar ao servidor, a implementação do suporte ao protocolo Homecloud no aplicativo também foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como dependência em projetos Android para efetuar a troca de mensagens seguindo o protocolo, conforme ilustra a Figura \ref{fig:arquitetura_lib_app}. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
+
+\begin{figure}[h]
+	\centering
+	\caption{Estrutura modular (em camadas) do desenvolvimento de aplicativo.}
+  \includegraphics[width=0.7\textwidth]{imagens/arquitetura_lib_app.png}
+  \label{fig:arquitetura_lib_app}  
+\end{figure}
 
 \begin{figure}[h]
 	\centering
@@ -414,14 +450,14 @@ A implementação da biblioteca foi feita na linguagem Java, e o código-fonte docu
 Seguindo o padrão de desenvolvimento utilizado no projeto, a implementação
 do Controlador em si foi desacoplada da implementação da comunicação
 com o servidor. Conforme apresentado em \ref{sec:implsens}, a implementação
-da rede de sensores local foi realizada em \texttt{Javascript} utilizando o
-ambiente \texttt{Node.js}, portanto, a implementação da biblioteca também foi
+da rede de sensores local foi realizada em Javascript utilizando o
+ambiente Node.js, portanto, a implementação da biblioteca também foi
 realizada utilizando-se estas tecnologias.
 
-A biblioteca expõe funções para que o Controlador envie e receba mensagens do servidor seguindo o protocolo \texttt{Homecloud}, realizando de forma transparente ao usuário da biblioteca a autenticação junto ao servidor, a conexão do \texttt{WebSocket} e o enfileramento das mensagens quando não é possível efetuar o seu envio.
+A biblioteca expõe funções para que o Controlador envie e receba mensagens do servidor seguindo o protocolo Homecloud, realizando de forma transparente ao usuário da biblioteca a autenticação junto ao servidor, a conexão do WebSocket e o enfileiramento das mensagens quando não é possível efetuar o seu envio.
 
 O código-fonte foi hospedado no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/homecloud-controller}.}. Além disso, a 
-biblioteca foi disponibilizada na \texttt{npm}\footnote{Disponível em \url{https://www.npmjs.com/package/homecloud-controller}.}, que além de um gerenciador de pacotes para o \texttt{Node.js}, é um respositório público de bibliotecas.
+biblioteca foi disponibilizada na npm\footnote{Disponível em \url{https://www.npmjs.com/package/homecloud-controller}.}, que além de um gerenciador de pacotes para o Node.js, é um repositório público de bibliotecas.
 
 
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
