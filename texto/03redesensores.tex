@@ -7,7 +7,7 @@ A seção \ref{sec:relwork} analisa protocolos existentes de aplicação voltados a 
 Esta seção tem como objetivo efetuar um estudo dos protocolos de aplicação e \textit{frameworks} existentes para programação de redes de sensores. Os protocolos analisados a seguir permitem programar redes de sensores de propósito geral. O objetivo, então, é analisar as características destes protocolos existentes para embasar o desenvolvimento de um protocolo específico para redes de sensores voltados à automação residencial, que são alvos deste trabalho.
 
 \subsection{Protocolos de Aplicação existentes}
-\paragraph*{CoAP.} O CoAP (Constrained Application Protocol) \cite{rfc7252} é um protocolo de aplicação baseado no modelo REST que provê transferência de dados entre nós com recursos limitados. Suas mensagens seguem um formato similar ao HTTP, possuindo os tipos GET, POST, PUT e DELETE para efetuar operações sobre dados. Assim, por exemplo, um dado de um sensor pode ser obtido enviando a ele uma requisição GET do dado desejado. Uma característica importante do CoAP é o fato de ele ter sido projetado para funcionar sobre UDP, classificado como um protocolo de transporte não-confiável. Assim, o CoAP provê recursos de confiabilidade, definindo mensagens confirmáveis que requerem a emissão pacotes do tipo ACK, confirmando a recepção de tais mensagens.
+\paragraph*{CoAP.} O CoAP (Constrained Application Protocol) \cite{rfc7252} é um protocolo de aplicação baseado no modelo REST que provê transferência de dados entre nós com recursos limitados. Suas mensagens seguem um formato similar às do HTTP, possuindo os tipos GET, POST, PUT e DELETE para efetuar operações sobre dados. Assim, por exemplo, um dado de um sensor pode ser obtido enviando a ele uma requisição GET do dado desejado. Uma característica importante do CoAP é o fato de ele ter sido projetado para funcionar sobre UDP, classificado como um protocolo de transporte não-confiável. Assim, o CoAP provê recursos de confiabilidade, definindo mensagens confirmáveis que requerem a emissão pacotes do tipo ACK, confirmando a recepção de tais mensagens.
 
 \paragraph*{MQTT.} O MQTT (Message Queue Telemetry Transport) \cite{mqtt} é um protocolo de aplicação aplicando o modelo publicador/observador (\textit{publisher/subscriber}) para transferência de dados. Nesse sistema, existem três tipos de elementos: publicadores, observadores e um elemento intermediário (\textit{broker}) de coordenação, como pode ser visto na Figura \ref{fig:mqtt}. Os dispositivos publicadores registram os dados gerados no coordenador, e os observadores registram interesse em receber dados de determinados publicadores. O coordenador, então, encaminha os dados dos publicadores para os observadores interessados. 
 
@@ -20,9 +20,9 @@ Esta seção tem como objetivo efetuar um estudo dos protocolos de aplicação e \te
   Fonte: \cite{Fuqaha2015}
 \end{figure}
 
-\paragraph*{DDS.} O DDS (Data Distribution Service) \cite{dds} é um protocolo de aplicação que também aplicao modelo publicador/observador, mas, ao contrário do MQTT, não envolve um elemento coordenador. Este protocolo prevê o envio de mensagens por multicast, sendo adequado a redes com requisitos de tempo real no contexto de IoT, além de prover diversos parâmetros de qualidade de serviço.
+\paragraph*{DDS.} O DDS (Data Distribution Service) \cite{dds} é um protocolo de aplicação que também aplica o modelo publicador/observador, mas, ao contrário do MQTT, não envolve um elemento coordenador. Este protocolo prevê o envio de mensagens por \textit{multicast}, sendo adequado a redes com requisitos de tempo real no contexto de IoT, além de prover diversos parâmetros de qualidade de serviço.
 
-A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos protocolos de aplicação analisados. Observe que os protocolos apresentados se baseiam sobre TCP ou UDP, implicando em restrições quanto à sua utilização com protocolos de comunicação que não são baseados neles. 
+A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos protocolos de aplicação analisados. Observe que os protocolos apresentados se baseiam no TCP ou UDP, implicando em restrições quanto à sua utilização com protocolos de comunicação que não são baseados neles. 
 
 \begin{table}[h]
 	\centering
@@ -34,7 +34,7 @@ A Tabela \ref{tab:comp_prot_aplic} resume as características principais dos prot
 \end{table}
 
 \subsection{\textit{Frameworks} existentes}
-\paragraph*{IoTivity.} O IoTivity \cite{iotivity} é um projeto colaborativo da fundação Linux que tem por objetivo prover um padrão para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem prover descoberta de dispositivos, transmissão de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST (baseado no CoAP), por meio da qual dados e mensagens de controle são trafegadas. 
+\paragraph*{IoTivity.} O IoTivity \cite{iotivity} é um projeto colaborativo da fundação Linux que tem por objetivo estabelecer um padrão para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem possibilitar descoberta de dispositivos, transmissão de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a Figura \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST (baseado no CoAP), por meio da qual dados e mensagens de controle são trafegados. 
 
 \begin{figure}[h]
 	\centering
@@ -59,7 +59,7 @@ Uma desvantagem do RIOT é o fato de o seu uso estar restrito às plataformas supo
 O projeto de uma rede de sensores e atuadores sem fio deve levar em conta diversas restrições dos dispositivos que a compõem, tais como o acesso limitado a uma fonte de energia, capacidade reduzida de processamento e meio de comunicação com interferências. Com estas restrições em mente, diversos protocolos de comunicação foram propostos para viabilizar a implementação de redes de sensores sem fio, descritos a seguir.
 
 \subsection{ZigBee}
-O ZigBee é um protocolo de comunicação proposto e padronizado pela \textit{ZigBee Alliance} em 2003, visando aplicação em redes de sensores sem fio \cite{zigbeealliance}. A especificação do protocolo abrange diversos aspectos, desde os de natureza física (e.g., estratégias de redução de intereferência) às de natureza de aplicação (e.g., aplicação de criptografia sobre os dados transmitidos) \cite{stevanovic2007}. A Figura \ref{fig:zigbee} ilustra a abrangência do protocolo ZigBee, tendo como base um modelo em camadas de rede similar ao OSI.
+O ZigBee é um protocolo de comunicação proposto e padronizado pela \textit{ZigBee Alliance} em 2003, visando aplicação em redes de sensores sem fio \cite{zigbeealliance}. A especificação do protocolo abrange diversos aspectos, desde os de natureza física (e.g., estratégias de redução de intereferência) aos de aplicação (e.g., aplicação de criptografia sobre os dados transmitidos) \cite{stevanovic2007}. A Figura \ref{fig:zigbee} ilustra a abrangência do protocolo ZigBee, tendo como base um modelo em camadas de rede similar ao OSI.
 
 \begin{figure}[h]
 	\centering

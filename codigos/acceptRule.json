@@ -1,6 +1,5 @@
 {
 	"function ": "acceptRule",
-	"accept": <1 | 0>,
 	"controllerId": <ID_CONTROLADOR>,
 	"command": {
 		"nodeId ": <ID_DO_NO>,
