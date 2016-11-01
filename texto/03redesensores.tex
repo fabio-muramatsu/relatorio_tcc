@@ -91,7 +91,7 @@ Um dispositivo com funcionalidade reduzida (\textit{Reduced Function Device - RF
 
 Conforme mencionado, o ZigBee define recursos das camadas de rede e aplicação, como uma extensão ao protocolo 802.15.4 (ver Figura \ref{fig:zigbee}). Para tanto, são definidos três tipos de equipamentos dentro de uma rede ZigBee. Um dispositivo final consiste em um FFD ou RFD simples, que se comunica com um único nó. Um dispositivo roteador é um FFD capaz de reencaminhar mensagens  ao destinatário, caso necessário. Por fim, um dispositivo coordenador atua como coordenador da rede, possuindo também as funcionalidades de um roteador.
 
-Pode-se derivar um recurso importante introduzido pela especificação do ZigBee: o roteamento \textit{multihop}, atuando como camada de rede. Isso significa que caso um dispositivo envie um pacote para outro esteja fora do seu alcance, basta que haja roteadores conectando-os. Além disso, o ZigBee permite a formação de redes em malha (\textit{mesh}), provendo confiabilidade e tolerância a falhas.
+Pode-se derivar um recurso importante introduzido pela especificação do ZigBee: o roteamento \textit{multihop}, atuando como camada de rede. Isso significa que caso um dispositivo envie um pacote para outro que esteja fora do seu alcance, basta que haja roteadores conectando-os. Além disso, o ZigBee permite a formação de redes em malha (\textit{mesh}), provendo confiabilidade e tolerância a falhas.
 
 Por fim, o ZigBee introduz recursos importantes em nível de aplicação. Exemplos incluem a possibilidade de fragmentação e remontagem de pacotes, manutenção de um registro de dispositivos pareados e funcionalidades relacionadas à segurança, como criptografia.
 
@@ -124,7 +124,7 @@ Outras funções do protocolo incluem:
 
 \subsection{Bluetooth}
 Bluetooth é uma tecnologia de comunicação sem fio a curta distância. Opera em banda não licenciada ISM (Industrial, Científica e Médica, na sigla em inglês) entre 2,4Ghz e 2,485GHz.
-Por não utilizar banda licenciada, o Bluetooth utiliza saltos adaptativos em frequência (\textit{Adaptative Frequency Hoping} - AFH) para diminuir a interferência com outros dispositivos operantes na mesma faixa de 2,4GHz. O aparelho toma conhecimento de demais dispositivos na mesma frequência e as evita, saltando entre 79 frequências a intervalos de 1MHz \cite{redesbluetooth}. 
+Por não utilizar banda licenciada, o Bluetooth utiliza saltos adaptativos em frequência (\textit{Adaptative Frequency Hopping} - AFH) para diminuir a interferência com outros dispositivos operantes na mesma faixa de 2,4GHz. O aparelho toma conhecimento de demais dispositivos na mesma frequência e as evita, saltando entre 79 frequências a intervalos de 1MHz \cite{redesbluetooth}. 
 
 A operação Bluetooth ocorre em redes Ad-Hoc de curto alcance conhecidas como Piconet. Tais redes podem ser constituídas por 1 membro mestre, 7 escravos ativos e 248 escravos estacionados (endereçamento de 8 bits). Cada dispositivo pode pertencer a várias Piconets. 
 Seu raio de operação depende do dispositivo utilizado, que pode ser classificado em três categorias:
@@ -136,7 +136,7 @@ Seu raio de operação depende do dispositivo utilizado, que pode ser classificado
 
 A camada mais baixa da arquitetura Bluetooth é a camada Física, na qual são definidas as especificações do dispositivo para operar. Dois dispositivos compartilham o mesmo meio físico e para se comunicarem devem estar sintonizados na mesma frequência (processo de parear). Para identificar os membros da Piconet, um código de acesso é sempre enviado no cabeçalho de cada pacote, aumentando a carga e inviabilizando para dispositivos de menor capacidade, como no caso deste projeto. 
 
-Uma mesma unidade pode participar como escrava em várias Piconets mas atuar como mestre em apenas uma. Para participar de mais de uma Piconet o dispositivo atua com multiplexação no tempo (\textit{Time Division Multiplex} - TDM). O conjunto de várias Piconets independentes e não sincronizadas é chamado de Scatternet, conforme esquematizado na \ref{fig:redesbluetooth}.
+Uma mesma unidade pode participar como escrava em várias Piconets mas atuar como mestre em apenas uma. Para participar de mais de uma Piconet o dispositivo atua com multiplexação no tempo (\textit{Time Division Multiplexing} - TDM). O conjunto de várias Piconets independentes e não sincronizadas é chamado de Scatternet, conforme esquematizado na \ref{fig:redesbluetooth}.
 
 \begin{figure}[h]
 	\centering
@@ -178,29 +178,29 @@ Cada rede Z-Wave pode conter até 232 dispositivos e é identificada por um ID da 
 
 As redes Z-Wave utilizam uma topologia de malha (\textit{mesh}) e é necessário existir um controlador primário e opcionalmente controladores secundários. Os nós são adicionados através do pareamento em que o controlador mede a força do sinal entre os equipamentos e assume que esta irá se manter constante, fazendo com que os escravos não possam se mover espacialmente sem terem que realizar o pareamento novamente.
 
-\section{Análise dos protocolos de comunicação}
-Uma vez descritos os protocolos de comunicação, é possível analisar as vantagens e desvantagens de cada um deles, tendo em vista o escopo do presente trabalho. A Tabela \ref{tab:analiseprotcom} lista de forma sucinta as características levantadas de cada protocolo.
-
-\begin{table}[h]
-	\centering
-	\caption{Análise dos protocolos de comunicação}\smallskip
-	\label{tab:analiseprotcom}
-	\includegraphics[width=\textwidth]{tabelas/comp_prot_rede.pdf}
-\end{table}
-
-Conforme mencionado, os protocolos ZigBee e 6LoWPAN são baseados no padrão IEEE 802.15.4, apresentando, pois, características físicas e de acesso ao meio similares, tais como frequência de operação e alcance. Ambos ainda preveem suporte a redes em malha com roteamento \textit{multihop}, permitindo aplicações em ambientes em que a localização dos dispositivos seja esparsa, sendo necessário roteadores intermediários para comunicação.
-
-No entanto, tais protocolos diferem entre si em alguns aspectos. Em primeiro lugar, o ZigBee foi padronizado em 2003, visto como o protocolo mais popular utilizado em redes de sensores sem fio \cite{toscano2012}. O 6LoWPAN, por sua vez, é um padrão mais novo, tendo sido proposto pelo IETF em 2007. Além disso, a especificação do 6LoWPAN é totalmente aberta, além de adotar camadas de nível superior (rede e transporte) conhecidas e amplamente adotadas em redes existentes (IP e TCP/UDP), ao passo que o ZigBee define camadas de rede e aplicação próprias, em uma especificação de acesso restrito. Por fim, o Zigbee prevê a possibilidade de os nós entrarem em um estado de dormência (rádio inativo), ao passo que o 6LoWPAN não permite este modo. Isto se deve ao fato de ele estar baseado no protocolo IP, que prevê que os nós sempre estejam ativos \cite{toscano2012}.
-
-Em relação ao Bluetooth, pode-se considerá-lo um protocolo amplamente difundido, sendo integrado inclusive em maior parte dos dispositivos móveis atuais. No entanto, ele possui a desvantagem de possuir alcance limitado e de não suportar redes complexas, limitando a abrangência da rede. Soma-se a isso o fato de não ser possível iniciar a comunicação de um dispositivo escravo a um mestre (coordenador), tornando inconveniente a utilização de sensores como escravos, haja vista a necessidade de mantê-los ativos à espera de uma mensagem do dispositivo mestre para envio das leituras.
-
-Por fim, nota-se que o Z-Wave possui vantagens em comum às do ZigBee e do 6LoWPAN. Em contrapartida, sua especificação é parcialmente aberta, além de possuir baixa adoção. De modo similar ao Bluetooth, este dispositivos atuando como escravos não podem iniciar uma comunicação, devendo somente responder às mensagens de um mestre.
+%\section{Análise dos protocolos de comunicação}
+%Uma vez descritos os protocolos de comunicação, é possível analisar as vantagens e desvantagens de cada um deles, tendo em vista o escopo do presente trabalho. A Tabela \ref{tab:analiseprotcom} lista de forma sucinta as características levantadas de cada protocolo.
+%
+%\begin{table}[h]
+%	\centering
+%	\caption{Análise dos protocolos de comunicação}\smallskip
+%	\label{tab:analiseprotcom}
+%	\includegraphics[width=\textwidth]{tabelas/comp_prot_rede.pdf}
+%\end{table}
+%
+%Conforme mencionado, os protocolos ZigBee e 6LoWPAN são baseados no padrão IEEE 802.15.4, apresentando, pois, características físicas e de acesso ao meio similares, tais como frequência de operação e alcance. Ambos ainda preveem suporte a redes em malha com roteamento \textit{multihop}, permitindo aplicações em ambientes em que a localização dos dispositivos seja esparsa, sendo necessário roteadores intermediários para comunicação.
+%
+%No entanto, tais protocolos diferem entre si em alguns aspectos. Em primeiro lugar, o ZigBee foi padronizado em 2003, visto como o protocolo mais popular utilizado em redes de sensores sem fio \cite{toscano2012}. O 6LoWPAN, por sua vez, é um padrão mais novo, tendo sido proposto pelo IETF em 2007. Além disso, a especificação do 6LoWPAN é totalmente aberta, além de adotar camadas de nível superior (rede e transporte) conhecidas e amplamente adotadas em redes existentes (IP e TCP/UDP), ao passo que o ZigBee define camadas de rede e aplicação próprias, em uma especificação de acesso restrito. Por fim, o Zigbee prevê a possibilidade de os nós entrarem em um estado de dormência (rádio inativo), ao passo que o 6LoWPAN não permite este modo. Isto se deve ao fato de ele estar baseado no protocolo IP, que prevê que os nós sempre estejam ativos \cite{toscano2012}.
+%
+%Em relação ao Bluetooth, pode-se considerá-lo um protocolo amplamente difundido, sendo integrado inclusive em maior parte dos dispositivos móveis atuais. No entanto, ele possui a desvantagem de possuir alcance limitado e de não suportar redes complexas, limitando a abrangência da rede. Soma-se a isso o fato de não ser possível iniciar a comunicação de um dispositivo escravo a um mestre (coordenador), tornando inconveniente a utilização de sensores como escravos, haja vista a necessidade de mantê-los ativos à espera de uma mensagem do dispositivo mestre para envio das leituras.
+%
+%Por fim, nota-se que o Z-Wave possui vantagens em comum às do ZigBee e do 6LoWPAN. Em contrapartida, sua especificação é parcialmente aberta, além de possuir baixa adoção. De modo similar ao Bluetooth, este dispositivos atuando como escravos não podem iniciar uma comunicação, devendo somente responder às mensagens de um mestre.
 
 %Ponderando as características expostas, o grupo optou por adotar o protocolo ZigBee para implementar um protótipo de rede a ser utilizado como base para projetar o protocolo de nível de aplicação. Cabe ressaltar que o protocolo de aplicação deve ser genérico a ponto de funcionar corretamente independente da escolha dos protocolos de comunicação subjacentes.
 
 \section{Definição do Protocolo de Aplicação \textit{Rainfall}}
 \subsection{Requisitos} \label{subsec:requisitos}
-Uma vez analisados os protocolos de aplicação e frameworks existentes (seção \ref{sec:relwork}), bem como os protocolos de rede (seção \ref{sec:commprot}), e tendo em vista os requisitos levantados para a rede de sensores (seções \ref{sec:reqfunc} e \ref{sec:reqnfunc}), pode-se passar para a especificação do protocolo de aplicação proposto, batizado de \textit{Rainfall}. Os requisitos relativos ao protocolo estão reescritos abaixo, por fins de claridade.
+Uma vez analisados os protocolos de aplicação e frameworks existentes (seção \ref{sec:relwork}), bem como os protocolos de rede (seção \ref{sec:commprot}), e tendo em vista os requisitos levantados para a rede de sensores (seções \ref{sec:reqfunc} e \ref{sec:reqnfunc}), pode-se passar para a especificação do protocolo de aplicação proposto, batizado de \textit{Rainfall}.
 
 \begin{enumerate}[\quad R1.]
 	\item O protocolo a ser desenvolvido deve funcionar com diversos protocolos de rede. Conforme a análise realizada, existem diversos protocolos de redes voltados a redes de sensores sem fio existentes, e convém que o protocolo de aplicação desenvolvido não seja restrito a nenhum deles de forma específica. Uma abordagem similar à do IoTivity pode ser interessante, criando-se uma interface comum a vários protocolos de rede subjacentes;
@@ -313,9 +313,9 @@ Note, ainda, que chaves do tipo \texttt{packageType} e \texttt{nodeClass} podem 
 \subsection{Protocolo de Troca de Mensagens}
 Definida a estrutura do pacote, suas chaves e seus valores associados, pode-se passar para a definição do aspecto dinâmico do protocolo. Esta seção busca definir o sequenciamento de mensagens para efetuar ações específicas na rede de sensores.
 
-\paragraph*{Inicialização.} O processo de inicialização dos sensores está esquematizado na Figura \ref{fig:uml_handshake}. Assim que um dispositivo é conectado à rede, ele emite um pacote do tipo \texttt{whiiscontroller} em broadcast, com o objetivo de descobrir o endereço do controlador, caso exista. Em seguida, o controlador responde com uma mensagem do tipo \texttt{iamcontroller} ao dispositivo solicitante, permitindo que ele identifique o endereço do coordenador. Além disso, nesta mensagem, o controlador define o identificador do dispositivo.
+\paragraph*{Inicialização.} O processo de inicialização dos sensores está esquematizado na Figura \ref{fig:uml_handshake}. Assim que um dispositivo é conectado à rede, ele emite um pacote do tipo \texttt{whiiscontroller} em \textit{broadcast}, com o objetivo de descobrir o endereço do controlador, caso exista. Em seguida, o controlador responde com uma mensagem do tipo \texttt{iamcontroller} ao dispositivo solicitante, permitindo que ele identifique o endereço do coordenador. Além disso, nesta mensagem, o controlador define o identificador do dispositivo.
 
-Em seguida, o controlador solicita uma descrição do dispositivo com um pacote do tipo \texttt{describeyourself}, à qual o dispositivo responde com uma mensagem \texttt{description}. Ela contém informações como a classe do nó, tipos de dados gerados (caso seja sensor) e tipos de comandos aceitos (caso seja atuador).
+Em seguida, o controlador solicita uma descrição do dispositivo com um pacote do tipo \texttt{describeyourself}, ao qual o dispositivo responde com uma mensagem \texttt{description}. Ela contém informações como a classe do nó, tipos de dados gerados (caso seja sensor) e tipos de comandos aceitos (caso seja atuador).
 
 O controlador também pode definir um intervalo máximo em que o dispositivo deve enviar mensagens de \textit{heartbeat} através do pacote \texttt{lifetime}. O dispositivo, neste caso, envia pacotes \textit{heartbeat} periodicamente, sinalizando os pacotes como sendo do tipo \texttt{keepalive}.
 
@@ -427,7 +427,7 @@ De modo similar, as Tabelas \ref{tab:cod_valores_packagetype}, \ref{tab:cod_valo
 \end{table}
 
 \clearpage
-A Figura \ref{fig:tamanho_pacote} mostra os resultados da aplicação das técnicas de compressão de tamanho aos pacotes enviados. No gráfico, são comparados os tamanhos de cada tipo de pacote em três codificações: JSON original (todos os campos são \textit{strings} legíveis, JSON com campos e valores mapeados conforme documentado nesta seção, e JSON mapeado seguido da aplicação da codificação CBOR.
+A Figura \ref{fig:tamanho_pacote} mostra os resultados da aplicação das técnicas de compressão de tamanho aos pacotes enviados. No gráfico, são comparados os tamanhos de cada tipo de pacote em três codificações: JSON original (todos os campos são \textit{strings} legíveis), JSON com campos e valores mapeados conforme documentado nesta seção, e JSON mapeado seguido da aplicação da codificação CBOR.
 
 \begin{figure}[h]
 	\centering

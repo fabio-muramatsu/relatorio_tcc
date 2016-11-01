@@ -1542,7 +1542,7 @@ Para mais informacoes, leia o manual da classe.\MessageBreak%
         \otherheadtrue\pretextualchapter{\listabbrvname}
         \begin{list}{\textbf{??}}{
                 \settowidth{\labelwidth}{#1}
-                \setlength{\labelsep}{1em}
+                \setlength{\labelsep}{4em}
                 \setlength{\itemindent}{0mm}
                 \setlength{\leftmargin}{\labelwidth}
                 \addtolength{\leftmargin}{\labelsep}
