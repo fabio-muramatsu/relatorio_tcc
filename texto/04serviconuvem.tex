@@ -32,23 +32,38 @@ A seguir, será detalhado o conteúdo de cada mensagem listada na Tabela \ref{tab:
 
 \paragraph*{\texttt{New Data}.} A Listagem \ref{lst:newData} ilustra o formato da mensagem. O campo \texttt{function} contém o nome da mensagem, a ser utilizado pelo servidor para efetuar o tratamento adequado. O campo \texttt{data} contém uma lista de objetos, cada qual representando uma leitura de um sensor.
 
+\noindent
+\begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newData, caption=Formato da mensagem \texttt{newData}.]{codigos/newData.json}
+\end{minipage}
 
 \paragraph*{\texttt{New Command}.} A Listagem \ref{lst:newCommand} ilustra o formato da mensagem. O campo \texttt{command} contém uma lista de objetos, cada qual representando uma estado de um atuador.
 
+\noindent
+\begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newCommand, caption=Formato da mensagem \texttt{newCommand}.]{codigos/newCommand.json}
+\end{minipage}
 
 \paragraph*{\texttt{Get House State}.} A Listagem \ref{lst:getHouseState} ilustra o formato da mensagem.
 
+\noindent
+\begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:getHouseState, caption=Formato da mensagem \texttt{getHouseState}.]{codigos/getHouseState.json}
+\end{minipage}
 
 \paragraph*{\texttt{New Action}.} A Listagem \ref{lst:newAction} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa uma ação a ser tomada. Lembre-se de que uma ação é definida pelo estado de um comando de um atuador, que o usuário supostamente deseja alterar.
 
+\noindent
+\begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newAction, caption=Formato da mensagem \texttt{newAction}.]{codigos/newAction.json}
+\end{minipage}
 
 \paragraph*{\texttt{Notify New Action}.} A Listagem \ref{lst:notifyNewAction} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa uma ação a ser tomada. Note que as mensagens originadas do servidor e destinadas ao aplicativo ou ao controlador possuem um campo \texttt{notification} que lista o nome da mensagem, em contraste com as mensagens destinadas ao servidor.
 
+\noindent
+\begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:notifyNewAction, caption=Formato da mensagem \texttt{notifyNewAction}.]{codigos/notifyNewAction.json}
+\end{minipage}
 
 \paragraph*{\texttt{Send Action Result}.} A Listagem \ref{lst:sendActionResult} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa a ação que o usuário solicitou. O campo \texttt{result} contém um valor booleano que indica se a ação solicitada foi efetuada com sucesso.
 
@@ -59,7 +74,10 @@ A seguir, será detalhado o conteúdo de cada mensagem listada na Tabela \ref{tab:
 
 \paragraph*{\texttt{Notify Action Result}.} A Listagem \ref{lst:notifyActionResult} ilustra o formato da mensagem. O campo \texttt{action} contém um objeto que representa a ação que o usuário solicitou. O campo \texttt{result} contém um valor booleano que indica se a ação solicitada foi efetuada com sucesso.
 
+\noindent
+\begin{minipage}{\linewidth}
 \lstinputlisting[label=lst:notifyActionResult, caption=Formato da mensagem \texttt{notifyActionResult}.]{codigos/notifyActionResult.json}
+\end{minipage}
 
 \subsubsection{Mensagens de Regra}
 As mensagens de regra estão listadas e descritas na Tabela \ref{tab:mensagens_regra}.
@@ -71,7 +89,7 @@ As mensagens de regra estão listadas e descritas na Tabela \ref{tab:mensagens_re
 	\includegraphics[width=\textwidth]{tabelas/mensagens_regra.pdf}
 \end{table}
 
-\paragraph*{\texttt{New Rules}.} A Listagem \ref{lst:newRules} ilustra o formato da mensagem. Uma mensagem deste tipo pode definir diversas regras, declaradas no campo \texttt{rules}. Cada regra especifica o nó-alvo(\texttt{nodeId}), o controlador associado (\texttt{controllerId}), o comando interno do nó (\texttt{commandId}) e o valor que este comando deve assumir (\texttt{value}) caso a condição representada pela cláusula (\texttt{clause}) se mostre verdadeira. Uma cláusula consiste em uma expressão booleana representada em CNF, codificada, na listagem, como uma lista de listas de proposições.
+\paragraph*{\texttt{New Rules}.} A Listagem \ref{lst:newRules} ilustra o formato da mensagem. Uma mensagem deste tipo pode definir diversas regras, declaradas no campo \texttt{rules}. Cada regra especifica o nó-alvo(\texttt{nodeId}), o controlador associado (\texttt{controllerId}), o comando interno do nó (\texttt{commandId}) e o valor que este comando deve assumir (\texttt{value}) caso a condição representada pela cláusula (\texttt{clause}) se mostre verdadeira. Uma cláusula consiste em uma expressão booleana representada em DNF, codificada, na listagem, como uma lista de listas de proposições.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
@@ -196,10 +214,10 @@ As mensagens de gerenciamento de nós estão listadas e descritas na Tabela \ref{t
 \subsubsection{Mensagens de Autenticação}
 O módulo de autenticação do sistema define uma série de mensagens para efetuar tarefas tais como identificação dos agentes do sistema, autorização de acesso e manutenção do banco de dados de agentes. Antes de apresentar as mensagens, cabe definir a terminologia utilizada neste tópico.
 \begin{itemize}
-	\item \textbf{Agente}: Qualquer entidade externa ao servidor que necessita de credenciais para se autenticar com ele. Podem ser um controlador local, um administrador ou um usuário;
+	\item \textbf{Agente}: Qualquer entidade externa ao servidor que necessita de credenciais para se autenticar com ele. Pode ser um controlador local, um administrador ou um usuário;
 	\item \textbf{Casa}: Neste documento, uma casa é essencialmente um agrupamento de agentes. Tipicamente, uma casa possui um ou mais controladores associados, um  administrador e diversos usuários.
 	\item \textbf{Administrador}: Um agente que possui privilégios elevados para gerenciar uma casa, podendo associar controladores, adicionar usuários e aceitar ou remover nós da rede local. Cada casa possui um único administrador, e cada administrador é associado a apenas uma casa.
-	\item \textbf{Usuário}: O administrador pode adicionar agentes com privilégios reduzidos em uma casa, denominados usuários. Os usuários podem acessar o estado da casa, definir regras e enviar comandos. Cada casa pode ter múltiplos usuários, e cada usuário pode estar associado a somente uma casa.
+	\item \textbf{Usuário}: O administrador pode adicionar a uma casa agentes com privilégios reduzidos, denominados usuários. Os usuários podem acessar o estado da casa, definir regras e enviar comandos. Cada casa pode ter múltiplos usuários, e cada usuário pode estar associado a somente uma casa.
 \end{itemize}
 
 As mensagens de autenticação estão listadas e descritas na Tabela \ref{tab:mensagens_auth}.
@@ -319,7 +337,7 @@ Conforme apresentado nas Tabelas \ref{tab:mensagens_estado}, \ref{tab:mensagens_
 \clearpage
 
 \subsection{Protocolo de Troca de Mensagens}
-Uma vez definidas as mensagens a serem trocadas, pode-se abordar a sequência esperada de troca de mensagens para os cenários de uso do protocolo. A maioria das mensagens definidas possuem uma dinâmica de troca de mensagens simples:
+Uma vez definidas as mensagens a serem trocadas, pode-se abordar a sequência esperada de troca de mensagens para os cenários de uso do protocolo. A maioria das mensagens definidas possui uma dinâmica de troca de mensagens simples:
 
 \begin{itemize}
 	\item Mensagens destinadas ao controlador ou ao servidor não esperam resposta, como mencionado no início da seção \ref{subsec:hc_sintaxe}, devido ao protocolo utilizado. As trocas de mensagens se assemelham ao mostrado no diagrama à esquerda da Figura \ref{fig:mensagens_simples}.
@@ -390,7 +408,7 @@ A adoção deste protocolo nas comunicações do servidor ao controlador foi feita p
 
 O protocolo WebSocket satisfaz aos dois requisitos mencionados. Em primeiro lugar, ele permite o estabelecimento de um canal \textit{full-duplex} entre as partes envolvidas sobre um canal TCP. Em segundo, ele é um padrão IETF definido com base no protocolo HTTP, possuindo diversas bibliotecas nas plataformas utilizadas.
 
-Por fim, note que a comunicação entre o servidor e o aplicativo envolve um servidor externo ao sistema, de um serviço chamado Firebase. O Firebase expõe uma API REST, permitindo que mensagens sejam enviadas a dispositivos móveis mediante a especificação de um token único para cada dispositivo. Efetivamente, a comunicação do servidor de aplicação com o aplicativo móvel é unidirecional através desse canal, justificando o porquê de não se esperarem respostas nas mensagens destinadas ao aplicativo.
+Por fim, note que a comunicação entre o servidor e o aplicativo envolve um servidor externo ao sistema, de um serviço chamado Firebase. O Firebase expõe uma API REST, permitindo que mensagens sejam enviadas a dispositivos móveis mediante a especificação de um \textit{token} único para cada dispositivo. Efetivamente, a comunicação do servidor de aplicação com o aplicativo móvel é unidirecional através desse canal, justificando o porquê de não se esperarem respostas nas mensagens destinadas ao aplicativo.
 
 \subsection{Implementação do Servidor}
 A implementação do servidor de aplicação foi feita de forma modular, conforme esquematiza a Figura \ref{fig:componentes_servidor}. O intuito de efetuar tal abordagem foi de desvincular a implementação da lógica do protocolo da implementação da aplicação em si, permitindo, por exemplo, que o protocolo seja implementado em outras soluções na mesma plataforma.
@@ -727,6 +745,6 @@ Note que, por definição, os centroides podem não ser coincidentes com um ponto d
 
 Assim, foi proposto um algoritmo que utiliza o conceito de medoide como pontos representativos de um cluster. De modo intuitivo, o medoide $m$ de um \textit{dataset} é um ponto "central" pertencente ao \textit{dataset} original. Formalmente, se $P$ é o conjunto de pontos do \textit{dataset}, $m$ é escolhido de tal forma a minimizar $\sum_{p \in P}{dist(m,p)}$, para todo $m \in P$.
 
-A utilização de medoides como pontos representativos torna o algoritmo mais resistente a \textit{outliers}, mas a computação do medoide a cada iteração é relativamente complexa. O algoritmo PAM (\textit{Partitioning Around Medoids}), uma implementação dessa técnica de clusterização utilizando medoides, possui complexidade $O\left(n(n-k)^2\right)$ por iteração, prejudicando sua aplicação em larga escala \cite{han2005}.
+A utilização de medoides como pontos representativos torna o algoritmo mais resistente a \textit{outliers}, mas a computação do medoide a cada iteração é relativamente complexa. O algoritmo PAM (\textit{Partitioning Around Medoids}), uma implementação dessa técnica de clusterização utilizando medoides, possui complexidade $O\left(n(n-k)^2\right)$ por iteração (onde $n$ é o número de pontos e $k$ é o número de medoides), prejudicando sua aplicação em larga escala \cite{han2005}.
 
 O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um método de amostragem é aplicado, e os medoides são calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execução do algoritmo, tornando-o adequado para aplicação sobre conjuntos de dados grandes. Por esta razão, bem como pelo fato de existirem implementações disponíveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponível em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterização da classe majoritária.
