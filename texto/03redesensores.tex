@@ -499,14 +499,14 @@ Uma implementação das bibliotecas para desenvolvimento de dispositivos seguindo 
 \section{Limitações e Não-escopos}
 O projeto do protocolo de comunicação foi feito com o objetivo de prover um meio de troca de informações entre dispositivos e controladores de uma rede de sensores. Entretanto, dado o contexto de um projeto de conclusão de curso, alguns aspectos não foram enfatizados no presente momento, a despeito de sua importância em aplicações reais. O grupo adotou algumas hipóteses simplificadoras, listadas nas seções a seguir.
 
-\subsection{Conectividade}
+\subsection{Conectividade} \label{subsec:limit_conectividade}
 As seguintes hipóteses foram feitas no quesito de conectividade dos dispositivos:
 \begin{itemize}
 	\item Nós se encontram conectados à rede. No projeto do protocolo e na implementação das bibliotecas, não se tratou o processo de conexão dos dispositivos à rede em que o controlador opera. Ou seja, foi considerado que o usuário é capaz de conectar os dispositivos à rede desejada. Existem tecnologias que permitem efetuar conexão de um dispositivo à rede sem necessidade de interface gráfica ou inserção de senhas, tal como o Wi-Fi Protected Setup (WPS), que podem ser utilizados para este fim;
 	\item Protocolos de comunicação e/ou transporte subjacentes são confiáveis. No projeto do protocolo, não se tratou o reconhecimento de entrega das mensagens, pois supôs-se que os protocolos de rede ou transporte subjacentes ao de aplicação garantem entrega dos pacotes ao destinatário. Essa é uma estimativa razoável, visto que os protocolos de rede para redes de sensores sem fio assumem que as condições de transmissão são adversas, e incluem mecanismos de retransmissão. No entanto, caco se deseje utilizar um protocolo não confiável, como o UDP, seria possível adicionar um mecanismo de envio de ACKs em nível de aplicação para garantir a entrega.
 \end{itemize}
 
-\subsection{Segurança}
+\subsection{Segurança} \label{subsec:limit_seguranca}
 As seguintes hipóteses foram feitas no quesito de segurança do sistema:
 \begin{itemize}
 	\item A infraestrutura de rede é segura. O grupo assumiu que a rede onde os dispositivos atuarão é configurada de forma segura, utilizando algoritmos criptográficos e senhas adequadas. Deste modo, usuários não autorizados ou mal-intencionados não seriam capazes de conectar dispositivos à rede de sensores doméstica. Um modo de tratar o caso em que redes inseguras são utilizadas seria enviar notificações ao usuário a cada nó novo conectado, perguntando se a conexão ao controlador deve ser permitida;

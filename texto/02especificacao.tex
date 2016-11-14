@@ -59,6 +59,22 @@ Os seguintes \textit{stakeholders} foram identificados no projeto:
 	\item API que possibilite o acesso através de aplicações de terceiros, aplicativos móveis ou \textit{websites}.
 \end{itemize}
 
+\section{Não escopos}
+Os itens elicitados a seguir não fazem parte do escopo do sistema e podem ser abordados em trabalhos futuros.
+
+\subsection{Da rede de sensores}
+\begin{itemize}
+	\item Conectividade: o protocolo desenvolvido supõe que os dispositivos já estejam conectados a uma rede comum e confiável. Maiores detalhes presentes na seção \ref{subsec:limit_conectividade};
+	\item Segurança: o protocolo desenvolvido supõe que a infraestrutura de rede subjacente seja segura, e que os nós pertencentes à rede de sensores e atuadores sejam confiáveis. Maiores detalhes presentes na seção \ref{subsec:limit_seguranca}.
+\end{itemize}
+
+\subsection{Do serviço em nuvem}
+\begin{itemize}
+	\item Segurança: a comunicação entre dispositivos é feita de forma aberta neste projeto, como explica a seção \ref{subsec:limit_serv_app};
+	\item Dependência de conexão à internet: a interação do usuário com o sistema por meio do aplicativo depende de conexão à internet, como explica a seção \ref{subsec:limit_serv_app};
+	\item Processo de aprendizagem: neste projeto, o objetivo proposto foi de implementar um processo de aprendizagem para um domínio específico, mostrando a viabilidade de aplicar tais algoritmos para prover automação residencial. Assim sendo, o processo implementado possui diversas limitações, levando-se em conta a aplicação em um sistema real de automação residencial. A seção \ref{subsec:limit_aprendizgem} explica em detalhes tais limitações.
+\end{itemize}
+
 \section{Arquitetura do Sistema} \label{sec:arquitetura}
 Seguindo a descrição apresentada do projeto, o grupo definiu a arquitetura do sistema de automação residencial conforme mostra a Figura \ref{fig:arquitetura}.
 

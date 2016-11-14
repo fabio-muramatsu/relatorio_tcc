@@ -477,6 +477,14 @@ A biblioteca expõe funções para que o Controlador envie e receba mensagens do se
 O código-fonte foi hospedado no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/homecloud-controller}.}. Além disso, a 
 biblioteca foi disponibilizada na npm\footnote{Disponível em \url{https://www.npmjs.com/package/homecloud-controller}.}, que além de um gerenciador de pacotes para o Node.js, é um repositório público de bibliotecas.
 
+\subsection{Limitações e Não-escopos} \label{subsec:limit_serv_app}
+Os seguintes itens foram considerados fora do escopo deste projeto, no que tange à implementação do protocolo Homecloud, do servidor web e do aplicativo móvel:
+
+\begin{itemize}
+	\item Comunicação segura entre dispositivos. A comunicação entre o controlador, o servidor web e o aplicativo móvel deve ser segura, visto que dados confidenciais são trafegados entre as partes. No entanto, a adoção de protocolos subjacentes seguros (como HTTPS/TLS) não foi adotado neste projeto, permanecendo como trabalho futuro;
+	\item Dependência de conexão à Internet. A interação do usuário com o sistema por meio do aplicativo móvel é dependente de conexão à Internet, visto que o aplicativo efetua conexão com o servidor web, somente. A remoção desta dependência poderia ser efetuada implementando-se a comunicação do aplicativo com o controlador local, uma vez que o protocolo Homesky, que rege a comunicação entre os dispositivos da rede local, é independente do estado de conexão à Internet.
+\end{itemize}
+
 
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
 Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
@@ -748,3 +756,12 @@ Assim, foi proposto um algoritmo que utiliza o conceito de medoide como pontos r
 A utilização de medoides como pontos representativos torna o algoritmo mais resistente a \textit{outliers}, mas a computação do medoide a cada iteração é relativamente complexa. O algoritmo PAM (\textit{Partitioning Around Medoids}), uma implementação dessa técnica de clusterização utilizando medoides, possui complexidade $O\left(n(n-k)^2\right)$ por iteração (onde $n$ é o número de pontos e $k$ é o número de medoides), prejudicando sua aplicação em larga escala \cite{han2005}.
 
 O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um método de amostragem é aplicado, e os medoides são calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execução do algoritmo, tornando-o adequado para aplicação sobre conjuntos de dados grandes. Por esta razão, bem como pelo fato de existirem implementações disponíveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponível em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterização da classe majoritária.
+
+\subsection{Limitações e não-escopos} \label{subsec:limit_aprendizgem}
+Os seguintes itens são considerados limitações do algoritmo de aprendizagem proposto:
+
+\begin{itemize}
+	\item Domínio de aplicação restrito a controle de iluminação. A aplicação do algoritmo de aprendizagem exige um processo de preprocessamento de dados específico ao domínio de aplicação. Isso impede que o processo aplicado neste trabalho seja generalizado sem adaptações para geração de regras de atuação em uma rede de sensores doméstica;
+	\item Previsão de valores de atuação discretos. Segundo \cite{han2005}, o algoritmo de aprendizagem utilizado (árvore de decisão) é considerado de classificação. Assim sendo, ele é projetado para prever valores de variáveis de natureza discreta e sem noção de ordem. Note que o domínio adotado neste trabalho envolve uma variável-alvo com essas características (lâmpada apagada ou acesa). Entretanto, a previsão de variáveis numéricas (por exemplo, a temperatura de um ar condicionado) exigiria adaptações na abordagem de aprendizagem, provavelmente adotando-se um algoritmo de regressão;
+	\item Escalabilidade. O algoritmo de árvore de decisão adotado faz uso de todos os dados coletados a cada treinamento, em um processo denominado de \textit{batch learning}. Isso significa que uma quantidade considerável de dados deve ser armazenada para cada residência, o que afeta a escalabilidade deste processo. Uma abordagem possível para contornar este problema seria adotar um algoritmo de indução incremental, que atualize as predições do modelo à medida que novos dados são recebidos. Um exemplo de algoritmo desta natureza está descrito em \cite{utgoff1989}.
+\end{itemize}
