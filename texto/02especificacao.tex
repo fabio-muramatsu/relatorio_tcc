@@ -1,4 +1,4 @@
-\chapter{Especificação}
+\chapter{Especificação e Metodologia}
 
 \section{Divisão do Projeto}
 O projeto pode ser dividido em dois sub-projetos, cada qual lidando com um objetivo listado na seção anterior. O primeiro sub-projeto tem a finalidade de estruturar uma \textbf{rede de sensores} e atuadores utilizando um protocolo aberto, conforme descreve o objetivo i. O segundo sub-projeto busca desenvolver um \textbf{serviço em nuvem} que agregue os dados coletados pela rede de sensores, efetuando, entre outras atividades, o processo de aprendizagem descrito no objetivo ii.
@@ -80,7 +80,7 @@ Seguindo a descrição apresentada do projeto, o grupo definiu a arquitetura do si
 
 \begin{figure}[h]
 	\centering
-	\caption{Arquitetura do sistema de automação.}
+	\caption{Arquitetura do sistema de automação residencial.}
   \includegraphics[width=\textwidth]{imagens/arquitetura.png}
   \label{fig:arquitetura}  
 \end{figure}
@@ -88,3 +88,39 @@ Seguindo a descrição apresentada do projeto, o grupo definiu a arquitetura do si
 A arquitetura contém dispositivos sensores e atuadores, que efetuam a coleta de dados nas residência e atuam nelas. Esses dispositivos se comunicam com um controlador local, que efetua o gerenciamento dos nós locais (a aceitação de nós na rede, por exemplo) e a interface entre os dispositivos locais e a infraestrutura em nuvem. A comunicação entre os dispositivos mencionados é feita por meio do protocolo Rainfall, desenvolvido e especificado neste projeto. O desenvolvimento desses dispositivos e do protocolo mencionado serão o foco do primeiro sub-projeto.
 
 Além disso, constam no diagrama um servidor em nuvem e um serviço de armazenamento e análise de dados. O servidor em nuvem atua como um agregador dos dados coletados pelos diversos controladores locais. Sobre este banco de dados, o serviço de análise (mineração de dados e aprendizagem de máquina) atuará no sentido de derivar padrões de comportamento dos usuários, sugerindo regras de automação residencial. Por fim, aponta-se a existência de um elemento de interface gráfica com a qual o usuário pode interagir com o sistema, representado na arquitetura apresentada como um \textit{smartphone}. O elemento de interface com o usuário se comunica com o servidor em nuvem, e pode eventualmente se comunicar com o controlador local. A comunicação entre o servidor e os demais componentes (controlador local e aplicativo móvel) é feita por meio do protocolo Homecloud, também desenvolvido e especificado neste trabalho. Tais componentes da arquitetura serão foco do segundo sub-projeto.
+
+O diagrama mostrado na Figura \ref{fig:arquitetura_uml} apresenta uma visão em camadas da arquitetura. Para este projeto, adotou-se um modelo em três camadas, quais sejam a de fronteira, de negócios e de dados. 
+
+\begin{figure}[h]
+	\centering
+	\caption{Arquitetura em camadas do sistema de automação residencial.}
+  \includegraphics[width=\textwidth]{imagens/arquitetura_uml.pdf}
+  \label{fig:arquitetura_uml}  
+\end{figure}
+
+A camada de fronteira engloba elementos que interagem com o ambiente ou com os atores do sistema. Os dispositivos da rede local (sensores e atuadores), bem como o aplicativo móvel, compõem esta camada. A camada de negócio contém as funcionalidades ou lógica de negócio, não possuindo interface para os atores nem persistência de dados. Esta camada é composta pelo controlador ou \textit{gateway} local e pelo servidor \textit{web}. Por fim, a camada de dados é responsável pela persistência dos dados utilizados nas demais camadas, e é composta pelo servidor de banco de dados.
+
+O diagrama mostra ainda um aspecto de implementação física do projeto, que é o agrupamento do servidor \textit{web} e do servidor de banco de dados. No presente projeto, estes servidores serão executados em um mesmo equipamento em nuvem.
+
+\section{Metodologia}
+O grupo utilizou princípios da metodologia Scrum para nortear o desenvolvimento do projeto. O Scrum é uma metodologia ágil de desenvolvimento de projetos iterativo e incremental, prevendo a volatilidade de requisitos, pregando a rápida disponibilização de produtos entregáveis ao cliente \cite{schwaber2016}.
+
+Um dos conceitos fundamentais do Scrum são os \textit{sprints}, definido como um período de trabalho de um mês ou menos em que um produto entregável pode ser desenvolvido e disponibilizado. Um projeto consiste de diversos \textit{sprints} executados de forma sucessiva, razão pela qual diversos produtos intermediários (mas utilizáveis) são gerados neste processo.
+
+O grupo utilizou extensivamente este conceito de \textit{sprints} para gerenciar o desenvolvimento do projeto. Para tanto, foi utilizada a plataforma Trello\footnote{Disponível em \url{https://trello.com/}.}, que permite organizar as \textit{sprints} planejadas e os itens de trabalho pendentes, em execução e finalizados (Figura \ref{fig:interface_trello}).
+
+\begin{figure}[h]
+	\centering
+	\caption{Interface da plataforma Trello.}
+  \includegraphics[width=\textwidth]{imagens/interface_trello.png}
+  \label{fig:interface_trello}  
+\end{figure}
+
+Além disso, o grupo adotou diversas práticas recomendadas pelo PMBOK no que tange à gestão de escopo e de tempo do projeto \cite{pmbok}. Em primeiro lugar, foi especificado a Estrutura Analítica do Projeto (EAP - ver Figura \ref{fig:eap}), listando os itens tangíveis e verificáveis produzidos como resultado do projeto. Com base na EAP, foi possível definir as atividades do projeto e definir o cronograma de atividades. Este cronograma foi utilizado para definir as \textit{sprints} a serem seguidas no decorrer do trabalho.
+
+\begin{figure}[h]
+	\centering
+	\caption{Estrutura Analítica do Projeto.}
+  \includegraphics[width=\textwidth]{imagens/eap.png}
+  \label{fig:eap}  
+\end{figure}
