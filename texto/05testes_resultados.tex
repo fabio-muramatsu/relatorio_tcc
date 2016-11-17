@@ -1,0 +1,34 @@
+\chapter{Testes, Resultados e Trabalhos Futuros}\label{chp:testes_resultados}
+Este capítulo visa descrever o procedimento de teste, os resultados e os trabalhos futuros identificados. A seção \ref{sec:testes} detalha as ferramentas de testes utilizadas para testar as partes do projeto individualmente, bem como a integração delas; a seção \ref{sec:resultados} lista os resultados e contribuições obtidos no projeto, e a seção \ref{sec:trabalhos_futuros} elicita os trabalhos futuros que foram deixados em aberto neste trabalho.
+
+\section{Testes} \label{sec:testes}
+O grupo desenvolveu testes unitários de forma intensiva para garantir o correto funcionamento dos módulos do projeto. Para tanto, foram utilizadas algumas ferramentas de automação de testes. No primeiro sub-projeto, o grupo utilizou o Mocha\footnote{Disponível em \url{https://mochajs.org/}}, uma plataforma de execução de testes sobre Node.js (Figura \ref{fig:mocha_teste}). No segundo sub-projeto, duas ferramentas de teste foram utilizadas: o JUnit\footnote{Disponível em \url{http://junit.org/}} e o módulo embutido de testes da linguagem Clojure.
+
+\begin{figure}[h]
+	\centering
+	\caption{Exemplo de teste unitário utilizando a ferramenta Mocha.}
+  \includegraphics[width=0.7\textwidth]{imagens/mocha_teste.png}
+  \label{fig:mocha_teste}  
+\end{figure}
+
+Os testes de integração foram efetuados desenvolvendo-se versões simplificadas, mas funcionalmente equivalentes, do componente a ser integrado. Como mencionado anteriormente, os módulos do projeto (dispositivos e controlador locais, servidor \textit{web} e aplicativo móvel) foram desenvolvidos de forma independente. Assim, para cada um desses componentes, foi desenvolvido um simulador que possibilitasse integrar com outro módulo a ser testado.
+
+Para os dispositivos e controlador da rede local, foram desenvolvidos versões utilizando o protocolo TCP que podem ser executados no próprio computador; para o servidor, foram desenvolvidos bancos de dados de teste que simulassem o estado atual de uma residência, e para o aplicativo, foi implementada uma versão de depuração capaz de enviar e receber os comandos do protocolo Homecloud (Figura \ref{fig:aplicativo_teste}).
+
+\begin{figure}[h]
+	\centering
+	\caption{Aplicativo utilizado nos testes de integração.}
+  \includegraphics[width=0.5\textwidth]{imagens/aplicativo_teste.png}
+  \label{fig:aplicativo_teste}  
+\end{figure}
+
+\section{Resultados e Contribuições} \label{sec:resultados}
+Como resultado do presente trabalho, o grupo conseguiu resolver ou mitigar as limitações das soluções existentes de automação residencial, conforme descrito na seção \ref{chp:intro}, atingindo os objetivos do trabalho. Mais especificamente:
+
+\begin{itemize}
+	\item O grupo desenvolveu o protocolo Rainfall para ser executado em uma rede de sensores e atuadores local. Este protocolo permite o envio de dados e comandos entre os dispositivos, e prevê a definição de regras de automação. A especificação completa do protocolo foi dada neste documento, e uma implementação utilizando a linguagem Node.js está disponível publicamente no repositório Github;
+	\item O grupo desenvolveu o protocolo Homecloud, que norteia a comunicação entre o controlador local, o aplicativo móvel e o servidor \textit{web}. Este protocolo também se encontra especificado neste documento, com implementações em Node.js (para o controlador), Clojure (para o servidor \textit{web}) e Java/Android (para o aplicativo móvel) disponíveis de forma aberta no repositório Github;
+	\item Por fim, foi documentado e implementado um processo possível de coleta, tratamento e análise de dados para fins de derivação automática de regras de automação. Apesar de o domínio de aplicação ser restrito para controle de iluminação, o processo documentado demonstra a viabilidade de se derivar tais regras através da coleta de dados dos usuários e subsequente aplicação de algoritmos de aprendizagem.
+\end{itemize}
+
+\section{Trabalhos Futuros} \label{sec:trabalhos_futuros}
