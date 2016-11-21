@@ -1,113 +1,113 @@
-\chapter{EspecificaÁ„o e Metodologia} \label{chp:espec_metodologia}
+\chapter{Especifica√ß√£o e Metodologia} \label{chp:espec_metodologia}
 
-\section{Divis„o do Projeto}
-O projeto pode ser dividido em dois sub-projetos, cada qual lidando com um objetivo listado na seÁ„o anterior. O primeiro sub-projeto tem a finalidade de estruturar uma \textbf{rede de sensores} e atuadores utilizando um protocolo aberto, conforme descreve o objetivo i. O segundo sub-projeto busca desenvolver um \textbf{serviÁo em nuvem} que agregue os dados coletados pela rede de sensores, efetuando, entre outras atividades, o processo de aprendizagem descrito no objetivo ii.
+\section{Divis√£o do Projeto}
+O projeto pode ser dividido em dois sub-projetos, cada qual lidando com um objetivo listado na se√ß√£o anterior. O primeiro sub-projeto tem a finalidade de estruturar uma \textbf{rede de sensores} e atuadores utilizando um protocolo aberto, conforme descreve o objetivo i. O segundo sub-projeto busca desenvolver um \textbf{servi√ßo em nuvem} que agregue os dados coletados pela rede de sensores, efetuando, entre outras atividades, o processo de aprendizagem descrito no objetivo ii.
 
-O primeiro passo na especificaÁ„o consiste na identificaÁ„o dos \textit{stakeholders}. Em seguida, a especificaÁ„o do projeto ser· feita por meio de requisitos funcionais e n„o-funcionais, que est„o listados em trÍs classes:
+O primeiro passo na especifica√ß√£o consiste na identifica√ß√£o dos \textit{stakeholders}. Em seguida, a especifica√ß√£o do projeto ser√° feita por meio de requisitos funcionais e n√£o-funcionais, que est√£o listados em tr√™s classes:
 \begin{itemize}
-	\item Requisitos de sistema, relativos ‡ integraÁ„o de ambos os sub-projetos;
+	\item Requisitos de sistema, relativos √† integra√ß√£o de ambos os sub-projetos;
 	\item Requisitos da rede de sensores, referente ao sub-projeto dedicado a atingir o objetivo i; 
-	\item Requisitos do serviÁo em nuvem, referente ao sub-projeto dedicado a atingir o objetivo ii.
+	\item Requisitos do servi√ßo em nuvem, referente ao sub-projeto dedicado a atingir o objetivo ii.
 \end{itemize}
 
-\section{DescriÁ„o dos \textit{stakeholders}}
+\section{Descri√ß√£o dos \textit{stakeholders}}
 Os seguintes \textit{stakeholders} foram identificados no projeto:
 \begin{itemize}
-	\item Usu·rio final, cujo interesse seria adquirir e instalar dispositivos em sua residÍncia, de modo a obter automaÁ„o residencial. Um perfil possÌvel para este tipo de stakeholder seria uma pessoa com conhecimento tÈcnico b·sico em computaÁ„o e redes de computadores. Ele deve ser capaz de conectar os dispositivos na rede desejada (por exemplo, na rede Wi-Fi por onde todo o tr·fego deve passar), mas os demais procedimentos de estruturaÁ„o da rede de sensores segundo o protocolo devem ser feitos de forma transparente;
-	\item Desenvolvedor, cujo interesse seria estudar a documentaÁ„o dos protocolos e algoritmos desenvolvidos, e projetar dispositivos compatÌveis. Este stakeholder seria usu·rio das bibliotecas (APIs) resultantes do projeto. Ele espera encontrar documentos explicando o funcionamento dos protocolos e dos algoritmos desenvolvidos, bem como documentaÁıes e exemplos de uso das APIs que deve utilizar. Ainda, estes desenvolvedores consideram como diferencial o fato de a licenÁa de uso das tecnologias disponibilizadas serem abertas e isentas de pagamento.
+	\item Usu√°rio final, cujo interesse seria adquirir e instalar dispositivos em sua resid√™ncia, de modo a obter automa√ß√£o residencial. Um perfil poss√≠vel para este tipo de stakeholder seria uma pessoa com conhecimento t√©cnico b√°sico em computa√ß√£o e redes de computadores. Ele deve ser capaz de conectar os dispositivos na rede desejada (por exemplo, na rede Wi-Fi por onde todo o tr√°fego deve passar), mas os demais procedimentos de estrutura√ß√£o da rede de sensores segundo o protocolo devem ser feitos de forma transparente;
+	\item Desenvolvedor, cujo interesse seria estudar a documenta√ß√£o dos protocolos e algoritmos desenvolvidos, e projetar dispositivos compat√≠veis. Este stakeholder seria usu√°rio das bibliotecas (APIs) resultantes do projeto. Ele espera encontrar documentos explicando o funcionamento dos protocolos e dos algoritmos desenvolvidos, bem como documenta√ß√µes e exemplos de uso das APIs que deve utilizar. Ainda, estes desenvolvedores consideram como diferencial o fato de a licen√ßa de uso das tecnologias disponibilizadas serem abertas e isentas de pagamento.
 \end{itemize}
 
 \section{Requisitos Funcionais} \label{sec:reqfunc}
 \subsection{De sistema}
 \begin{itemize}
-	\item O sistema deve coletar dados do ambiente domiciliar e possibilitar a ativaÁ„o de atuadores automaticamente ou por aÁ„o humana;
-	\item O sistema deve permitir que o usu·rio visualize o estado atual do sistema;
-	\item O sistema deve se adaptar a alteraÁıes de gostos e preferÍncias do usu·rio.
+	\item O sistema deve coletar dados do ambiente domiciliar e possibilitar a ativa√ß√£o de atuadores automaticamente ou por a√ß√£o humana;
+	\item O sistema deve permitir que o usu√°rio visualize o estado atual do sistema;
+	\item O sistema deve se adaptar a altera√ß√µes de gostos e prefer√™ncias do usu√°rio.
 \end{itemize}
 
 \subsection{Da rede de sensores}
 \begin{itemize}
-	\item Toda a comunicaÁ„o deve ser realizada atravÈs de um protocolo ˙nico e formalizado;
-	\item O protocolo de comunicaÁ„o deve permitir a identificaÁ„o dos dispositivos da rede, bem como o envio de dados e de comandos de atuaÁ„o.
+	\item Toda a comunica√ß√£o deve ser realizada atrav√©s de um protocolo √∫nico e formalizado;
+	\item O protocolo de comunica√ß√£o deve permitir a identifica√ß√£o dos dispositivos da rede, bem como o envio de dados e de comandos de atua√ß√£o.
 \end{itemize}
 
-\subsection{Do serviÁo em nuvem}
+\subsection{Do servi√ßo em nuvem}
 \begin{itemize}
-	\item Permitir acesso remoto em qualquer localizaÁ„o para que usu·rio controle seus dispositivos ‡ dist‚ncia;
-	\item Aprender os h·bitos do usu·rio e configurar a rede de sensores automaticamente para realizar os seus gostos.
+	\item Permitir acesso remoto em qualquer localiza√ß√£o para que usu√°rio controle seus dispositivos √† dist√¢ncia;
+	\item Aprender os h√°bitos do usu√°rio e configurar a rede de sensores automaticamente para realizar os seus gostos.
 
 \end{itemize}
 
-\section{Requisitos N„o-Funcionais} \label{sec:reqnfunc}
+\section{Requisitos N√£o-Funcionais} \label{sec:reqnfunc}
 \subsection{De sistema}
 \begin{itemize}
-	\item F·cil instalaÁ„o de sensores e integraÁ„o com a nuvem;
+	\item F√°cil instala√ß√£o de sensores e integra√ß√£o com a nuvem;
 	\item Utilizar linguagens, ambientes e bibliotecas abertas.
 \end{itemize}
 
 \subsection{Da rede de sensores}
 \begin{itemize}
-	\item O protocolo de comunicaÁ„o desenvolvido deve ser aberto, de modo que qualquer fabricante possa criar um dispositivo que compatÌvel com a rede;
-	\item Deve possibilitar o uso de diversas tecnologias de comunicaÁ„o, tais como ZigBee, IEEE 802.15.4, e UDP;
-	\item O protocolo deve gerar pacotes de tamanhos compatÌveis com tecnologias de redes existentes para redes de sensores sem fio;
-	\item A rede deve continuar operante mesmo sem acesso ‡ nuvem.
+	\item O protocolo de comunica√ß√£o desenvolvido deve ser aberto, de modo que qualquer fabricante possa criar um dispositivo que compat√≠vel com a rede;
+	\item Deve possibilitar o uso de diversas tecnologias de comunica√ß√£o, tais como ZigBee, IEEE 802.15.4, e UDP;
+	\item O protocolo deve gerar pacotes de tamanhos compat√≠veis com tecnologias de redes existentes para redes de sensores sem fio;
+	\item A rede deve continuar operante mesmo sem acesso √† nuvem.
 \end{itemize}
 
-\subsection{Do serviÁo em nuvem}
+\subsection{Do servi√ßo em nuvem}
 \begin{itemize}
-	\item Disponibilidade de 99,9\% do tempo (no m·ximo 8h/ano indisponÌvel); 
-	\item API que possibilite o acesso atravÈs de aplicaÁıes de terceiros, aplicativos mÛveis ou \textit{websites}.
+	\item Disponibilidade de 99,9\% do tempo (no m√°ximo 8h/ano indispon√≠vel); 
+	\item API que possibilite o acesso atrav√©s de aplica√ß√µes de terceiros, aplicativos m√≥veis ou \textit{websites}.
 \end{itemize}
 
-\section{N„o escopos}
-Os itens elicitados a seguir n„o fazem parte do escopo do sistema e podem ser abordados em trabalhos futuros.
+\section{N√£o escopos}
+Os itens elicitados a seguir n√£o fazem parte do escopo do sistema e podem ser abordados em trabalhos futuros.
 
 \subsection{Da rede de sensores}
 \begin{itemize}
-	\item Conectividade: o protocolo desenvolvido supıe que os dispositivos j· estejam conectados a uma rede comum e confi·vel. Maiores detalhes presentes na seÁ„o \ref{subsec:limit_conectividade};
-	\item SeguranÁa: o protocolo desenvolvido supıe que a infraestrutura de rede subjacente seja segura, e que os nÛs pertencentes ‡ rede de sensores e atuadores sejam confi·veis. Maiores detalhes presentes na seÁ„o \ref{subsec:limit_seguranca}.
+	\item Conectividade: o protocolo desenvolvido sup√µe que os dispositivos j√° estejam conectados a uma rede comum e confi√°vel. Maiores detalhes presentes na se√ß√£o \ref{subsec:limit_conectividade};
+	\item Seguran√ßa: o protocolo desenvolvido sup√µe que a infraestrutura de rede subjacente seja segura, e que os n√≥s pertencentes √† rede de sensores e atuadores sejam confi√°veis. Maiores detalhes presentes na se√ß√£o \ref{subsec:limit_seguranca}.
 \end{itemize}
 
-\subsection{Do serviÁo em nuvem}
+\subsection{Do servi√ßo em nuvem}
 \begin{itemize}
-	\item SeguranÁa: a comunicaÁ„o entre dispositivos È feita de forma aberta neste projeto, como explica a seÁ„o \ref{subsec:limit_serv_app};
-	\item DependÍncia de conex„o ‡ internet: a interaÁ„o do usu·rio com o sistema por meio do aplicativo depende de conex„o ‡ internet, como explica a seÁ„o \ref{subsec:limit_serv_app};
-	\item Processo de aprendizagem: neste projeto, o objetivo proposto foi de implementar um processo de aprendizagem para um domÌnio especÌfico, mostrando a viabilidade de aplicar tais algoritmos para prover automaÁ„o residencial. Assim sendo, o processo implementado possui diversas limitaÁıes, levando-se em conta a aplicaÁ„o em um sistema real de automaÁ„o residencial. A seÁ„o \ref{subsec:limit_aprendizgem} explica em detalhes tais limitaÁıes.
+	\item Seguran√ßa: a comunica√ß√£o entre dispositivos √© feita de forma aberta neste projeto, como explica a se√ß√£o \ref{subsec:limit_serv_app};
+	\item Depend√™ncia de conex√£o √† internet: a intera√ß√£o do usu√°rio com o sistema por meio do aplicativo depende de conex√£o √† internet, como explica a se√ß√£o \ref{subsec:limit_serv_app};
+	\item Processo de aprendizagem: neste projeto, o objetivo proposto foi de implementar um processo de aprendizagem para um dom√≠nio espec√≠fico, mostrando a viabilidade de aplicar tais algoritmos para prover automa√ß√£o residencial. Assim sendo, o processo implementado possui diversas limita√ß√µes, levando-se em conta a aplica√ß√£o em um sistema real de automa√ß√£o residencial. A se√ß√£o \ref{subsec:limit_aprendizgem} explica em detalhes tais limita√ß√µes.
 \end{itemize}
 
 \section{Arquitetura do Sistema} \label{sec:arquitetura}
-Seguindo a descriÁ„o apresentada do projeto, o grupo definiu a arquitetura do sistema de automaÁ„o residencial conforme mostra a Figura \ref{fig:arquitetura}.
+Seguindo a descri√ß√£o apresentada do projeto, o grupo definiu a arquitetura do sistema de automa√ß√£o residencial conforme mostra a Figura \ref{fig:arquitetura}.
 
 \begin{figure}[h]
 	\centering
-	\caption{Arquitetura do sistema de automaÁ„o residencial.}
+	\caption{Arquitetura do sistema de automa√ß√£o residencial.}
   \includegraphics[width=\textwidth]{imagens/arquitetura.png}
   \label{fig:arquitetura}  
 \end{figure}
 
-A arquitetura contÈm dispositivos sensores e atuadores, que efetuam a coleta de dados nas residÍncia e atuam nelas. Esses dispositivos se comunicam com um controlador local, que efetua o gerenciamento dos nÛs locais (a aceitaÁ„o de nÛs na rede, por exemplo) e a interface entre os dispositivos locais e a infraestrutura em nuvem. A comunicaÁ„o entre os dispositivos mencionados È feita por meio do protocolo Rainfall, desenvolvido e especificado neste projeto. O desenvolvimento desses dispositivos e do protocolo mencionado ser„o o foco do primeiro sub-projeto.
+A arquitetura cont√©m dispositivos sensores e atuadores, que efetuam a coleta de dados nas resid√™ncia e atuam nelas. Esses dispositivos se comunicam com um controlador local, que efetua o gerenciamento dos n√≥s locais (a aceita√ß√£o de n√≥s na rede, por exemplo) e a interface entre os dispositivos locais e a infraestrutura em nuvem. A comunica√ß√£o entre os dispositivos mencionados √© feita por meio do protocolo Rainfall, desenvolvido e especificado neste projeto. O desenvolvimento desses dispositivos e do protocolo mencionado ser√£o o foco do primeiro sub-projeto.
 
-AlÈm disso, constam no diagrama um servidor em nuvem e um serviÁo de armazenamento e an·lise de dados. O servidor em nuvem atua como um agregador dos dados coletados pelos diversos controladores locais. Sobre este banco de dados, o serviÁo de an·lise (mineraÁ„o de dados e aprendizagem de m·quina) atuar· no sentido de derivar padrıes de comportamento dos usu·rios, sugerindo regras de automaÁ„o residencial. Por fim, aponta-se a existÍncia de um elemento de interface gr·fica com a qual o usu·rio pode interagir com o sistema, representado na arquitetura apresentada como um \textit{smartphone}. O elemento de interface com o usu·rio se comunica com o servidor em nuvem, e pode eventualmente se comunicar com o controlador local. A comunicaÁ„o entre o servidor e os demais componentes (controlador local e aplicativo mÛvel) È feita por meio do protocolo Homecloud, tambÈm desenvolvido e especificado neste trabalho. Tais componentes da arquitetura ser„o foco do segundo sub-projeto.
+Al√©m disso, constam no diagrama um servidor em nuvem e um servi√ßo de armazenamento e an√°lise de dados. O servidor em nuvem atua como um agregador dos dados coletados pelos diversos controladores locais. Sobre este banco de dados, o servi√ßo de an√°lise (minera√ß√£o de dados e aprendizagem de m√°quina) atuar√° no sentido de derivar padr√µes de comportamento dos usu√°rios, sugerindo regras de automa√ß√£o residencial. Por fim, aponta-se a exist√™ncia de um elemento de interface gr√°fica com a qual o usu√°rio pode interagir com o sistema, representado na arquitetura apresentada como um \textit{smartphone}. O elemento de interface com o usu√°rio se comunica com o servidor em nuvem, e pode eventualmente se comunicar com o controlador local. A comunica√ß√£o entre o servidor e os demais componentes (controlador local e aplicativo m√≥vel) √© feita por meio do protocolo Homecloud, tamb√©m desenvolvido e especificado neste trabalho. Tais componentes da arquitetura ser√£o foco do segundo sub-projeto.
 
-O diagrama mostrado na Figura \ref{fig:arquitetura_uml} apresenta uma vis„o em camadas da arquitetura. Para este projeto, adotou-se um modelo em trÍs camadas, quais sejam a de fronteira, de negÛcios e de dados. 
+O diagrama mostrado na Figura \ref{fig:arquitetura_uml} apresenta uma vis√£o em camadas da arquitetura. Para este projeto, adotou-se um modelo em tr√™s camadas, quais sejam a de fronteira, de neg√≥cios e de dados. 
 
 \begin{figure}[h]
 	\centering
-	\caption{Arquitetura em camadas do sistema de automaÁ„o residencial.}
+	\caption{Arquitetura em camadas do sistema de automa√ß√£o residencial.}
   \includegraphics[width=\textwidth]{imagens/arquitetura_uml.pdf}
   \label{fig:arquitetura_uml}  
 \end{figure}
 
-A camada de fronteira engloba elementos que interagem com o ambiente ou com os atores do sistema. Os dispositivos da rede local (sensores e atuadores), bem como o aplicativo mÛvel, compıem esta camada. A camada de negÛcio contÈm as funcionalidades ou lÛgica de negÛcio, n„o possuindo interface para os atores nem persistÍncia de dados. Esta camada È composta pelo controlador ou \textit{gateway} local e pelo servidor \textit{web}. Por fim, a camada de dados È respons·vel pela persistÍncia dos dados utilizados nas demais camadas, e È composta pelo servidor de banco de dados.
+A camada de fronteira engloba elementos que interagem com o ambiente ou com os atores do sistema. Os dispositivos da rede local (sensores e atuadores), bem como o aplicativo m√≥vel, comp√µem esta camada. A camada de neg√≥cio cont√©m as funcionalidades ou l√≥gica de neg√≥cio, n√£o possuindo interface para os atores nem persist√™ncia de dados. Esta camada √© composta pelo controlador ou \textit{gateway} local e pelo servidor \textit{web}. Por fim, a camada de dados √© respons√°vel pela persist√™ncia dos dados utilizados nas demais camadas, e √© composta pelo servidor de banco de dados.
 
-O diagrama mostra ainda um aspecto de implementaÁ„o fÌsica do projeto, que È o agrupamento do servidor \textit{web} e do servidor de banco de dados. No presente projeto, estes servidores ser„o executados em um mesmo equipamento em nuvem.
+O diagrama mostra ainda um aspecto de implementa√ß√£o f√≠sica do projeto, que √© o agrupamento do servidor \textit{web} e do servidor de banco de dados. No presente projeto, estes servidores ser√£o executados em um mesmo equipamento em nuvem.
 
 \section{Metodologia} \label{sec:metodologia}
-O grupo utilizou princÌpios da metodologia Scrum para nortear o desenvolvimento do projeto. O Scrum È uma metodologia ·gil de desenvolvimento de projetos iterativo e incremental, prevendo a volatilidade de requisitos, pregando a r·pida disponibilizaÁ„o de produtos entreg·veis ao cliente \cite{schwaber2016}.
+O grupo utilizou princ√≠pios da metodologia Scrum para nortear o desenvolvimento do projeto. O Scrum √© uma metodologia √°gil de desenvolvimento de projetos iterativo e incremental, prevendo a volatilidade de requisitos, pregando a r√°pida disponibiliza√ß√£o de produtos entreg√°veis ao cliente \cite{schwaber2016}.
 
-Um dos conceitos fundamentais do Scrum s„o os \textit{sprints}, definido como um perÌodo de trabalho de um mÍs ou menos em que um produto entreg·vel pode ser desenvolvido e disponibilizado. Um projeto consiste de diversos \textit{sprints} executados de forma sucessiva, raz„o pela qual diversos produtos intermedi·rios (mas utiliz·veis) s„o gerados neste processo.
+Um dos conceitos fundamentais do Scrum s√£o os \textit{sprints}, definido como um per√≠odo de trabalho de um m√™s ou menos em que um produto entreg√°vel pode ser desenvolvido e disponibilizado. Um projeto consiste de diversos \textit{sprints} executados de forma sucessiva, raz√£o pela qual diversos produtos intermedi√°rios (mas utiliz√°veis) s√£o gerados neste processo.
 
-O grupo utilizou extensivamente este conceito de \textit{sprints} para gerenciar o desenvolvimento do projeto. Para tanto, foi utilizada a plataforma Trello\footnote{DisponÌvel em \url{https://trello.com/}.}, que permite organizar as \textit{sprints} planejadas e os itens de trabalho pendentes, em execuÁ„o e finalizados (Figura \ref{fig:interface_trello}).
+O grupo utilizou extensivamente este conceito de \textit{sprints} para gerenciar o desenvolvimento do projeto. Para tanto, foi utilizada a plataforma Trello\footnote{Dispon√≠vel em \url{https://trello.com/}.}, que permite organizar as \textit{sprints} planejadas e os itens de trabalho pendentes, em execu√ß√£o e finalizados (Figura \ref{fig:interface_trello}).
 
 \begin{figure}[h]
 	\centering
@@ -116,11 +116,11 @@ O grupo utilizou extensivamente este conceito de \textit{sprints} para gerenciar
   \label{fig:interface_trello}  
 \end{figure}
 
-AlÈm disso, o grupo adotou diversas pr·ticas recomendadas pelo PMBOK no que tange ‡ gest„o de escopo e de tempo do projeto \cite{pmbok}. Em primeiro lugar, foi especificado a Estrutura AnalÌtica do Projeto (EAP - ver Figura \ref{fig:eap}), listando os itens tangÌveis e verific·veis produzidos como resultado do projeto. Com base na EAP, foi possÌvel definir as atividades do projeto e definir o cronograma de atividades. Este cronograma foi utilizado para definir as \textit{sprints} a serem seguidas no decorrer do trabalho.
+Al√©m disso, o grupo adotou diversas pr√°ticas recomendadas pelo PMBOK no que tange √† gest√£o de escopo e de tempo do projeto \cite{pmbok}. Em primeiro lugar, foi especificado a Estrutura Anal√≠tica do Projeto (EAP - ver Figura \ref{fig:eap}), listando os itens tang√≠veis e verific√°veis produzidos como resultado do projeto. Com base na EAP, foi poss√≠vel definir as atividades do projeto e definir o cronograma de atividades. Este cronograma foi utilizado para definir as \textit{sprints} a serem seguidas no decorrer do trabalho.
 
 \begin{figure}[h]
 	\centering
-	\caption{Estrutura AnalÌtica do Projeto.}
+	\caption{Estrutura Anal√≠tica do Projeto.}
   \includegraphics[width=\textwidth]{imagens/eap.png}
   \label{fig:eap}  
 \end{figure}

@@ -1,43 +1,43 @@
-\chapter{Projeto do ServiÁo em Nuvem}\label{chp:serviconuvem}
-Este capÌtulo possui a finalidade de projetar e implementar um serviÁo em nuvem acessÌvel aos controladores locais da rede de sensores, de modo a alcanÁar o objetivo (ii) do trabalho. Os tÛpicos abordados neste capÌtulo englobam o protocolo de troca de dados envolvendo o servidor em nuvem (batizado de Homecloud), a interface de controle do usu·rio e a especificaÁ„o de um algoritmo de aprendizagem especÌfico para o domÌnio de controle de iluminaÁ„o.
+\chapter{Projeto do Servi√ßo em Nuvem}\label{chp:serviconuvem}
+Este cap√≠tulo possui a finalidade de projetar e implementar um servi√ßo em nuvem acess√≠vel aos controladores locais da rede de sensores, de modo a alcan√ßar o objetivo (ii) do trabalho. Os t√≥picos abordados neste cap√≠tulo englobam o protocolo de troca de dados envolvendo o servidor em nuvem (batizado de Homecloud), a interface de controle do usu√°rio e a especifica√ß√£o de um algoritmo de aprendizagem espec√≠fico para o dom√≠nio de controle de ilumina√ß√£o.
 
 \section{O Protocolo Homecloud} \label{sec:homecloud}
-Conforme mencionado na seÁ„o \ref{sec:arquitetura}, o servidor em nuvem se comunica tanto com o controlador local quanto com o dispositivo de interface do usu·rio. O protocolo Homecloud, definido pelo grupo, define o formato das mensagens a serem trocados pelos dispositivos, e em quais circunst‚ncias. As prÛximas seÁıes especificar„o em detalhes o funcionamento deste protocolo.
+Conforme mencionado na se√ß√£o \ref{sec:arquitetura}, o servidor em nuvem se comunica tanto com o controlador local quanto com o dispositivo de interface do usu√°rio. O protocolo Homecloud, definido pelo grupo, define o formato das mensagens a serem trocados pelos dispositivos, e em quais circunst√¢ncias. As pr√≥ximas se√ß√µes especificar√£o em detalhes o funcionamento deste protocolo.
 
-\subsection{Sintaxe e Sem‚ntica} \label{subsec:hc_sintaxe}
-Para melhor organizar as mensagens do protocolo, elas ser„o agrupadas no decorrer deste relatÛrio em quatro classes de acordo com a sua funÁ„o, a saber:
+\subsection{Sintaxe e Sem√¢ntica} \label{subsec:hc_sintaxe}
+Para melhor organizar as mensagens do protocolo, elas ser√£o agrupadas no decorrer deste relat√≥rio em quatro classes de acordo com a sua fun√ß√£o, a saber:
 
 \begin{itemize}
-	\item Mensagens de Estado: Transmitem informaÁıes relativas ao estado da casa, incluindo dados lidos de sensores, estados de atuadores e aÁıes tomadas pelo usu·rio;
-	\item Mensagens de Regras: Referem-se ‡ definiÁ„o de regras de automaÁ„o pelo usu·rio ou pelo sistema de aprendizagem de m·quina;
-	\item Mensagens de Gerenciamento dos NÛs: Transmitem informaÁıes e comandos relativos aos nÛs (sensores e atuadores) da rede local;
-	\item Mensagens de AutenticaÁ„o: Respons·veis por carregar dados de autenticaÁ„o dos agentes do sistema.
+	\item Mensagens de Estado: Transmitem informa√ß√µes relativas ao estado da casa, incluindo dados lidos de sensores, estados de atuadores e a√ß√µes tomadas pelo usu√°rio;
+	\item Mensagens de Regras: Referem-se √† defini√ß√£o de regras de automa√ß√£o pelo usu√°rio ou pelo sistema de aprendizagem de m√°quina;
+	\item Mensagens de Gerenciamento dos N√≥s: Transmitem informa√ß√µes e comandos relativos aos n√≥s (sensores e atuadores) da rede local;
+	\item Mensagens de Autentica√ß√£o: Respons√°veis por carregar dados de autentica√ß√£o dos agentes do sistema.
 \end{itemize}
 
-As mensagens s„o enviadas ao servidor atravÈs de requisiÁıes HTTP. Portanto, cada mensagem possui uma resposta de um determinado tipo, a depender da natureza das informaÁıes solicitadas.  NotificaÁıes destinadas aos usu·rios ou aos controladores n„o esperam resposta, pois s„o enviadas por meio protocolos que n„o seguem o modelo de requisiÁ„o-resposta. 
+As mensagens s√£o enviadas ao servidor atrav√©s de requisi√ß√µes HTTP. Portanto, cada mensagem possui uma resposta de um determinado tipo, a depender da natureza das informa√ß√µes solicitadas.  Notifica√ß√µes destinadas aos usu√°rios ou aos controladores n√£o esperam resposta, pois s√£o enviadas por meio protocolos que n√£o seguem o modelo de requisi√ß√£o-resposta. 
 
-A seguir ser„o definidas as mensagens, de acordo com a classificaÁ„o apresentada, bem como as respectivas respostas esperadas. 
+A seguir ser√£o definidas as mensagens, de acordo com a classifica√ß√£o apresentada, bem como as respectivas respostas esperadas. 
 
 \subsubsection{Mensagens de Estado}
-As mensagens de estado est„o listadas e descritas na Tabela \ref{tab:mensagens_estado}. Nesta tabela, o sentido de tr·fego das mensagens est„o especificadas. Neste item, o termo "aplicativo" foi utilizado para se referir ao dispositivo utilizado pelo usu·rio para interagir com o sistema, que poderia ser um aplicativo em um \textit{smartphone}.
+As mensagens de estado est√£o listadas e descritas na Tabela \ref{tab:mensagens_estado}. Nesta tabela, o sentido de tr√°fego das mensagens est√£o especificadas. Neste item, o termo "aplicativo" foi utilizado para se referir ao dispositivo utilizado pelo usu√°rio para interagir com o sistema, que poderia ser um aplicativo em um \textit{smartphone}.
 
 \begin{table}[h]
 	\centering
-	\caption{Listagem e descriÁ„o das Mensagens de Estado.}\smallskip
+	\caption{Listagem e descri√ß√£o das Mensagens de Estado.}\smallskip
 	\label{tab:mensagens_estado}
 	\includegraphics[width=\textwidth]{tabelas/mensagens_estado.pdf}
 \end{table}
 
-A seguir, ser· detalhado o conte˙do de cada mensagem listada na Tabela \ref{tab:mensagens_estado}. As mensagens seguem o formato JSON, e os campos com valor vari·vel est„o circundados pelos sÌmbolos \texttt{< >}.
+A seguir, ser√° detalhado o conte√∫do de cada mensagem listada na Tabela \ref{tab:mensagens_estado}. As mensagens seguem o formato JSON, e os campos com valor vari√°vel est√£o circundados pelos s√≠mbolos \texttt{< >}.
 
-\paragraph*{\texttt{New Data}.} A Listagem \ref{lst:newData} ilustra o formato da mensagem. O campo \texttt{function} contÈm o nome da mensagem, a ser utilizado pelo servidor para efetuar o tratamento adequado. O campo \texttt{data} contÈm uma lista de objetos, cada qual representando uma leitura de um sensor.
+\paragraph*{\texttt{New Data}.} A Listagem \ref{lst:newData} ilustra o formato da mensagem. O campo \texttt{function} cont√©m o nome da mensagem, a ser utilizado pelo servidor para efetuar o tratamento adequado. O campo \texttt{data} cont√©m uma lista de objetos, cada qual representando uma leitura de um sensor.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newData, caption=Formato da mensagem \texttt{newData}.]{codigos/newData.json}
 \end{minipage}
 
-\paragraph*{\texttt{New Command}.} A Listagem \ref{lst:newCommand} ilustra o formato da mensagem. O campo \texttt{command} contÈm uma lista de objetos, cada qual representando uma estado de um atuador.
+\paragraph*{\texttt{New Command}.} A Listagem \ref{lst:newCommand} ilustra o formato da mensagem. O campo \texttt{command} cont√©m uma lista de objetos, cada qual representando uma estado de um atuador.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
@@ -51,28 +51,28 @@ A seguir, ser· detalhado o conte˙do de cada mensagem listada na Tabela \ref{tab:
 \lstinputlisting[label=lst:getHouseState, caption=Formato da mensagem \texttt{getHouseState}.]{codigos/getHouseState.json}
 \end{minipage}
 
-\paragraph*{\texttt{New Action}.} A Listagem \ref{lst:newAction} ilustra o formato da mensagem. O campo \texttt{action} contÈm um objeto que representa uma aÁ„o a ser tomada. Lembre-se de que uma aÁ„o È definida pelo estado de um comando de um atuador, que o usu·rio supostamente deseja alterar.
+\paragraph*{\texttt{New Action}.} A Listagem \ref{lst:newAction} ilustra o formato da mensagem. O campo \texttt{action} cont√©m um objeto que representa uma a√ß√£o a ser tomada. Lembre-se de que uma a√ß√£o √© definida pelo estado de um comando de um atuador, que o usu√°rio supostamente deseja alterar.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newAction, caption=Formato da mensagem \texttt{newAction}.]{codigos/newAction.json}
 \end{minipage}
 
-\paragraph*{\texttt{Notify New Action}.} A Listagem \ref{lst:notifyNewAction} ilustra o formato da mensagem. O campo \texttt{action} contÈm um objeto que representa uma aÁ„o a ser tomada. Note que as mensagens originadas do servidor e destinadas ao aplicativo ou ao controlador possuem um campo \texttt{notification} que lista o nome da mensagem, em contraste com as mensagens destinadas ao servidor.
+\paragraph*{\texttt{Notify New Action}.} A Listagem \ref{lst:notifyNewAction} ilustra o formato da mensagem. O campo \texttt{action} cont√©m um objeto que representa uma a√ß√£o a ser tomada. Note que as mensagens originadas do servidor e destinadas ao aplicativo ou ao controlador possuem um campo \texttt{notification} que lista o nome da mensagem, em contraste com as mensagens destinadas ao servidor.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:notifyNewAction, caption=Formato da mensagem \texttt{notifyNewAction}.]{codigos/notifyNewAction.json}
 \end{minipage}
 
-\paragraph*{\texttt{Send Action Result}.} A Listagem \ref{lst:sendActionResult} ilustra o formato da mensagem. O campo \texttt{action} contÈm um objeto que representa a aÁ„o que o usu·rio solicitou. O campo \texttt{result} contÈm um valor booleano que indica se a aÁ„o solicitada foi efetuada com sucesso.
+\paragraph*{\texttt{Send Action Result}.} A Listagem \ref{lst:sendActionResult} ilustra o formato da mensagem. O campo \texttt{action} cont√©m um objeto que representa a a√ß√£o que o usu√°rio solicitou. O campo \texttt{result} cont√©m um valor booleano que indica se a a√ß√£o solicitada foi efetuada com sucesso.
 
 \noindent
 \begin{minipage}{\linewidth}
 \lstinputlisting[label=lst:sendActionResult, caption=Formato da mensagem \texttt{sendActionResult}.]{codigos/sendActionResult.json}
 \end{minipage}
 
-\paragraph*{\texttt{Notify Action Result}.} A Listagem \ref{lst:notifyActionResult} ilustra o formato da mensagem. O campo \texttt{action} contÈm um objeto que representa a aÁ„o que o usu·rio solicitou. O campo \texttt{result} contÈm um valor booleano que indica se a aÁ„o solicitada foi efetuada com sucesso.
+\paragraph*{\texttt{Notify Action Result}.} A Listagem \ref{lst:notifyActionResult} ilustra o formato da mensagem. O campo \texttt{action} cont√©m um objeto que representa a a√ß√£o que o usu√°rio solicitou. O campo \texttt{result} cont√©m um valor booleano que indica se a a√ß√£o solicitada foi efetuada com sucesso.
 
 \noindent
 \begin{minipage}{\linewidth}
@@ -80,30 +80,30 @@ A seguir, ser· detalhado o conte˙do de cada mensagem listada na Tabela \ref{tab:
 \end{minipage}
 
 \subsubsection{Mensagens de Regra}
-As mensagens de regra est„o listadas e descritas na Tabela \ref{tab:mensagens_regra}.
+As mensagens de regra est√£o listadas e descritas na Tabela \ref{tab:mensagens_regra}.
 
 \begin{table}[h]
 	\centering
-	\caption{Listagem e descriÁ„o das Mensagens de Regra.}\smallskip
+	\caption{Listagem e descri√ß√£o das Mensagens de Regra.}\smallskip
 	\label{tab:mensagens_regra}
 	\includegraphics[width=\textwidth]{tabelas/mensagens_regra.pdf}
 \end{table}
 
-\paragraph*{\texttt{New Rules}.} A Listagem \ref{lst:newRules} ilustra o formato da mensagem. Uma mensagem deste tipo pode definir diversas regras, declaradas no campo \texttt{rules}. Cada regra especifica o nÛ-alvo(\texttt{nodeId}), o controlador associado (\texttt{controllerId}), o comando interno do nÛ (\texttt{commandId}) e o valor que este comando deve assumir (\texttt{value}) caso a condiÁ„o representada pela cl·usula (\texttt{clause}) se mostre verdadeira. Uma cl·usula consiste em uma express„o booleana representada em DNF, codificada, na listagem, como uma lista de listas de proposiÁıes.
+\paragraph*{\texttt{New Rules}.} A Listagem \ref{lst:newRules} ilustra o formato da mensagem. Uma mensagem deste tipo pode definir diversas regras, declaradas no campo \texttt{rules}. Cada regra especifica o n√≥-alvo(\texttt{nodeId}), o controlador associado (\texttt{controllerId}), o comando interno do n√≥ (\texttt{commandId}) e o valor que este comando deve assumir (\texttt{value}) caso a condi√ß√£o representada pela cl√°usula (\texttt{clause}) se mostre verdadeira. Uma cl√°usula consiste em uma express√£o booleana representada em DNF, codificada, na listagem, como uma lista de listas de proposi√ß√µes.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newRules, caption=Formato da mensagem \texttt{newRules}.]{codigos/newRules.json}
 \end{minipage}
 
-\paragraph*{\texttt{Accept Rule}.} A Listagem \ref{lst:acceptRule} ilustra o formato da mensagem. Esta mensagem indica a decis„o do usu·rio em aceitar a regra explicitada no corpo da mensagem.
+\paragraph*{\texttt{Accept Rule}.} A Listagem \ref{lst:acceptRule} ilustra o formato da mensagem. Esta mensagem indica a decis√£o do usu√°rio em aceitar a regra explicitada no corpo da mensagem.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:acceptRule, caption=Formato da mensagem \texttt{acceptRule}.]{codigos/acceptRule.json}
 \end{minipage}
 
-\paragraph*{\texttt{Remove Rule}.} A Listagem \ref{lst:removeRule} ilustra o formato da mensagem. Esta mensagem indica a decis„o do usu·rio em remover uma regra j· cadastrada no sistema (definida ou previamente aceita por ele).
+\paragraph*{\texttt{Remove Rule}.} A Listagem \ref{lst:removeRule} ilustra o formato da mensagem. Esta mensagem indica a decis√£o do usu√°rio em remover uma regra j√° cadastrada no sistema (definida ou previamente aceita por ele).
 
 \noindent
 \begin{minipage}[l]{\linewidth}
@@ -124,38 +124,38 @@ As mensagens de regra est„o listadas e descritas na Tabela \ref{tab:mensagens_re
 \lstinputlisting[label=lst:getLearntRules, caption=Formato da mensagem \texttt{getLearntRules}.]{codigos/getLearntRules.json}
 \end{minipage}
 
-\paragraph*{\texttt{Notify New Rules}.} A Listagem \ref{lst:notifyNewRules} ilustra o formato da mensagem. O campo \texttt{quantity} contÈm o n˙mero de novas regras disponÌveis para adicionar ao banco de dados do controlador.
+\paragraph*{\texttt{Notify New Rules}.} A Listagem \ref{lst:notifyNewRules} ilustra o formato da mensagem. O campo \texttt{quantity} cont√©m o n√∫mero de novas regras dispon√≠veis para adicionar ao banco de dados do controlador.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:notifyNewRules, caption=Formato da mensagem \texttt{notifyNewRules}.]{codigos/notifyNewRules.json}
 \end{minipage}
 
-\paragraph*{\texttt{Notify Learnt Rules}.} A Listagem \ref{lst:notifyLearntRules} ilustra o formato da mensagem. O campo \texttt{quantity} contÈm o n˙mero de novas regras disponÌveis para an·lise do usu·rio.
+\paragraph*{\texttt{Notify Learnt Rules}.} A Listagem \ref{lst:notifyLearntRules} ilustra o formato da mensagem. O campo \texttt{quantity} cont√©m o n√∫mero de novas regras dispon√≠veis para an√°lise do usu√°rio.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:notifyLearntRules, caption=Formato da mensagem \texttt{notifyLearntRules}.]{codigos/notifyLearntRules.json}
 \end{minipage}
 
-\subsubsection{Mensagens de Gerenciamento de NÛs}
-As mensagens de gerenciamento de nÛs est„o listadas e descritas na Tabela \ref{tab:mensagens_nos}.
+\subsubsection{Mensagens de Gerenciamento de N√≥s}
+As mensagens de gerenciamento de n√≥s est√£o listadas e descritas na Tabela \ref{tab:mensagens_nos}.
 
 \begin{table}[hp]
 	\centering
-	\caption{Listagem e descriÁ„o das Mensagens de Gerenciamento de NÛs.}\smallskip
+	\caption{Listagem e descri√ß√£o das Mensagens de Gerenciamento de N√≥s.}\smallskip
 	\label{tab:mensagens_nos}
 	\includegraphics[width=\textwidth]{tabelas/mensagens_nos.pdf}
 \end{table}
 
-\paragraph*{\texttt{New Detected Nodes}.} A Listagem \ref{lst:newDetectedNodes} ilustra o formato da mensagem. O campo \texttt{node} contÈm informaÁıes utilizadas na descriÁ„o do nÛ, e reflete os campos utilizados nas mensagens de \texttt{description} do protocolo \textit{Rainfall}, definido na \ref{subsec:sintaxe}. Por exemplo, est„o presentes na mensagem o identificador do nÛ (\texttt{nodeId}), sua classe (\texttt{nodeClass}), informaÁıes dos dados lidos pelo nÛ (\texttt{dataType}) bem como dos comandos aceitos por ele (\texttt{commandType}).
+\paragraph*{\texttt{New Detected Nodes}.} A Listagem \ref{lst:newDetectedNodes} ilustra o formato da mensagem. O campo \texttt{node} cont√©m informa√ß√µes utilizadas na descri√ß√£o do n√≥, e reflete os campos utilizados nas mensagens de \texttt{description} do protocolo \textit{Rainfall}, definido na \ref{subsec:sintaxe}. Por exemplo, est√£o presentes na mensagem o identificador do n√≥ (\texttt{nodeId}), sua classe (\texttt{nodeClass}), informa√ß√µes dos dados lidos pelo n√≥ (\texttt{dataType}) bem como dos comandos aceitos por ele (\texttt{commandType}).
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newDetectedNodes, caption=Formato da mensagem \texttt{newDetectedNodes}.]{codigos/newDetectedNodes.json}
 \end{minipage}
 
-\paragraph*{\texttt{Set Node Extra}.} A Listagem \ref{lst:setNodeExtra} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} definem o nÛ para o qual se deseja definir informaÁıes extras. O campo \texttt{extra}, por sua vez, contÈm as informaÁıes propriamente ditas. Por exemplo, o mapeamento poderia incluir uma chave "Nome" com valor "Interruptor de luz", atribuindo, assim, um nome a um dado nÛ da casa.
+\paragraph*{\texttt{Set Node Extra}.} A Listagem \ref{lst:setNodeExtra} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} definem o n√≥ para o qual se deseja definir informa√ß√µes extras. O campo \texttt{extra}, por sua vez, cont√©m as informa√ß√µes propriamente ditas. Por exemplo, o mapeamento poderia incluir uma chave "Nome" com valor "Interruptor de luz", atribuindo, assim, um nome a um dado n√≥ da casa.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
@@ -169,67 +169,67 @@ As mensagens de gerenciamento de nÛs est„o listadas e descritas na Tabela \ref{t
 \lstinputlisting[label=lst:getNodesInfo, caption=Formato da mensagem \texttt{getNodesInfo}.]{codigos/getNodesInfo.json}
 \end{minipage}
 
-\paragraph*{\texttt{Notify Detected Nodes}.} A Listagem \ref{lst:notifyDetectedNode} ilustra o formato da mensagem. O campo \texttt{quantity} contÈm a quantidade de novos nÛs na rede.
+\paragraph*{\texttt{Notify Detected Nodes}.} A Listagem \ref{lst:notifyDetectedNode} ilustra o formato da mensagem. O campo \texttt{quantity} cont√©m a quantidade de novos n√≥s na rede.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:notifyDetectedNode, caption=Formato da mensagem \texttt{notifyDetectedNode}.]{codigos/notifyDetectedNode.json}
 \end{minipage}
 
-\paragraph*{\texttt{Accept Node}.} A Listagem \ref{lst:acceptNode} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} identificam o nÛ que ser· aceito ou rejeitado, a depender do valor do campo \texttt{accept}.
+\paragraph*{\texttt{Accept Node}.} A Listagem \ref{lst:acceptNode} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} identificam o n√≥ que ser√° aceito ou rejeitado, a depender do valor do campo \texttt{accept}.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:acceptNode, caption=Formato da mensagem \texttt{acceptNode}.]{codigos/acceptNode.json}
 \end{minipage}
 
-\paragraph*{\texttt{Notify Accepted Node}.} A Listagem \ref{lst:notifyAcceptedNode} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o nÛ que ser· aceito ou rejeitado, a depender do valor do campo \texttt{accept}.
+\paragraph*{\texttt{Notify Accepted Node}.} A Listagem \ref{lst:notifyAcceptedNode} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o n√≥ que ser√° aceito ou rejeitado, a depender do valor do campo \texttt{accept}.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:notifyAcceptedNode, caption=Formato da mensagem \texttt{notifyAcceptedNode}.]{codigos/notifyAcceptedNode.json}
 \end{minipage}
 
-\paragraph*{\texttt{Remove Node}.} A Listagem \ref{lst:removeNode} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} identificam o nÛ que ser· removido.
+\paragraph*{\texttt{Remove Node}.} A Listagem \ref{lst:removeNode} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} identificam o n√≥ que ser√° removido.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:removeNode, caption=Formato da mensagem \texttt{removeNode}.]{codigos/removeNode.json}
 \end{minipage}
 
-\paragraph*{\texttt{Notify Removed Node}.} A Listagem \ref{lst:notifyRemovedNode} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o nÛ que ser· removido.
+\paragraph*{\texttt{Notify Removed Node}.} A Listagem \ref{lst:notifyRemovedNode} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o n√≥ que ser√° removido.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:notifyRemovedNode, caption=Formato da mensagem \texttt{notifyRemovedNode}.]{codigos/notifyRemovedNode.json}
 \end{minipage}
 
-\paragraph*{\texttt{Set Node State}.} A Listagem \ref{lst:setNodeState} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o nÛ a que a mensagem se refere, ao passo que o campo \texttt{alive} indica se o nÛ est· ativo (1) ou n„o (0).
+\paragraph*{\texttt{Set Node State}.} A Listagem \ref{lst:setNodeState} ilustra o formato da mensagem. O campo \texttt{nodeId} identifica o n√≥ a que a mensagem se refere, ao passo que o campo \texttt{alive} indica se o n√≥ est√° ativo (1) ou n√£o (0).
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:setNodeState, caption=Formato da mensagem \texttt{setNodeState}.]{codigos/setNodeState.json}
 \end{minipage}
 
-\subsubsection{Mensagens de AutenticaÁ„o}
-O mÛdulo de autenticaÁ„o do sistema define uma sÈrie de mensagens para efetuar tarefas tais como identificaÁ„o dos agentes do sistema, autorizaÁ„o de acesso e manutenÁ„o do banco de dados de agentes. Antes de apresentar as mensagens, cabe definir a terminologia utilizada neste tÛpico.
+\subsubsection{Mensagens de Autentica√ß√£o}
+O m√≥dulo de autentica√ß√£o do sistema define uma s√©rie de mensagens para efetuar tarefas tais como identifica√ß√£o dos agentes do sistema, autoriza√ß√£o de acesso e manuten√ß√£o do banco de dados de agentes. Antes de apresentar as mensagens, cabe definir a terminologia utilizada neste t√≥pico.
 \begin{itemize}
-	\item \textbf{Agente}: Qualquer entidade externa ao servidor que necessita de credenciais para se autenticar com ele. Pode ser um controlador local, um administrador ou um usu·rio;
-	\item \textbf{Casa}: Neste documento, uma casa È essencialmente um agrupamento de agentes. Tipicamente, uma casa possui um ou mais controladores associados, um  administrador e diversos usu·rios.
-	\item \textbf{Administrador}: Um agente que possui privilÈgios elevados para gerenciar uma casa, podendo associar controladores, adicionar usu·rios e aceitar ou remover nÛs da rede local. Cada casa possui um ˙nico administrador, e cada administrador È associado a apenas uma casa.
-	\item \textbf{Usu·rio}: O administrador pode adicionar a uma casa agentes com privilÈgios reduzidos, denominados usu·rios. Os usu·rios podem acessar o estado da casa, definir regras e enviar comandos. Cada casa pode ter m˙ltiplos usu·rios, e cada usu·rio pode estar associado a somente uma casa.
+	\item \textbf{Agente}: Qualquer entidade externa ao servidor que necessita de credenciais para se autenticar com ele. Pode ser um controlador local, um administrador ou um usu√°rio;
+	\item \textbf{Casa}: Neste documento, uma casa √© essencialmente um agrupamento de agentes. Tipicamente, uma casa possui um ou mais controladores associados, um  administrador e diversos usu√°rios.
+	\item \textbf{Administrador}: Um agente que possui privil√©gios elevados para gerenciar uma casa, podendo associar controladores, adicionar usu√°rios e aceitar ou remover n√≥s da rede local. Cada casa possui um √∫nico administrador, e cada administrador √© associado a apenas uma casa.
+	\item \textbf{Usu√°rio}: O administrador pode adicionar a uma casa agentes com privil√©gios reduzidos, denominados usu√°rios. Os usu√°rios podem acessar o estado da casa, definir regras e enviar comandos. Cada casa pode ter m√∫ltiplos usu√°rios, e cada usu√°rio pode estar associado a somente uma casa.
 \end{itemize}
 
-As mensagens de autenticaÁ„o est„o listadas e descritas na Tabela \ref{tab:mensagens_auth}.
+As mensagens de autentica√ß√£o est√£o listadas e descritas na Tabela \ref{tab:mensagens_auth}.
 
 \begin{table}[h]
 	\centering
-	\caption{Listagem e descriÁ„o das Mensagens de AutenticaÁ„o.}\smallskip
+	\caption{Listagem e descri√ß√£o das Mensagens de Autentica√ß√£o.}\smallskip
 	\label{tab:mensagens_auth}
 	\includegraphics[width=\textwidth]{tabelas/mensagens_auth.pdf}
 \end{table}
 
-\paragraph*{\texttt{Login}.} A Listagem \ref{lst:login} ilustra o formato da mensagem. Os campos \texttt{username} e \texttt{password} contÍm as credenciais do agente para fins de autenticaÁ„o. O campo \texttt{token} È utilizado para informar ao servidor o cÛdigo a ser utilizado para identificar o dispositivo a partir do qual a comunicaÁ„o est· sendo realizada, para de envio de notificaÁ„o.
+\paragraph*{\texttt{Login}.} A Listagem \ref{lst:login} ilustra o formato da mensagem. Os campos \texttt{username} e \texttt{password} cont√™m as credenciais do agente para fins de autentica√ß√£o. O campo \texttt{token} √© utilizado para informar ao servidor o c√≥digo a ser utilizado para identificar o dispositivo a partir do qual a comunica√ß√£o est√° sendo realizada, para de envio de notifica√ß√£o.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
@@ -243,28 +243,28 @@ As mensagens de autenticaÁ„o est„o listadas e descritas na Tabela \ref{tab:mensa
 \lstinputlisting[label=lst:logout, caption=Formato da mensagem \texttt{logout}.]{codigos/logout.json}
 \end{minipage}
 
-\paragraph*{\texttt{New Admin}.} A Listagem \ref{lst:newAdmin} ilustra o formato da mensagem. Os campos \texttt{username} e \texttt{password} contÍm as credenciais do administrador a ser cadastrado.
+\paragraph*{\texttt{New Admin}.} A Listagem \ref{lst:newAdmin} ilustra o formato da mensagem. Os campos \texttt{username} e \texttt{password} cont√™m as credenciais do administrador a ser cadastrado.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newAdmin, caption=Formato da mensagem \texttt{newAdmin}.]{codigos/newAdmin.json}
 \end{minipage}
 
-\paragraph*{\texttt{New User}.} A Listagem \ref{lst:newUser} ilustra o formato da mensagem. Os campos \texttt{username} e \texttt{password} contÍm as credenciais do usu·rio a ser cadastrado. O servidor associa o novo usu·rio ‡ mesma casa do agente que efetuou o cadastramento.
+\paragraph*{\texttt{New User}.} A Listagem \ref{lst:newUser} ilustra o formato da mensagem. Os campos \texttt{username} e \texttt{password} cont√™m as credenciais do usu√°rio a ser cadastrado. O servidor associa o novo usu√°rio √† mesma casa do agente que efetuou o cadastramento.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:newUser, caption=Formato da mensagem \texttt{newUser}.]{codigos/newUser.json}
 \end{minipage}
 
-\paragraph*{\texttt{Register Controller}.} A Listagem \ref{lst:registerController} ilustra o formato da mensagem. O campo \texttt{controllerId} contÈm o identificador do controlador a ser associado ‡ casa. Este controlador deve estar prÈ-cadastrado no banco de dados do servidor.
+\paragraph*{\texttt{Register Controller}.} A Listagem \ref{lst:registerController} ilustra o formato da mensagem. O campo \texttt{controllerId} cont√©m o identificador do controlador a ser associado √† casa. Este controlador deve estar pr√©-cadastrado no banco de dados do servidor.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:registerController, caption=Formato da mensagem \texttt{registerController}.]{codigos/registerController.json}
 \end{minipage}
 
-\paragraph*{\texttt{Set Token}.} A Listagem \ref{lst:setToken} ilustra o formato da mensagem. O campo \texttt{killToken} contÈm o \textit{token} antigo a ser substituÌdo, ao passo que o campo \texttt{token} contÈm o novo \textit{token}. 
+\paragraph*{\texttt{Set Token}.} A Listagem \ref{lst:setToken} ilustra o formato da mensagem. O campo \texttt{killToken} cont√©m o \textit{token} antigo a ser substitu√≠do, ao passo que o campo \texttt{token} cont√©m o novo \textit{token}. 
 
 \noindent
 \begin{minipage}[l]{\linewidth}
@@ -286,163 +286,163 @@ As mensagens de autenticaÁ„o est„o listadas e descritas na Tabela \ref{tab:mensa
 \end{minipage}
 
 \subsubsection{Mensagens de Resposta}
-Conforme apresentado nas Tabelas \ref{tab:mensagens_estado}, \ref{tab:mensagens_regra}, \ref{tab:mensagens_nos} e \ref{tab:mensagens_auth}, cada mensagem destinada ao servidor espera uma mensagem de uma determinada classe, a depender da natureza da requisiÁ„o. Nesta seÁ„o, o formato dessas mensagens de resposta ser· detalhado.
+Conforme apresentado nas Tabelas \ref{tab:mensagens_estado}, \ref{tab:mensagens_regra}, \ref{tab:mensagens_nos} e \ref{tab:mensagens_auth}, cada mensagem destinada ao servidor espera uma mensagem de uma determinada classe, a depender da natureza da requisi√ß√£o. Nesta se√ß√£o, o formato dessas mensagens de resposta ser√° detalhado.
 
-\paragraph*{Resposta Simples.} O formato desta resposta est· ilustrado na Listagem \ref{lst:simpleResponse}. A resposta simples possui somente dois campos, presentes em todos os tipos de resposta: \texttt{status}, com um cÛdigo representando o resultado da requisiÁ„o (a numeraÁ„o possui a mesma sem‚ntica da encontrada nas respostas HTTP), e \texttt{errorMessage}, contendo uma mensagem de erro caso existente.
+\paragraph*{Resposta Simples.} O formato desta resposta est√° ilustrado na Listagem \ref{lst:simpleResponse}. A resposta simples possui somente dois campos, presentes em todos os tipos de resposta: \texttt{status}, com um c√≥digo representando o resultado da requisi√ß√£o (a numera√ß√£o possui a mesma sem√¢ntica da encontrada nas respostas HTTP), e \texttt{errorMessage}, contendo uma mensagem de erro caso existente.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:simpleResponse, caption=Formato de uma Resposta Simples. ]{codigos/simpleResponse.json}
 \end{minipage}
 
-\paragraph*{Resposta de Estado.} O formato desta resposta est· ilustrado na Listagem \ref{lst:simpleResponse}. A resposta de estado possui um campo alÈm dos presentes na Resposta Simples, chamado \texttt{state}. Este campo possui informaÁıes dos ˙ltimos dados lidos pelo dispositivo, caso seja sensor, e dos estados dos comandos suportados, caso seja atuador.
+\paragraph*{Resposta de Estado.} O formato desta resposta est√° ilustrado na Listagem \ref{lst:simpleResponse}. A resposta de estado possui um campo al√©m dos presentes na Resposta Simples, chamado \texttt{state}. Este campo possui informa√ß√µes dos √∫ltimos dados lidos pelo dispositivo, caso seja sensor, e dos estados dos comandos suportados, caso seja atuador.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:stateResponse, caption=Formato de uma Resposta Simples. ]{codigos/stateResponse.json}
 \end{minipage}
 
-\paragraph*{Resposta de Regra Conflitante.} O formato desta resposta est· ilustrado na Listagem \ref{lst:confRuleResponse}. Esta resposta possui um campo \texttt{conflictingRule} que especifica se uma regra definida ou aceita pelo usu·rio conflita com uma regra j· existente no sistema.
+\paragraph*{Resposta de Regra Conflitante.} O formato desta resposta est√° ilustrado na Listagem \ref{lst:confRuleResponse}. Esta resposta possui um campo \texttt{conflictingRule} que especifica se uma regra definida ou aceita pelo usu√°rio conflita com uma regra j√° existente no sistema.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:confRuleResponse, caption=Formato de uma Resposta de Regra Conflitante. ]{codigos/confRuleResponse.json}
 \end{minipage}
 
-\paragraph*{Resposta de Regras.} O formato desta resposta est· ilustrado na Listagem \ref{lst:ruleResponse}. Esta resposta possui um campo \texttt{rule} que lista todas as regras que satisfazem a requisiÁ„o enviada.
+\paragraph*{Resposta de Regras.} O formato desta resposta est√° ilustrado na Listagem \ref{lst:ruleResponse}. Esta resposta possui um campo \texttt{rule} que lista todas as regras que satisfazem a requisi√ß√£o enviada.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:ruleResponse, caption=Formato de uma Resposta de Regras. ]{codigos/ruleResponse.json}
 \end{minipage}
 
-\paragraph*{Resposta de Controladores.} O formato desta resposta est· ilustrado na Listagem \ref{lst:controllerResponse}. Esta resposta possui um campo \texttt{controllers} que lista todos os controladores associados ao usu·rio que efetuou a requisiÁ„o.
+\paragraph*{Resposta de Controladores.} O formato desta resposta est√° ilustrado na Listagem \ref{lst:controllerResponse}. Esta resposta possui um campo \texttt{controllers} que lista todos os controladores associados ao usu√°rio que efetuou a requisi√ß√£o.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
 \lstinputlisting[label=lst:controllerResponse, caption=Formato de uma Resposta de Controladores.]{codigos/controllerResponse.json}
 \end{minipage}
 
-\paragraph*{Resposta de Usu·rios.} O formato desta resposta est· ilustrado na Listagem \ref{lst:usersResponse}. Esta resposta possui um campo \texttt{users} que lista todos os usu·rios associados ao administrador que efetuou a requisiÁ„o.
+\paragraph*{Resposta de Usu√°rios.} O formato desta resposta est√° ilustrado na Listagem \ref{lst:usersResponse}. Esta resposta possui um campo \texttt{users} que lista todos os usu√°rios associados ao administrador que efetuou a requisi√ß√£o.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
-\lstinputlisting[label=lst:usersResponse, caption=Formato de uma Resposta de Usu·rios.]{codigos/usersResponse.json}
+\lstinputlisting[label=lst:usersResponse, caption=Formato de uma Resposta de Usu√°rios.]{codigos/usersResponse.json}
 \end{minipage}
 
-\paragraph*{Resposta de NÛs.} O formato desta resposta est· ilustrado na Listagem \ref{lst:nodeResponse}. Esta resposta possui um campo \texttt{nodes} que lista todas os nÛs instalados em uma casa.
+\paragraph*{Resposta de N√≥s.} O formato desta resposta est√° ilustrado na Listagem \ref{lst:nodeResponse}. Esta resposta possui um campo \texttt{nodes} que lista todas os n√≥s instalados em uma casa.
 
-\lstinputlisting[label=lst:nodeResponse, caption=Formato de uma Resposta de NÛs.,float=h]{codigos/nodeResponse.json}
+\lstinputlisting[label=lst:nodeResponse, caption=Formato de uma Resposta de N√≥s.,float=h]{codigos/nodeResponse.json}
 
 \clearpage
 
 \subsection{Protocolo de Troca de Mensagens}
-Uma vez definidas as mensagens a serem trocadas, pode-se abordar a sequÍncia esperada de troca de mensagens para os cen·rios de uso do protocolo. A maioria das mensagens definidas possui uma din‚mica de troca de mensagens simples:
+Uma vez definidas as mensagens a serem trocadas, pode-se abordar a sequ√™ncia esperada de troca de mensagens para os cen√°rios de uso do protocolo. A maioria das mensagens definidas possui uma din√¢mica de troca de mensagens simples:
 
 \begin{itemize}
-	\item Mensagens destinadas ao controlador ou ao servidor n„o esperam resposta, como mencionado no inÌcio da seÁ„o \ref{subsec:hc_sintaxe}, devido ao protocolo utilizado. As trocas de mensagens se assemelham ao mostrado no diagrama ‡ esquerda da Figura \ref{fig:mensagens_simples}.
-	\item Grande parte das mensagens destinadas ao servidor se resumem a um ciclo de requisiÁ„o-resposta, como ilustrado no diagrama ‡ direita da Figura \ref{fig:mensagens_simples}. Um exemplo deste caso È a mensagem \texttt{Get Nodes Info}, que recebe uma resposta do tipo "NÛs" (ver Tabela \ref{tab:mensagens_nos}). O ciclo de troca de mensagens seria, ent„o, o envio de uma mensagem \texttt{Get Nodes Info} ao servidor, seguido de uma Resposta de NÛs.
+	\item Mensagens destinadas ao controlador ou ao servidor n√£o esperam resposta, como mencionado no in√≠cio da se√ß√£o \ref{subsec:hc_sintaxe}, devido ao protocolo utilizado. As trocas de mensagens se assemelham ao mostrado no diagrama √† esquerda da Figura \ref{fig:mensagens_simples}.
+	\item Grande parte das mensagens destinadas ao servidor se resumem a um ciclo de requisi√ß√£o-resposta, como ilustrado no diagrama √† direita da Figura \ref{fig:mensagens_simples}. Um exemplo deste caso √© a mensagem \texttt{Get Nodes Info}, que recebe uma resposta do tipo "N√≥s" (ver Tabela \ref{tab:mensagens_nos}). O ciclo de troca de mensagens seria, ent√£o, o envio de uma mensagem \texttt{Get Nodes Info} ao servidor, seguido de uma Resposta de N√≥s.
 \end{itemize}
 
 \begin{figure}[h]
 	\centering
-	\caption{SequÍncias de trocas de mensagens em casos simples: notificaÁıes destinadas ao aplicativo ou ao controlador (esq.), e requisiÁıes destinadas ao servidor (dir.)}
+	\caption{Sequ√™ncias de trocas de mensagens em casos simples: notifica√ß√µes destinadas ao aplicativo ou ao controlador (esq.), e requisi√ß√µes destinadas ao servidor (dir.)}
   \includegraphics[width=\textwidth]{imagens/mensagens_simples.pdf}
   \label{fig:mensagens_simples}  
 \end{figure}
 
-A seguir, ser„o descritos alguns casos mais complexos de troca de mensagens, envolvendo m˙ltiplas requisiÁıes e respostas definidos nas seÁıes anteriores.
+A seguir, ser√£o descritos alguns casos mais complexos de troca de mensagens, envolvendo m√∫ltiplas requisi√ß√µes e respostas definidos nas se√ß√µes anteriores.
 
-\paragraph*{DefiniÁ„o de uma AÁ„o.}
-A definiÁ„o de uma aÁ„o pelo usu·rio envolve a utilizaÁ„o de diversas mensagens, como mostra a Figura \ref{fig:mensagens_new_action}. O ciclo se inicia com uma mensagem \texttt{New Action} do usu·rio (aplicativo) ao servidor. Conforme definido na Tabela \ref{tab:mensagens_estado}, uma mensagem deste tipo espera uma Resposta Simples. Em seguida, o servidor notifica o controlador atravÈs de uma mensagem \texttt{Notify New Action}, n„o recebendo resposta. Este, ent„o, envia o resultado atravÈs de uma mensagem \texttt{Send Action Result}, recebendo uma Resposta Simples como resposta. Por fim, o servidor notifica o usu·rio atravÈs de uma mensagem \texttt{Notify Action Result}, n„o recebendo resposta.
+\paragraph*{Defini√ß√£o de uma A√ß√£o.}
+A defini√ß√£o de uma a√ß√£o pelo usu√°rio envolve a utiliza√ß√£o de diversas mensagens, como mostra a Figura \ref{fig:mensagens_new_action}. O ciclo se inicia com uma mensagem \texttt{New Action} do usu√°rio (aplicativo) ao servidor. Conforme definido na Tabela \ref{tab:mensagens_estado}, uma mensagem deste tipo espera uma Resposta Simples. Em seguida, o servidor notifica o controlador atrav√©s de uma mensagem \texttt{Notify New Action}, n√£o recebendo resposta. Este, ent√£o, envia o resultado atrav√©s de uma mensagem \texttt{Send Action Result}, recebendo uma Resposta Simples como resposta. Por fim, o servidor notifica o usu√°rio atrav√©s de uma mensagem \texttt{Notify Action Result}, n√£o recebendo resposta.
 
 \begin{figure}[h]
 	\centering
-	\caption{SequÍncia de trocas de mensagens na definiÁ„o de uma nova aÁ„o.}
+	\caption{Sequ√™ncia de trocas de mensagens na defini√ß√£o de uma nova a√ß√£o.}
   \includegraphics[width=0.7\textwidth]{imagens/mensagens_new_action.png}
   \label{fig:mensagens_new_action}  
 \end{figure}
 
-\paragraph*{AceitaÁ„o/RejeiÁ„o de um NÛ.}
-A Figura \ref{fig:mensagens_accept_node} mostra as mensagens trocadas neste processo. O controlador inicia enviando uma mensagem \texttt{Notify Detected Nodes} informando o servidor sobre a existÍncia de novos nÛs. Este, por sua vez, informa ao usu·rio (aplicativo) que existe um novo nÛ com aceitaÁ„o pendente atravÈs da mensagem \texttt{Notify Detected Node}. O usu·rio, ent„o, responde com uma mensagem \texttt{Accept Node}, informando sua decis„o ao servidor. Ele, por fim, envia uma notificaÁ„o \texttt{Notify Accepted Node} ao controlador, informando-o da decis„o do usu·rio.
+\paragraph*{Aceita√ß√£o/Rejei√ß√£o de um N√≥.}
+A Figura \ref{fig:mensagens_accept_node} mostra as mensagens trocadas neste processo. O controlador inicia enviando uma mensagem \texttt{Notify Detected Nodes} informando o servidor sobre a exist√™ncia de novos n√≥s. Este, por sua vez, informa ao usu√°rio (aplicativo) que existe um novo n√≥ com aceita√ß√£o pendente atrav√©s da mensagem \texttt{Notify Detected Node}. O usu√°rio, ent√£o, responde com uma mensagem \texttt{Accept Node}, informando sua decis√£o ao servidor. Ele, por fim, envia uma notifica√ß√£o \texttt{Notify Accepted Node} ao controlador, informando-o da decis√£o do usu√°rio.
 
 \begin{figure}[h]
 	\centering
-	\caption{SequÍncia de trocas de mensagens na aceitaÁ„o ou rejeiÁ„o de um nÛ.}
+	\caption{Sequ√™ncia de trocas de mensagens na aceita√ß√£o ou rejei√ß√£o de um n√≥.}
   \includegraphics[width=0.7\textwidth]{imagens/mensagens_accept_node.png}
   \label{fig:mensagens_accept_node}  
 \end{figure}
 
-\paragraph*{DefiniÁ„o de Novas Regras.}
-A Figura \ref{fig:mensagens_accept_rule} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usu·rio (aplicativo) que existem novas regras para an·lise atravÈs da mensagem \texttt{Notify Learnt Rules}. O usu·rio, ent„o, envia uma mensagem \texttt{Get Rules}, para que o servidor lhe envie as regras aprendidas atravÈs da Resposta de Regras. ApÛs analis·-las, o usu·rio envia as regras aceitas na mensagem \texttt{Accept Rule} ao servidor. Este, por fim, envia uma notificaÁ„o \texttt{Notify New Rules} ao controlador, informando-o sobre as novas regras.
+\paragraph*{Defini√ß√£o de Novas Regras.}
+A Figura \ref{fig:mensagens_accept_rule} mostra as mensagens trocadas neste processo. O servidor inicia informando ao usu√°rio (aplicativo) que existem novas regras para an√°lise atrav√©s da mensagem \texttt{Notify Learnt Rules}. O usu√°rio, ent√£o, envia uma mensagem \texttt{Get Rules}, para que o servidor lhe envie as regras aprendidas atrav√©s da Resposta de Regras. Ap√≥s analis√°-las, o usu√°rio envia as regras aceitas na mensagem \texttt{Accept Rule} ao servidor. Este, por fim, envia uma notifica√ß√£o \texttt{Notify New Rules} ao controlador, informando-o sobre as novas regras.
 
 \begin{figure}[h]
 	\centering
-	\caption{SequÍncia de trocas de mensagens na aceitaÁ„o ou rejeiÁ„o de um nÛ.}
+	\caption{Sequ√™ncia de trocas de mensagens na aceita√ß√£o ou rejei√ß√£o de um n√≥.}
   \includegraphics[width=0.7\textwidth]{imagens/mensagens_accept_rule.png}
   \label{fig:mensagens_accept_rule}  
 \end{figure}
 
-\section{ImplementaÁ„o do Protocolo Homecloud}
-Conforme explicado na seÁ„o \ref{sec:homecloud}, o servidor, controlador e aplicativo devem todos oferecer suporte ‡s mensagens do protocolo Homecloud que lhes dizem respeito. Para tanto, o grupo desenvolveu bibliotecas modulares para serem executadas nos trÍs componentes. Antes de detalhar o processo de implementaÁ„o de cada componente, cabe reapresentar a arquitetura geral do sistema, com Ínfase nas tecnologias de comunicaÁ„o utilizadas.
+\section{Implementa√ß√£o do Protocolo Homecloud}
+Conforme explicado na se√ß√£o \ref{sec:homecloud}, o servidor, controlador e aplicativo devem todos oferecer suporte √†s mensagens do protocolo Homecloud que lhes dizem respeito. Para tanto, o grupo desenvolveu bibliotecas modulares para serem executadas nos tr√™s componentes. Antes de detalhar o processo de implementa√ß√£o de cada componente, cabe reapresentar a arquitetura geral do sistema, com √™nfase nas tecnologias de comunica√ß√£o utilizadas.
 
-\subsection{Tecnologias de ComunicaÁ„o Adotadas}
-A Figura \ref{fig:arquitetura_tecnologias} ilustra a arquitetura do sistema com as tecnologias de comunicaÁ„o utilizadas na comunicaÁ„o entre cada uma de suas partes.
+\subsection{Tecnologias de Comunica√ß√£o Adotadas}
+A Figura \ref{fig:arquitetura_tecnologias} ilustra a arquitetura do sistema com as tecnologias de comunica√ß√£o utilizadas na comunica√ß√£o entre cada uma de suas partes.
 
 \begin{figure}[h]
 	\centering
-	\caption{Arquitetura do sistema com Ínfase nas tecnologias de comunicaÁ„o adotadas.}
+	\caption{Arquitetura do sistema com √™nfase nas tecnologias de comunica√ß√£o adotadas.}
   \includegraphics[width=0.7\textwidth]{imagens/arquitetura_tecnologias.png}
   \label{fig:arquitetura_tecnologias}  
 \end{figure}
 
-O primeiro ponto a destacar na arquitetura È o fato de toda a comunicaÁ„o direcionada ao servidor ser feita atravÈs do protocolo HTTP. Essa escolha foi conveniente porque diversas mensagens do Homecloud exigem algum tipo de resposta (por exemplo, as mensagens \texttt{Get House State} e \texttt{Get Nodes Info}), e a natureza de requisiÁ„o-resposta do HTTP supriu perfeitamente as necessidades do grupo. Soma-se a isso o fato de o HTTP ser amplamente adotado, possuindo bibliotecas nativas nas plataformas utilizadas para implementar os componentes do sistema.
+O primeiro ponto a destacar na arquitetura √© o fato de toda a comunica√ß√£o direcionada ao servidor ser feita atrav√©s do protocolo HTTP. Essa escolha foi conveniente porque diversas mensagens do Homecloud exigem algum tipo de resposta (por exemplo, as mensagens \texttt{Get House State} e \texttt{Get Nodes Info}), e a natureza de requisi√ß√£o-resposta do HTTP supriu perfeitamente as necessidades do grupo. Soma-se a isso o fato de o HTTP ser amplamente adotado, possuindo bibliotecas nativas nas plataformas utilizadas para implementar os componentes do sistema.
 
-Na seÁ„o \ref{subsec:hc_sintaxe}, foi apontado que mensagens destinadas ao controlador e ao aplicativo n„o esperavam resposta, devido ao protocolo de comunicaÁ„o subjacente. Da Figura \ref{fig:arquitetura_tecnologias}, nota-se que a comunicaÁ„o do servidor ao controlador È feito por meio do protocolo WebSocket \cite{rfc6455}, que n„o funciona no modo requisiÁ„o-resposta como o HTTP.
+Na se√ß√£o \ref{subsec:hc_sintaxe}, foi apontado que mensagens destinadas ao controlador e ao aplicativo n√£o esperavam resposta, devido ao protocolo de comunica√ß√£o subjacente. Da Figura \ref{fig:arquitetura_tecnologias}, nota-se que a comunica√ß√£o do servidor ao controlador √© feito por meio do protocolo WebSocket \cite{rfc6455}, que n√£o funciona no modo requisi√ß√£o-resposta como o HTTP.
 
-A adoÁ„o deste protocolo nas comunicaÁıes do servidor ao controlador foi feita por satisfazer dois requisitos essenciais:
+A ado√ß√£o deste protocolo nas comunica√ß√µes do servidor ao controlador foi feita por satisfazer dois requisitos essenciais:
 \begin{itemize}
-	\item O protocolo deve permitir que um canal de comunicaÁ„o persistente e confi·vel do servidor ao controlador seja aberto no momento em que o controlador se autentica com o servidor. Isso permite o envio de notificaÁıes ao controlador em tempo real;
-	\item O protocolo deve ser padronizado, possuindo implementaÁıes disponÌveis nas plataformas utilizadas para implementar o controlador e o servidor.
+	\item O protocolo deve permitir que um canal de comunica√ß√£o persistente e confi√°vel do servidor ao controlador seja aberto no momento em que o controlador se autentica com o servidor. Isso permite o envio de notifica√ß√µes ao controlador em tempo real;
+	\item O protocolo deve ser padronizado, possuindo implementa√ß√µes dispon√≠veis nas plataformas utilizadas para implementar o controlador e o servidor.
 \end{itemize}
 
-O protocolo WebSocket satisfaz aos dois requisitos mencionados. Em primeiro lugar, ele permite o estabelecimento de um canal \textit{full-duplex} entre as partes envolvidas sobre um canal TCP. Em segundo, ele È um padr„o IETF definido com base no protocolo HTTP, possuindo diversas bibliotecas nas plataformas utilizadas.
+O protocolo WebSocket satisfaz aos dois requisitos mencionados. Em primeiro lugar, ele permite o estabelecimento de um canal \textit{full-duplex} entre as partes envolvidas sobre um canal TCP. Em segundo, ele √© um padr√£o IETF definido com base no protocolo HTTP, possuindo diversas bibliotecas nas plataformas utilizadas.
 
-Por fim, note que a comunicaÁ„o entre o servidor e o aplicativo envolve um servidor externo ao sistema, de um serviÁo chamado Firebase. O Firebase expıe uma API REST, permitindo que mensagens sejam enviadas a dispositivos mÛveis mediante a especificaÁ„o de um \textit{token} ˙nico para cada dispositivo. Efetivamente, a comunicaÁ„o do servidor de aplicaÁ„o com o aplicativo mÛvel È unidirecional atravÈs desse canal, justificando o porquÍ de n„o se esperarem respostas nas mensagens destinadas ao aplicativo.
+Por fim, note que a comunica√ß√£o entre o servidor e o aplicativo envolve um servidor externo ao sistema, de um servi√ßo chamado Firebase. O Firebase exp√µe uma API REST, permitindo que mensagens sejam enviadas a dispositivos m√≥veis mediante a especifica√ß√£o de um \textit{token} √∫nico para cada dispositivo. Efetivamente, a comunica√ß√£o do servidor de aplica√ß√£o com o aplicativo m√≥vel √© unidirecional atrav√©s desse canal, justificando o porqu√™ de n√£o se esperarem respostas nas mensagens destinadas ao aplicativo.
 
-\subsection{ImplementaÁ„o do Servidor}
-A implementaÁ„o do servidor de aplicaÁ„o foi feita de forma modular, conforme esquematiza a Figura \ref{fig:componentes_servidor}. O intuito de efetuar tal abordagem foi de desvincular a implementaÁ„o da lÛgica do protocolo da implementaÁ„o da aplicaÁ„o em si, permitindo, por exemplo, que o protocolo seja implementado em outras soluÁıes na mesma plataforma.
+\subsection{Implementa√ß√£o do Servidor}
+A implementa√ß√£o do servidor de aplica√ß√£o foi feita de forma modular, conforme esquematiza a Figura \ref{fig:componentes_servidor}. O intuito de efetuar tal abordagem foi de desvincular a implementa√ß√£o da l√≥gica do protocolo da implementa√ß√£o da aplica√ß√£o em si, permitindo, por exemplo, que o protocolo seja implementado em outras solu√ß√µes na mesma plataforma.
 
 \begin{figure}[h]
 	\centering
-	\caption{Diagrama de componentes explicitando a estrutura modular do servidor de aplicaÁ„o.}
+	\caption{Diagrama de componentes explicitando a estrutura modular do servidor de aplica√ß√£o.}
   \includegraphics[width=0.6\textwidth]{imagens/componentes_servidor.png}
   \label{fig:componentes_servidor}  
 \end{figure}
 
-O diagrama explicita seis componentes no servidor. O servidor \textit{web} essencialmente escuta por requisiÁıes contendo mensagens JSON do protocolo Homecloud, descritas na seÁ„o \ref{subsec:hc_sintaxe}. AlÈm disso, ele efetua a manutenÁ„o das sessıes dos agentes do sistema. No entanto, o tratamento das mensagens s„o feitas chamando funÁıes dos mÛdulos de NÛs, Regras, Estado e de AutenticaÁ„o.
+O diagrama explicita seis componentes no servidor. O servidor \textit{web} essencialmente escuta por requisi√ß√µes contendo mensagens JSON do protocolo Homecloud, descritas na se√ß√£o \ref{subsec:hc_sintaxe}. Al√©m disso, ele efetua a manuten√ß√£o das sess√µes dos agentes do sistema. No entanto, o tratamento das mensagens s√£o feitas chamando fun√ß√µes dos m√≥dulos de N√≥s, Regras, Estado e de Autentica√ß√£o.
 
-Cada um dos mÛdulos citados lida com as mensagens de seu respectivo tipo, conforme classificaÁ„o apresentada na seÁ„o \ref{subsec:hc_sintaxe}. Esses mÛdulos expıem funÁıes seguindo uma interface definida que podem ser referenciadas pelo servidor \textit{web} para tratar as mensagens recebidas.
+Cada um dos m√≥dulos citados lida com as mensagens de seu respectivo tipo, conforme classifica√ß√£o apresentada na se√ß√£o \ref{subsec:hc_sintaxe}. Esses m√≥dulos exp√µem fun√ß√µes seguindo uma interface definida que podem ser referenciadas pelo servidor \textit{web} para tratar as mensagens recebidas.
 
-Para implementaÁ„o do servidor, foi utilizada a linguagem Clojure\footnote{DisponÌvel em \url{https://clojure.org/}.}. O Clojure foi utilizado por ser uma linguagem funcional altamente paraleliz·vel, contribuindo para a escalabilidade do servidor. Isso se d· pelo fato de as estruturas da linguagem serem imut·veis por padr„o, somado ao de as referÍncias serem \textit{thread-safe}.
+Para implementa√ß√£o do servidor, foi utilizada a linguagem Clojure\footnote{Dispon√≠vel em \url{https://clojure.org/}.}. O Clojure foi utilizado por ser uma linguagem funcional altamente paraleliz√°vel, contribuindo para a escalabilidade do servidor. Isso se d√° pelo fato de as estruturas da linguagem serem imut√°veis por padr√£o, somado ao de as refer√™ncias serem \textit{thread-safe}.
 
-O banco de dados utilizado no servidor foi o MongoDB\footnote{DisponÌvel em \url{https://www.mongodb.com/}.}. O MongoDB È um banco de dados NoSQL orientado a documentos. Diferentemente dos banco de dados relacionais, o MongoDB n„o exige que se faÁa uma definiÁ„o da estrutura dos dados armazenados nas tabelas. Em vez disso, ele trabalha com uma estrutura denominada "documento", que se assemelha a um objeto JSON. A vantagem dele È a possibilidade de documentos em uma mesma coleÁ„o possuÌrem estruturas distintas. Isso permite, por exemplo, que se construa uma coleÁ„o de nÛs para uma casa englobando tanto atuadores (que possuem uma estrutura de comandos) e sensores (que possuem uma de dados).
+O banco de dados utilizado no servidor foi o MongoDB\footnote{Dispon√≠vel em \url{https://www.mongodb.com/}.}. O MongoDB √© um banco de dados NoSQL orientado a documentos. Diferentemente dos banco de dados relacionais, o MongoDB n√£o exige que se fa√ßa uma defini√ß√£o da estrutura dos dados armazenados nas tabelas. Em vez disso, ele trabalha com uma estrutura denominada "documento", que se assemelha a um objeto JSON. A vantagem dele √© a possibilidade de documentos em uma mesma cole√ß√£o possu√≠rem estruturas distintas. Isso permite, por exemplo, que se construa uma cole√ß√£o de n√≥s para uma casa englobando tanto atuadores (que possuem uma estrutura de comandos) e sensores (que possuem uma de dados).
 
-A relaÁ„o entre as coleÁıes do banco de dados est„o esquematizadas atravÈs do diagrama da Figura \ref{fig:servidor_bd}.
+A rela√ß√£o entre as cole√ß√µes do banco de dados est√£o esquematizadas atrav√©s do diagrama da Figura \ref{fig:servidor_bd}.
 
 \begin{figure}[h]
 	\centering
-	\caption{Diagrama de relacionamentos explicitando as coleÁıes utilizadas no banco de dados do servidor.}
+	\caption{Diagrama de relacionamentos explicitando as cole√ß√µes utilizadas no banco de dados do servidor.}
   \includegraphics[width=0.7\textwidth]{imagens/servidor_bd.png}
   \label{fig:servidor_bd}  
 \end{figure}
 
-Observe que existem seis coleÁıes definidas em uma casa. A coleÁ„o \texttt{house} agrupa todos os itens em uma abstraÁ„o de "casa", permitindo que se faÁam \textit{queries} da natureza "Obtenha todos os nÛs da casa a que eu (usu·rio) estou associado)", ou "Obtenha o estado da minha casa". Todas as relaÁıes s„o do tipo "um para muitos", notando-se que a relaÁ„o entre \texttt{house} e \texttt{agent} possui participaÁ„o obrigatÛria de ambas as partes.
+Observe que existem seis cole√ß√µes definidas em uma casa. A cole√ß√£o \texttt{house} agrupa todos os itens em uma abstra√ß√£o de "casa", permitindo que se fa√ßam \textit{queries} da natureza "Obtenha todos os n√≥s da casa a que eu (usu√°rio) estou associado)", ou "Obtenha o estado da minha casa". Todas as rela√ß√µes s√£o do tipo "um para muitos", notando-se que a rela√ß√£o entre \texttt{house} e \texttt{agent} possui participa√ß√£o obrigat√≥ria de ambas as partes.
 
-O cÛdigo-fonte do servidor est· disponÌvel no repositÛrio GitHub\footnote{DisponÌvel em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
+O c√≥digo-fonte do servidor est√° dispon√≠vel no reposit√≥rio GitHub\footnote{Dispon√≠vel em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
 
-\subsection{ImplementaÁ„o de Biblioteca para Aplicativo}
-De modo similar ao servidor, a implementaÁ„o do suporte ao protocolo Homecloud no aplicativo tambÈm foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como dependÍncia em projetos Android para efetuar a troca de mensagens seguindo o protocolo, conforme ilustra a Figura \ref{fig:arquitetura_lib_app}. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
+\subsection{Implementa√ß√£o de Biblioteca para Aplicativo}
+De modo similar ao servidor, a implementa√ß√£o do suporte ao protocolo Homecloud no aplicativo tamb√©m foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como depend√™ncia em projetos Android para efetuar a troca de mensagens seguindo o protocolo, conforme ilustra a Figura \ref{fig:arquitetura_lib_app}. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
 
 \begin{figure}[h]
 	\centering
@@ -458,39 +458,39 @@ De modo similar ao servidor, a implementaÁ„o do suporte ao protocolo Homecloud n
   \label{fig:classes_lib_app}  
 \end{figure}
 
-A interface a ser utilizada pelo aplicativo est· contida majoritariamente na classe \texttt{HomeCloud}. Esta classe contÈm mÈtodos que permitem efetuar todas as requisiÁıes do protocolo que envolvam o aplicativo, utilizando, para tanto, classes que implementam a interface \texttt{Request}. Conforme mencionado, cada requisiÁ„o ao servidor possui uma resposta associada, que È retornada ao aplicativo cliente atravÈs da classe \texttt{SimpleResponse} ou de uma de suas filhas.
+A interface a ser utilizada pelo aplicativo est√° contida majoritariamente na classe \texttt{HomeCloud}. Esta classe cont√©m m√©todos que permitem efetuar todas as requisi√ß√µes do protocolo que envolvam o aplicativo, utilizando, para tanto, classes que implementam a interface \texttt{Request}. Conforme mencionado, cada requisi√ß√£o ao servidor possui uma resposta associada, que √© retornada ao aplicativo cliente atrav√©s da classe \texttt{SimpleResponse} ou de uma de suas filhas.
 
-A biblioteca tambÈm lida com notificaÁıes recebidas pelo dispositivo, atravÈs das classes que implementam a interface \texttt{Notification}. N„o existe dependÍncia entre estas classes e a classe \texttt{HomeCloud}, pois foi decidido por deixar sob responsabilidade do usu·rio a captura dos dados de notificaÁ„o. Tais classes, ent„o, s„o acessÌveis diretamente pelo usu·rio, e possuem mÈtodos de \textit{parse} que recebem os dados de uma notificaÁ„o e retornam um objeto que permita ‡ aplicaÁ„o interagir de forma conveniente com os dados recebidos.
+A biblioteca tamb√©m lida com notifica√ß√µes recebidas pelo dispositivo, atrav√©s das classes que implementam a interface \texttt{Notification}. N√£o existe depend√™ncia entre estas classes e a classe \texttt{HomeCloud}, pois foi decidido por deixar sob responsabilidade do usu√°rio a captura dos dados de notifica√ß√£o. Tais classes, ent√£o, s√£o acess√≠veis diretamente pelo usu√°rio, e possuem m√©todos de \textit{parse} que recebem os dados de uma notifica√ß√£o e retornam um objeto que permita √† aplica√ß√£o interagir de forma conveniente com os dados recebidos.
 
-A implementaÁ„o da biblioteca foi feita na linguagem Java, e o cÛdigo-fonte documentado, bem como um aplicativo de demonstraÁ„o, est„o disponÌveis no repositÛrio GitHub\footnote{DisponÌvel em \url{https://github.com/HomeSkyLtd/homecloud-app}.}.
+A implementa√ß√£o da biblioteca foi feita na linguagem Java, e o c√≥digo-fonte documentado, bem como um aplicativo de demonstra√ß√£o, est√£o dispon√≠veis no reposit√≥rio GitHub\footnote{Dispon√≠vel em \url{https://github.com/HomeSkyLtd/homecloud-app}.}.
 
-\subsection{ImplementaÁ„o de Biblioteca para Controlador}
-Seguindo o padr„o de desenvolvimento utilizado no projeto, a implementaÁ„o
-do Controlador em si foi desacoplada da implementaÁ„o da comunicaÁ„o
-com o servidor. Conforme apresentado em \ref{sec:implsens}, a implementaÁ„o
+\subsection{Implementa√ß√£o de Biblioteca para Controlador}
+Seguindo o padr√£o de desenvolvimento utilizado no projeto, a implementa√ß√£o
+do Controlador em si foi desacoplada da implementa√ß√£o da comunica√ß√£o
+com o servidor. Conforme apresentado em \ref{sec:implsens}, a implementa√ß√£o
 da rede de sensores local foi realizada em Javascript utilizando o
-ambiente Node.js, portanto, a implementaÁ„o da biblioteca tambÈm foi
+ambiente Node.js, portanto, a implementa√ß√£o da biblioteca tamb√©m foi
 realizada utilizando-se estas tecnologias.
 
-A biblioteca expıe funÁıes para que o Controlador envie e receba mensagens do servidor seguindo o protocolo Homecloud, realizando de forma transparente ao usu·rio da biblioteca a autenticaÁ„o junto ao servidor, a conex„o do WebSocket e o enfileiramento das mensagens quando n„o È possÌvel efetuar o seu envio.
+A biblioteca exp√µe fun√ß√µes para que o Controlador envie e receba mensagens do servidor seguindo o protocolo Homecloud, realizando de forma transparente ao usu√°rio da biblioteca a autentica√ß√£o junto ao servidor, a conex√£o do WebSocket e o enfileiramento das mensagens quando n√£o √© poss√≠vel efetuar o seu envio.
 
-O cÛdigo-fonte foi hospedado no repositÛrio GitHub\footnote{DisponÌvel em \url{https://github.com/HomeSkyLtd/homecloud-controller}.}. AlÈm disso, a 
-biblioteca foi disponibilizada na npm\footnote{DisponÌvel em \url{https://www.npmjs.com/package/homecloud-controller}.}, que alÈm de um gerenciador de pacotes para o Node.js, È um repositÛrio p˙blico de bibliotecas.
+O c√≥digo-fonte foi hospedado no reposit√≥rio GitHub\footnote{Dispon√≠vel em \url{https://github.com/HomeSkyLtd/homecloud-controller}.}. Al√©m disso, a 
+biblioteca foi disponibilizada na npm\footnote{Dispon√≠vel em \url{https://www.npmjs.com/package/homecloud-controller}.}, que al√©m de um gerenciador de pacotes para o Node.js, √© um reposit√≥rio p√∫blico de bibliotecas.
 
-\subsection{LimitaÁıes e N„o-escopos} \label{subsec:limit_serv_app}
-Os seguintes itens foram considerados fora do escopo deste projeto, no que tange ‡ implementaÁ„o do protocolo Homecloud, do servidor web e do aplicativo mÛvel:
+\subsection{Limita√ß√µes e N√£o-escopos} \label{subsec:limit_serv_app}
+Os seguintes itens foram considerados fora do escopo deste projeto, no que tange √† implementa√ß√£o do protocolo Homecloud, do servidor web e do aplicativo m√≥vel:
 
 \begin{itemize}
-	\item ComunicaÁ„o segura entre dispositivos. A comunicaÁ„o entre o controlador, o servidor web e o aplicativo mÛvel deve ser segura, visto que dados confidenciais s„o trafegados entre as partes. No entanto, a adoÁ„o de protocolos subjacentes seguros (como HTTPS/TLS) n„o foi adotado neste projeto, permanecendo como trabalho futuro;
-	\item DependÍncia de conex„o ‡ Internet. A interaÁ„o do usu·rio com o sistema por meio do aplicativo mÛvel È dependente de conex„o ‡ Internet, visto que o aplicativo efetua conex„o com o servidor web, somente. A remoÁ„o desta dependÍncia poderia ser efetuada implementando-se a comunicaÁ„o do aplicativo com o controlador local, uma vez que o protocolo Homesky, que rege a comunicaÁ„o entre os dispositivos da rede local, È independente do estado de conex„o ‡ Internet.
+	\item Comunica√ß√£o segura entre dispositivos. A comunica√ß√£o entre o controlador, o servidor web e o aplicativo m√≥vel deve ser segura, visto que dados confidenciais s√£o trafegados entre as partes. No entanto, a ado√ß√£o de protocolos subjacentes seguros (como HTTPS/TLS) n√£o foi adotado neste projeto, permanecendo como trabalho futuro;
+	\item Depend√™ncia de conex√£o √† Internet. A intera√ß√£o do usu√°rio com o sistema por meio do aplicativo m√≥vel √© dependente de conex√£o √† Internet, visto que o aplicativo efetua conex√£o com o servidor web, somente. A remo√ß√£o desta depend√™ncia poderia ser efetuada implementando-se a comunica√ß√£o do aplicativo com o controlador local, uma vez que o protocolo Homesky, que rege a comunica√ß√£o entre os dispositivos da rede local, √© independente do estado de conex√£o √† Internet.
 \end{itemize}
 
 
 \section{Desenvolvimento do Algoritmo de Aprendizagem}
-Nesta seÁ„o, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domÌnio de controle de iluminaÁ„o. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saÌdas regras de atuaÁ„o, condicionais aos estados dos sensores.
+Nesta se√ß√£o, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o dom√≠nio de controle de ilumina√ß√£o. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como sa√≠das regras de atua√ß√£o, condicionais aos estados dos sensores.
 
 \subsection{Formato de Entrada dos Dados}\label{subsec:formatoentrada}
-No domÌnio selecionado para este trabalho, o dado de atuaÁ„o relevante seria o estado da l‚mpada a ser controlada. O objetivo do algoritmo, ent„o, È prever o valor deste estado baseado nas leituras de outros sensores existentes na rede domÈstica, tais como de luminosidade e presenÁa. A Tabela \ref{tab:entrada_learning} ilustra o formato de entrada dos dados.
+No dom√≠nio selecionado para este trabalho, o dado de atua√ß√£o relevante seria o estado da l√¢mpada a ser controlada. O objetivo do algoritmo, ent√£o, √© prever o valor deste estado baseado nas leituras de outros sensores existentes na rede dom√©stica, tais como de luminosidade e presen√ßa. A Tabela \ref{tab:entrada_learning} ilustra o formato de entrada dos dados.
 
 \begin{table}[h]
 	\centering
@@ -499,31 +499,31 @@ No domÌnio selecionado para este trabalho, o dado de atuaÁ„o relevante seria o e
 	\includegraphics[width=0.5\textwidth]{tabelas/entrada_learning.pdf}
 \end{table}
 
-Observe que o problema em quest„o consiste em receber dados de treino, que representam o comportamento do usu·rio, e desenvolver um modelo que preveja o estado do atuador de forma fiel aos dados observados. Trata-se, portanto, de um problema de aprendizagem supervisionada, definido em \cite{james2014} como sendo a geraÁ„o de um modelo que relaciona uma vari·vel-alvo (no caso, o estado da l‚mpada) com vari·veis preditoras (presenÁa, luminosidade, entre outros). O estado da l‚mpada, ent„o, È visto como uma classe associada a cada entrada do conjunto de dados, e o processo de aprendizagem supervisionado que infere esta classe para entradas n„o vistas anteriormente È denominado ClassificaÁ„o.
+Observe que o problema em quest√£o consiste em receber dados de treino, que representam o comportamento do usu√°rio, e desenvolver um modelo que preveja o estado do atuador de forma fiel aos dados observados. Trata-se, portanto, de um problema de aprendizagem supervisionada, definido em \cite{james2014} como sendo a gera√ß√£o de um modelo que relaciona uma vari√°vel-alvo (no caso, o estado da l√¢mpada) com vari√°veis preditoras (presen√ßa, luminosidade, entre outros). O estado da l√¢mpada, ent√£o, √© visto como uma classe associada a cada entrada do conjunto de dados, e o processo de aprendizagem supervisionado que infere esta classe para entradas n√£o vistas anteriormente √© denominado Classifica√ß√£o.
 
-\subsection{Algoritmos de ClassificaÁ„o Existentes}\label{subsec:algclass}
-Existem diversos algoritmos de classificaÁ„o documentados na literatura, cada qual adotando uma abordagem distinta para geraÁ„o de modelos e classificaÁ„o de dados novos \cite{han2005, james2014}. A seguir ser„o descritos de forma sucinta trÍs tÈcnicas candidatas a serem utilizadas no processo de derivaÁ„o de regras para este projeto.
+\subsection{Algoritmos de Classifica√ß√£o Existentes}\label{subsec:algclass}
+Existem diversos algoritmos de classifica√ß√£o documentados na literatura, cada qual adotando uma abordagem distinta para gera√ß√£o de modelos e classifica√ß√£o de dados novos \cite{han2005, james2014}. A seguir ser√£o descritos de forma sucinta tr√™s t√©cnicas candidatas a serem utilizadas no processo de deriva√ß√£o de regras para este projeto.
 
-\subsubsection{InduÁ„o por ¡rvore de Decis„o}
-O modelo de classificaÁ„o gerado por esta tÈcnica consiste em uma ·rvore de decis„o, em que cada nÛ interno representa um teste a uma vari·vel preditora, cada aresta representa uma saÌda do teste, e cada nÛ terminal (folha) indica a classe resultante. A Figura \ref{fig:exemplo_arvore} mostra o exemplo de uma ·rvore de decis„o obtida por esta tÈcnica. 
+\subsubsection{Indu√ß√£o por √Årvore de Decis√£o}
+O modelo de classifica√ß√£o gerado por esta t√©cnica consiste em uma √°rvore de decis√£o, em que cada n√≥ interno representa um teste a uma vari√°vel preditora, cada aresta representa uma sa√≠da do teste, e cada n√≥ terminal (folha) indica a classe resultante. A Figura \ref{fig:exemplo_arvore} mostra o exemplo de uma √°rvore de decis√£o obtida por esta t√©cnica. 
 
-Neste exemplo, o conjunto de dados refere-se a consumidores de uma loja de eletrÙnicos, e as classes mostradas nos nÛs-folha indicam se um consumidor adquire ou n„o certo produto. No caso, uma das regras geradas pelo modelo diz que se o consumidor È jovem e estudante, ent„o ele adquire o produto.
+Neste exemplo, o conjunto de dados refere-se a consumidores de uma loja de eletr√¥nicos, e as classes mostradas nos n√≥s-folha indicam se um consumidor adquire ou n√£o certo produto. No caso, uma das regras geradas pelo modelo diz que se o consumidor √© jovem e estudante, ent√£o ele adquire o produto.
 
 \begin{figure}[h]
 	\centering
-	\caption{Exemplo de modelo gerado pela tÈcnica de InduÁ„o por ¡rvore de Decis„o}
+	\caption{Exemplo de modelo gerado pela t√©cnica de Indu√ß√£o por √Årvore de Decis√£o}
   \includegraphics[width=0.8\textwidth]{imagens/exemplo_arvore.png}
   \label{fig:exemplo_arvore}  
   
   Fonte: \cite{han2005}
 \end{figure}
 
-Existem diversas implementaÁıes desta tÈcnica de classificaÁ„o, tais como ID3, C4.5 e CART, que adotam uma estratÈgia \textit{greedy} e \textit{top-down} de construÁ„o da ·rvore. Cada uma dessas implementaÁıes efetua o particionamento dos dados de forma particular, efetuando seleÁ„o de vari·veis por critÈrios tais como ganho de informaÁ„o, raz„o de ganho ou Ìndice Gini. As descriÁıes dessas tÈcnicas fogem do escopo deste trabalho, e podem ser encontradas em \cite{han2005}.
+Existem diversas implementa√ß√µes desta t√©cnica de classifica√ß√£o, tais como ID3, C4.5 e CART, que adotam uma estrat√©gia \textit{greedy} e \textit{top-down} de constru√ß√£o da √°rvore. Cada uma dessas implementa√ß√µes efetua o particionamento dos dados de forma particular, efetuando sele√ß√£o de vari√°veis por crit√©rios tais como ganho de informa√ß√£o, raz√£o de ganho ou √≠ndice Gini. As descri√ß√µes dessas t√©cnicas fogem do escopo deste trabalho, e podem ser encontradas em \cite{han2005}.
 
 \subsubsection{Redes Neurais}
-A tÈcnica de aprendizagem por redes neurais foi inspirada pelos ramos da psicologia e neurobiologia, que buscaram modelar computacionalmente o comportamento de neurÙnios. Uma rede neural È composta por diversas unidades interconectadas arranjadas em camadas, conforme ilustra a Figura \ref{fig:elem_rede_neural}. 
+A t√©cnica de aprendizagem por redes neurais foi inspirada pelos ramos da psicologia e neurobiologia, que buscaram modelar computacionalmente o comportamento de neur√¥nios. Uma rede neural √© composta por diversas unidades interconectadas arranjadas em camadas, conforme ilustra a Figura \ref{fig:elem_rede_neural}. 
 
-Os dados de entrada do classificador s„o passados para as unidades da camada de entrada. Esses dados, ent„o, s„o combinados linearmente atravÈs de pesos determinados nas interconexıes e passados ‡s unidades das camadas intermedi·rias, denominadas \textit{hidden layers}. As saÌdas da ˙ltima camada intermedi·ria s„o passadas ‡s unidades da camada de saÌda, que define a classe resultante.
+Os dados de entrada do classificador s√£o passados para as unidades da camada de entrada. Esses dados, ent√£o, s√£o combinados linearmente atrav√©s de pesos determinados nas interconex√µes e passados √†s unidades das camadas intermedi√°rias, denominadas \textit{hidden layers}. As sa√≠das da √∫ltima camada intermedi√°ria s√£o passadas √†s unidades da camada de sa√≠da, que define a classe resultante.
 
 \begin{figure}[h]
 	\centering
@@ -534,73 +534,73 @@ Os dados de entrada do classificador s„o passados para as unidades da camada de 
   Fonte: \cite{han2005}
 \end{figure}
 
-O processo de aprendizagem das redes neurais È computacionalmente caro e complexo, envolvendo um processo denominado \textit{backpropagation}. Este È um processo iterativo que consiste em alimentar os dados de treino na rede neural, obter a saÌda com o modelo corrente, e reajustar os pesos do modelo em ordem reversa, partindo das unidades da camada de saÌda.
+O processo de aprendizagem das redes neurais √© computacionalmente caro e complexo, envolvendo um processo denominado \textit{backpropagation}. Este √© um processo iterativo que consiste em alimentar os dados de treino na rede neural, obter a sa√≠da com o modelo corrente, e reajustar os pesos do modelo em ordem reversa, partindo das unidades da camada de sa√≠da.
 
-No entanto, as redes neurais possuem a vantagem de possuÌrem alta toler‚ncia a dados ruidosos, alÈm de n„o requerer conhecimento da relaÁ„o entre as classes a serem previstas e as vari·veis preditoras \cite{han2005}.
+No entanto, as redes neurais possuem a vantagem de possu√≠rem alta toler√¢ncia a dados ruidosos, al√©m de n√£o requerer conhecimento da rela√ß√£o entre as classes a serem previstas e as vari√°veis preditoras \cite{han2005}.
 
 \subsubsection{\textit{Support Vector Machines} (SVM)}
-O SVM È uma tÈcnica de classificaÁ„o que se baseia na definiÁ„o de um hiperplano Ûtimo para efetuar a segregaÁ„o dos dados pertencentes ‡s diferentes classes. No caso, o hiperplano Ûtimo seria o que provÍ maior margem entre os dados, conforme ilustra a Figura \ref{fig:svm_max_margin}. Neste exemplo, o conjunto de dados È bidimensional, e o hiperplano de separaÁ„o È uma reta. Observe que das diversas retas possÌveis mostradas ‡ esquerda, seleciona-se a que resulta em maior margem, mostrada ‡ direita.
+O SVM √© uma t√©cnica de classifica√ß√£o que se baseia na defini√ß√£o de um hiperplano √≥timo para efetuar a segrega√ß√£o dos dados pertencentes √†s diferentes classes. No caso, o hiperplano √≥timo seria o que prov√™ maior margem entre os dados, conforme ilustra a Figura \ref{fig:svm_max_margin}. Neste exemplo, o conjunto de dados √© bidimensional, e o hiperplano de separa√ß√£o √© uma reta. Observe que das diversas retas poss√≠veis mostradas √† esquerda, seleciona-se a que resulta em maior margem, mostrada √† direita.
 
 \begin{figure}[h]
 	\centering
-	\caption{Retas candidatas para efetuar a segregaÁ„o dos dados (esq.), e a reta Ûtima selecionada, que provÍ a maior margem no conjunto de dados}
+	\caption{Retas candidatas para efetuar a segrega√ß√£o dos dados (esq.), e a reta √≥tima selecionada, que prov√™ a maior margem no conjunto de dados}
   \includegraphics[width=0.8\textwidth]{imagens/svm_max_margin.png}
   \label{fig:svm_max_margin}  
   
   Fonte: \cite{james2014}
 \end{figure}
 
-A tÈcnica de SVM se baseia nesta ideia de definir um plano de separaÁ„o Ûtimo, mas efetua a adiÁ„o de mais dimensıes aos dados originais para lidar com situaÁıes de margens n„o-lineares. Este aumento na dimensionalidade dos dados È feito com base na utilizaÁ„o de \textit{kernels}. A descriÁ„o matem·tica deste processo est· fora do escopo deste trabalho, e pode ser encontrado em \cite{james2014}.
+A t√©cnica de SVM se baseia nesta ideia de definir um plano de separa√ß√£o √≥timo, mas efetua a adi√ß√£o de mais dimens√µes aos dados originais para lidar com situa√ß√µes de margens n√£o-lineares. Este aumento na dimensionalidade dos dados √© feito com base na utiliza√ß√£o de \textit{kernels}. A descri√ß√£o matem√°tica deste processo est√° fora do escopo deste trabalho, e pode ser encontrado em \cite{james2014}.
 
-\subsection{ConsideraÁıes sobre a Escolha do Algoritmo}
-A seÁ„o \ref{subsec:algclass} apresentou trÍs algoritmos de classificaÁ„o passÌveis de serem aplicados no projeto. Conforme mencionado, cada algoritmo possui uma abordagem distinta na construÁ„o do modelo e na avaliaÁ„o de entradas novas para efetuar a classificaÁ„o, possuindo vantagens e desvantagens particulares. Esta seÁ„o lista as consideraÁıes adotadas para a seleÁ„o do algoritmo a ser utilizado na geraÁ„o de regras.
+\subsection{Considera√ß√µes sobre a Escolha do Algoritmo}
+A se√ß√£o \ref{subsec:algclass} apresentou tr√™s algoritmos de classifica√ß√£o pass√≠veis de serem aplicados no projeto. Conforme mencionado, cada algoritmo possui uma abordagem distinta na constru√ß√£o do modelo e na avalia√ß√£o de entradas novas para efetuar a classifica√ß√£o, possuindo vantagens e desvantagens particulares. Esta se√ß√£o lista as considera√ß√µes adotadas para a sele√ß√£o do algoritmo a ser utilizado na gera√ß√£o de regras.
 
-O fator principal utilizado para selecionar o algoritmo de aprendizagem È a interpretabilidade do modelo gerado. Dentre as razıes para a priorizaÁ„o deste fator, destaca-se a necessidade de o usu·rio ter capacidade de analisar as regras propostas pelo algoritmo, de modo a dar-lhe a escolha de aceit·-la ou recus·-la. Essa possibilidade È extremamente importante, levando-se em conta que os sensores utilizados em ambiente domÈstico podem possuir imprecisıes que resultem na geraÁ„o de regras estatisticamente precisas, mas ainda assim indesejadas pelo usu·rio.
+O fator principal utilizado para selecionar o algoritmo de aprendizagem √© a interpretabilidade do modelo gerado. Dentre as raz√µes para a prioriza√ß√£o deste fator, destaca-se a necessidade de o usu√°rio ter capacidade de analisar as regras propostas pelo algoritmo, de modo a dar-lhe a escolha de aceit√°-la ou recus√°-la. Essa possibilidade √© extremamente importante, levando-se em conta que os sensores utilizados em ambiente dom√©stico podem possuir imprecis√µes que resultem na gera√ß√£o de regras estatisticamente precisas, mas ainda assim indesejadas pelo usu√°rio.
 
-Nesse contexto, \cite{james2014} menciona haver um \textit{tradeoff} entre a flexibilidade e a interpretabilidade dos mÈtodos de aprendizagem, como mostra a Figura \ref{fig:interpretabilidade_algoritmos}. MÈtodos flexÌveis possuem alta capacidade de gerar modelos que se adaptem a dados de natureza complexa, mas tais modelos acabam sendo de difÌcil interpretaÁ„o pelo usu·rio. 
+Nesse contexto, \cite{james2014} menciona haver um \textit{tradeoff} entre a flexibilidade e a interpretabilidade dos m√©todos de aprendizagem, como mostra a Figura \ref{fig:interpretabilidade_algoritmos}. M√©todos flex√≠veis possuem alta capacidade de gerar modelos que se adaptem a dados de natureza complexa, mas tais modelos acabam sendo de dif√≠cil interpreta√ß√£o pelo usu√°rio. 
 
 \begin{figure}[h]
 	\centering
-	\caption{\textit{Tradeoff} entre flexibilidade e interpretabilidade de mÈtodos de aprendizagem}
+	\caption{\textit{Tradeoff} entre flexibilidade e interpretabilidade de m√©todos de aprendizagem}
   \includegraphics[width=0.8\textwidth]{imagens/interpretabilidade_algoritmos.pdf}
   \label{fig:interpretabilidade_algoritmos}  
   
   Fonte: \cite{james2014}
 \end{figure}
 
-Note que, dentre as tÈcnicas apresentadas, redes neurais e SVM possuem alta flexibilidade, permitindo gerar modelos para dados com vari·veis cuja relaÁ„o È desconhecida, a princÌpio (no caso das redes neurais), e para dados com fronteira de decis„o n„o-linear (no caso do SVM). Entretanto, os modelos gerados por estas tÈcnicas s„o pouco interpret·veis: redes neurais expıem um conjunto de pesos que processam os dados, de acordo com a topologia selecionada, e o SVM gera um hiperplano de separaÁ„o.
+Note que, dentre as t√©cnicas apresentadas, redes neurais e SVM possuem alta flexibilidade, permitindo gerar modelos para dados com vari√°veis cuja rela√ß√£o √© desconhecida, a princ√≠pio (no caso das redes neurais), e para dados com fronteira de decis√£o n√£o-linear (no caso do SVM). Entretanto, os modelos gerados por estas t√©cnicas s√£o pouco interpret√°veis: redes neurais exp√µem um conjunto de pesos que processam os dados, de acordo com a topologia selecionada, e o SVM gera um hiperplano de separa√ß√£o.
 
-No extremo oposto encontra-se a tÈcnica de classificaÁ„o por ·rvores de decis„o. Este mÈtodo È mais restritivo em termos de flexibilidade, mas gera modelos facilmente interpret·veis. De posse de um modelo como o da Figura \ref{fig:exemplo_arvore}, por exemplo, È intuitivo obter os fatores que influenciam na classificaÁ„o das entradas.
+No extremo oposto encontra-se a t√©cnica de classifica√ß√£o por √°rvores de decis√£o. Este m√©todo √© mais restritivo em termos de flexibilidade, mas gera modelos facilmente interpret√°veis. De posse de um modelo como o da Figura \ref{fig:exemplo_arvore}, por exemplo, √© intuitivo obter os fatores que influenciam na classifica√ß√£o das entradas.
 
-Pelas razıes mencionadas anteriormente, o algoritmo de classificaÁ„o por ·rvore de decis„o foi adotado para derivar regras de atuaÁ„o. A seguir ser„o descritos os experimentos feitos com  dados de iluminaÁ„o, englobando o preprocessamento dos dados e a aplicaÁ„o do algoritmo de classificaÁ„o propriamente dito.
+Pelas raz√µes mencionadas anteriormente, o algoritmo de classifica√ß√£o por √°rvore de decis√£o foi adotado para derivar regras de atua√ß√£o. A seguir ser√£o descritos os experimentos feitos com  dados de ilumina√ß√£o, englobando o preprocessamento dos dados e a aplica√ß√£o do algoritmo de classifica√ß√£o propriamente dito.
 
 \subsection{Coleta de Dados}
-Conforme mencionado, o domÌnio de aplicaÁ„o abordado para concepÁ„o de um algoritmo de aprendizagem de regras È o de controle de iluminaÁ„o. Para iniciar os testes, È necess·rio ter em m„os um \textit{dataset} em formato similar ao descrito na seÁ„o \ref{subsec:formatoentrada}. Para obter tais dados de treino, os membros do grupo adquiriram sensores de presenÁa PIR e de iluminaÁ„o, associando-os a um Raspberry Pi, a fim de coletar dados nas respectivas residÍncias. A Figura \ref{fig:montagem_coleta} mostra as montagens utilizadas para efetuar as coletas nas residÍncias.
+Conforme mencionado, o dom√≠nio de aplica√ß√£o abordado para concep√ß√£o de um algoritmo de aprendizagem de regras √© o de controle de ilumina√ß√£o. Para iniciar os testes, √© necess√°rio ter em m√£os um \textit{dataset} em formato similar ao descrito na se√ß√£o \ref{subsec:formatoentrada}. Para obter tais dados de treino, os membros do grupo adquiriram sensores de presen√ßa PIR e de ilumina√ß√£o, associando-os a um Raspberry Pi, a fim de coletar dados nas respectivas resid√™ncias. A Figura \ref{fig:montagem_coleta} mostra as montagens utilizadas para efetuar as coletas nas resid√™ncias.
 
 \begin{figure}[h]
 	\centering
-	\caption{Montagens experimentais para coleta de dados de iluminaÁ„o}
+	\caption{Montagens experimentais para coleta de dados de ilumina√ß√£o}
 	\smallskip
   \includegraphics[width=0.8\textwidth]{imagens/montagem_coleta.png}
   \label{fig:montagem_coleta}  
 \end{figure}
 
-Neste processo, os dados foram amostrados a cada minuto. Na primeira montagem, foi utilizado um bot„o para sinalizar o momento em que o interruptor foi acionado, devido ‡ inviabilidade de conectar o interruptor existente no processo de coleta. Os dados coletados por esta montagem ser„o referidos por \textit{dataset} 1. Na segunda montagem, o estado do interruptor foi inferido posteriormente, de acordo com o hor·rio do dia e da iluminaÁ„o ambiente. Os dados coletados por esta montagem ser„o denominados \textit{dataset} 2. O \textit{timestamp}, mostrado na Tabela \ref{tab:entrada_learning}, foi registrado para cada amostra coletada, e consiste na representaÁ„o POSIX do instante de coleta do dado.
+Neste processo, os dados foram amostrados a cada minuto. Na primeira montagem, foi utilizado um bot√£o para sinalizar o momento em que o interruptor foi acionado, devido √† inviabilidade de conectar o interruptor existente no processo de coleta. Os dados coletados por esta montagem ser√£o referidos por \textit{dataset} 1. Na segunda montagem, o estado do interruptor foi inferido posteriormente, de acordo com o hor√°rio do dia e da ilumina√ß√£o ambiente. Os dados coletados por esta montagem ser√£o denominados \textit{dataset} 2. O \textit{timestamp}, mostrado na Tabela \ref{tab:entrada_learning}, foi registrado para cada amostra coletada, e consiste na representa√ß√£o POSIX do instante de coleta do dado.
 
-\subsection{Experimentos para DerivaÁ„o de Regras}
-Como mencionado, o grupo pretende usar um algoritmo de classificaÁ„o baseado em ·rvore de decis„o para gerar as regras de atuaÁ„o. Levando em conta a rotina associada aos dados de treino coletados, o grupo espera, idealmente, que as seguintes regras sejam derivadas:
+\subsection{Experimentos para Deriva√ß√£o de Regras}
+Como mencionado, o grupo pretende usar um algoritmo de classifica√ß√£o baseado em √°rvore de decis√£o para gerar as regras de atua√ß√£o. Levando em conta a rotina associada aos dados de treino coletados, o grupo espera, idealmente, que as seguintes regras sejam derivadas:
 \begin{itemize}
-	\item Acenda a luz quando h· alguÈm no ambiente, e a iluminaÁ„o no local È baixa;
-	\item Apague a luz quando n„o h· ninguÈm no ambiente
+	\item Acenda a luz quando h√° algu√©m no ambiente, e a ilumina√ß√£o no local √© baixa;
+	\item Apague a luz quando n√£o h√° ningu√©m no ambiente
 \end{itemize}
 
-Para a geraÁ„o das ·rvores de decis„o, o grupo usou a ferramenta Rattle\footnote{DisponÌvel em \url{http://rattle.togaware.com/}.}, que utiliza um algoritmo recursivo \textit{top-down} \cite{williams2011} implementado na biblioteca \texttt{rpart}\footnote{DocumentaÁ„o disponÌvel em \url{https://cran.r-project.org/web/packages/rpart/index.html}}. O objetivo, nesta seÁ„o, È estudar modos de preprocessamento dos dados utilizados pelo algoritmo, e analisar a qualidade das regras criadas. Todo o processamento efetuado sobre os dados foi feito utilizando a linguagem R\footnote{DisponÌvel em \url{https://www.r-project.org/}}.
+Para a gera√ß√£o das √°rvores de decis√£o, o grupo usou a ferramenta Rattle\footnote{Dispon√≠vel em \url{http://rattle.togaware.com/}.}, que utiliza um algoritmo recursivo \textit{top-down} \cite{williams2011} implementado na biblioteca \texttt{rpart}\footnote{Documenta√ß√£o dispon√≠vel em \url{https://cran.r-project.org/web/packages/rpart/index.html}}. O objetivo, nesta se√ß√£o, √© estudar modos de preprocessamento dos dados utilizados pelo algoritmo, e analisar a qualidade das regras criadas. Todo o processamento efetuado sobre os dados foi feito utilizando a linguagem R\footnote{Dispon√≠vel em \url{https://www.r-project.org/}}.
 
-\subsubsection{UtilizaÁ„o de dados \textit{raw}}
-A primeira tentativa de geraÁ„o de regras foi feita alimentando o algoritmo de geraÁ„o do modelo sem efetuar nenhum tipo de preprocessamento dos dados. Os resultados obtidos est„o apresentados na Figura \ref{fig:teste_1}, para cada \textit{dataset} utilizado. Para auxiliar na interpretabilidade dos dados, tenha em mente que valores de lumin‚ncia na ordem de 40 lx correspondem a um ambiente noturno, com uma l‚mpada acesa.
+\subsubsection{Utiliza√ß√£o de dados \textit{raw}}
+A primeira tentativa de gera√ß√£o de regras foi feita alimentando o algoritmo de gera√ß√£o do modelo sem efetuar nenhum tipo de preprocessamento dos dados. Os resultados obtidos est√£o apresentados na Figura \ref{fig:teste_1}, para cada \textit{dataset} utilizado. Para auxiliar na interpretabilidade dos dados, tenha em mente que valores de lumin√¢ncia na ordem de 40 lx correspondem a um ambiente noturno, com uma l√¢mpada acesa.
 
 \begin{figure}[hp]
-	\caption{¡rvores de decis„o geradas sem nenhum preprocessamento de dados.}
+	\caption{√Årvores de decis√£o geradas sem nenhum preprocessamento de dados.}
 	\smallskip
 	\begin{subfigure}{\textwidth}
 		\centering
@@ -613,20 +613,20 @@ A primeira tentativa de geraÁ„o de regras foi feita alimentando o algoritmo de g
   \label{fig:teste_1}  
 \end{figure}
 
-Observe que, no primeiro caso, o algoritmo tenta prever o estado da l‚mpada baseado unicamente nos dados de iluminaÁ„o ambiente, ao passo que no segundo, dados de presenÁa tambÈm s„o utilizados. No entanto, a partir das regras criadas, È evidente que o algoritmo est· prevendo qual o estado corrente da l‚mpada, dados os par‚metros de entrada de lumin‚ncia e presenÁa. Por exemplo, uma das regras criadas diz que se o nÌvel de luminosidade do ambiente for menor que 39, ent„o a l‚mpada est· apagada.
+Observe que, no primeiro caso, o algoritmo tenta prever o estado da l√¢mpada baseado unicamente nos dados de ilumina√ß√£o ambiente, ao passo que no segundo, dados de presen√ßa tamb√©m s√£o utilizados. No entanto, a partir das regras criadas, √© evidente que o algoritmo est√° prevendo qual o estado corrente da l√¢mpada, dados os par√¢metros de entrada de lumin√¢ncia e presen√ßa. Por exemplo, uma das regras criadas diz que se o n√≠vel de luminosidade do ambiente for menor que 39, ent√£o a l√¢mpada est√° apagada.
 
-Para fins de criaÁ„o de regras, o interesse maior est· em identificar o estado em que ocorreu uma mudanÁa no estado da l‚mpada. Para tanto, torna-se necess·rio efetuar um preprocessamento dos dados para evidenciar essas mudanÁas no \textit{dataset}.
+Para fins de cria√ß√£o de regras, o interesse maior est√° em identificar o estado em que ocorreu uma mudan√ßa no estado da l√¢mpada. Para tanto, torna-se necess√°rio efetuar um preprocessamento dos dados para evidenciar essas mudan√ßas no \textit{dataset}.
 
-\subsubsection{AdiÁ„o de um campo de AÁ„o}
-Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a aÁ„o tomada no instante. Por exemplo, se em um dado instante a l‚mpada est· apagada, mas no seguinte ela est· acesa, ent„o o campo "AÁ„o" assume valor "1", indicando que a l‚mpada foi acesa. Analogamente, se a l‚mpada est· acesa em um dado instante e no seguinte ela est· apagada, ent„o o campo "AÁ„o" assume valor "-1", indicando que ela foi apagada. Caso o estado da l‚mpada seja o mesmo em dois instantes de tempo consecutivos, o campo "AÁ„o" assume valor "0", indicando ausÍncia de aÁ„o.
+\subsubsection{Adi√ß√£o de um campo de A√ß√£o}
+Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a a√ß√£o tomada no instante. Por exemplo, se em um dado instante a l√¢mpada est√° apagada, mas no seguinte ela est√° acesa, ent√£o o campo "A√ß√£o" assume valor "1", indicando que a l√¢mpada foi acesa. Analogamente, se a l√¢mpada est√° acesa em um dado instante e no seguinte ela est√° apagada, ent√£o o campo "A√ß√£o" assume valor "-1", indicando que ela foi apagada. Caso o estado da l√¢mpada seja o mesmo em dois instantes de tempo consecutivos, o campo "A√ß√£o" assume valor "0", indicando aus√™ncia de a√ß√£o.
 
-Efetuando este tratamento, o algoritmo n„o produziu nenhum resultado, n„o sendo capaz de criar regras em ambos os \textit{datasets}. Uma an·lise mais profunda mostrou a raz„o disso: o n˙mero de pontos em que n„o houve aÁ„o È ordens de grandeza maior do que os pontos em que houve aÁ„o (cerca de 400 vezes mais pontos no primeiro dataset, e 300 no segundo). 
+Efetuando este tratamento, o algoritmo n√£o produziu nenhum resultado, n√£o sendo capaz de criar regras em ambos os \textit{datasets}. Uma an√°lise mais profunda mostrou a raz√£o disso: o n√∫mero de pontos em que n√£o houve a√ß√£o √© ordens de grandeza maior do que os pontos em que houve a√ß√£o (cerca de 400 vezes mais pontos no primeiro dataset, e 300 no segundo). 
 
-\subsubsection{EliminaÁ„o dos pontos sem aÁ„o} \label{subsubsec:elim_pts_sem_acao}
-Esta tentativa buscou explorar a efic·cia do algoritmo caso pontos sem aÁ„o (AÁ„o=0) fossem eliminados. A Figura \ref{fig:teste_3} mostra as ·rvores de decis„o geradas nesta tentativa.
+\subsubsection{Elimina√ß√£o dos pontos sem a√ß√£o} \label{subsubsec:elim_pts_sem_acao}
+Esta tentativa buscou explorar a efic√°cia do algoritmo caso pontos sem a√ß√£o (A√ß√£o=0) fossem eliminados. A Figura \ref{fig:teste_3} mostra as √°rvores de decis√£o geradas nesta tentativa.
 
 \begin{figure}[hp]
-	\caption{¡rvores de decis„o geradas mantendo somente pontos com aÁ„o tomada.}
+	\caption{√Årvores de decis√£o geradas mantendo somente pontos com a√ß√£o tomada.}
 	\smallskip
 	\begin{subfigure}{\textwidth}
 		\centering
@@ -639,15 +639,15 @@ Esta tentativa buscou explorar a efic·cia do algoritmo caso pontos sem aÁ„o (AÁ„
   \label{fig:teste_3}  
 \end{figure}
 
-Observe que as regras geradas ditam que a luz seja apagada, caso ela esteja acesa, e vice-versa. De fato, do universo de pontos coletados neste item, È Ûbvio que a luz sempre È apagada quando ela est· acesa, e ela sempre È acesa quando est· apagada. Ocorre que a eliminaÁ„o dos dados de AÁ„o=0, apesar de resolver o problema de desbalanceamento, introduziu uma perda de informaÁ„o significativa. Ocorre que, em diversos momentos em que a luz est· acesa, ela n„o È apagada. A manutenÁ„o de tais pontos, pois, se mostra imprescindÌvel para a geraÁ„o de regras coerentes.
+Observe que as regras geradas ditam que a luz seja apagada, caso ela esteja acesa, e vice-versa. De fato, do universo de pontos coletados neste item, √© √≥bvio que a luz sempre √© apagada quando ela est√° acesa, e ela sempre √© acesa quando est√° apagada. Ocorre que a elimina√ß√£o dos dados de A√ß√£o=0, apesar de resolver o problema de desbalanceamento, introduziu uma perda de informa√ß√£o significativa. Ocorre que, em diversos momentos em que a luz est√° acesa, ela n√£o √© apagada. A manuten√ß√£o de tais pontos, pois, se mostra imprescind√≠vel para a gera√ß√£o de regras coerentes.
 
 \subsubsection{Balanceamento do \textit{dataset}}
-Conforme mencionado, o \textit{dataset} em quest„o È extremamente desbalanceado, com uma quantidade de entradas com classe AÁ„o=0 ordens de grandeza maior que entradas das demais classes. Conforme mencionado em \cite{han2005}, dentre as tÈcnicas utilizadas para se lidar com problemas de classificaÁ„o desbalanceados est„o o \textit{undersampling} da classe majorit·ria e o \textit{oversampling} da classe minorit·ria. Neste teste, a primeira tÈcnica ser· adotada para reduzir a quantidade de entradas da classe AÁ„o=0.
+Conforme mencionado, o \textit{dataset} em quest√£o √© extremamente desbalanceado, com uma quantidade de entradas com classe A√ß√£o=0 ordens de grandeza maior que entradas das demais classes. Conforme mencionado em \cite{han2005}, dentre as t√©cnicas utilizadas para se lidar com problemas de classifica√ß√£o desbalanceados est√£o o \textit{undersampling} da classe majorit√°ria e o \textit{oversampling} da classe minorit√°ria. Neste teste, a primeira t√©cnica ser√° adotada para reduzir a quantidade de entradas da classe A√ß√£o=0.
 
-O \textit{undersample} foi efetuado selecionando-se uma quantidade de pontos da classe majorit·ria de forma aleatÛria. A Figura \ref{fig:teste_4} mostra as ·rvores de decis„o geradas nesta tentativa.
+O \textit{undersample} foi efetuado selecionando-se uma quantidade de pontos da classe majorit√°ria de forma aleat√≥ria. A Figura \ref{fig:teste_4} mostra as √°rvores de decis√£o geradas nesta tentativa.
 
 \begin{figure}[hp]
-	\caption{¡rvores de decis„o geradas efetuando \textit{undersample} da classe majorit·ria.}
+	\caption{√Årvores de decis√£o geradas efetuando \textit{undersample} da classe majorit√°ria.}
 	\smallskip
 	\begin{subfigure}{\textwidth}
 		\centering
@@ -663,27 +663,27 @@ O \textit{undersample} foi efetuado selecionando-se uma quantidade de pontos da 
 No \textit{dataset} 1, as regras produzidas foram:
 \begin{itemize}
 	\item Apague a luz quando ela estiver acesa ($light\_on >= 0.5$)
-	\item Acenda a luz quando ela estiver apagada e a iluminaÁ„o ambiente estiver entre 0.42 e 82
-	\item N„o faÁa nada caso contr·rio
+	\item Acenda a luz quando ela estiver apagada e a ilumina√ß√£o ambiente estiver entre 0.42 e 82
+	\item N√£o fa√ßa nada caso contr√°rio
 \end{itemize}
 No caso do segundo \textit{dataset}, as regras produzidas foram:
 \begin{itemize}
 	\item Apague a luz quando ela estiver acesa ($light\_on >= 0.5$)
-	\item Acenda a luz quando ela estiver apagada, alguÈm estiver no quarto e a iluminaÁ„o ambiente for menor que 24
-	\item N„o faÁa nada, caso contr·rio
+	\item Acenda a luz quando ela estiver apagada, algu√©m estiver no quarto e a ilumina√ß√£o ambiente for menor que 24
+	\item N√£o fa√ßa nada, caso contr√°rio
 \end{itemize}
 
-Como foi efetuado uma amostragem aleatÛria em todos os pontos de n„o aÁ„o, reproduzimos esse teste diversas vezes, e as ·rvores resultantes s„o as que ocorriam com mais frequÍncia nos testes. Em ambas as ·rvores, observa-se que ele derivou a regra para apagar a luz sempre que ela esteja acesa, e apenas no segundo \textit{dataset} utilizou a presenÁa no caso de acender a luz.
+Como foi efetuado uma amostragem aleat√≥ria em todos os pontos de n√£o a√ß√£o, reproduzimos esse teste diversas vezes, e as √°rvores resultantes s√£o as que ocorriam com mais frequ√™ncia nos testes. Em ambas as √°rvores, observa-se que ele derivou a regra para apagar a luz sempre que ela esteja acesa, e apenas no segundo \textit{dataset} utilizou a presen√ßa no caso de acender a luz.
 
-Analisando o \textit{dataset}, observa-se que acontece de o usu·rio acender a luz antes da presenÁa ser detectada e tambÈm de apag·-la ainda sob alcance do sensor de presenÁa. Ou seja, o usu·rio deixa o ambiente quando apaga a luz e o frequenta quando a acende, e essa informaÁ„o n„o È representada tomando unicamente a leitura instant‚nea do sensor de presenÁa.
+Analisando o \textit{dataset}, observa-se que acontece de o usu√°rio acender a luz antes da presen√ßa ser detectada e tamb√©m de apag√°-la ainda sob alcance do sensor de presen√ßa. Ou seja, o usu√°rio deixa o ambiente quando apaga a luz e o frequenta quando a acende, e essa informa√ß√£o n√£o √© representada tomando unicamente a leitura instant√¢nea do sensor de presen√ßa.
 
-\subsubsection{ConsideraÁ„o de mÈdias temporais dos dados}
-Com o intuito de capturar o estado do ambiente associado ‡ tomada de uma aÁ„o, testou-se a utilizaÁ„o de uma mÈdia temporal de $n$ pontos para a presenÁa, em vez de utilizar uma ˙nica medida instant‚nea. Deste modo, para um dado instante, o valor da presenÁa È a mÈdia dos $n$ valores subsequentes, arranjados de forma temporal. Efetuar este tipo de processamento faz com que os \textit{datasets} reflitam o estado do ambiente apÛs a tomada da aÁ„o, contribuindo para a geraÁ„o de regras mais precisas. No entanto, h· a necessidade de se conhecer a natureza dos dados coletados para que este tipo de processamento faÁa sentido, tornando este tratamento especÌfico para a aplicaÁ„o descrita de controle de iluminaÁ„o.
+\subsubsection{Considera√ß√£o de m√©dias temporais dos dados}
+Com o intuito de capturar o estado do ambiente associado √† tomada de uma a√ß√£o, testou-se a utiliza√ß√£o de uma m√©dia temporal de $n$ pontos para a presen√ßa, em vez de utilizar uma √∫nica medida instant√¢nea. Deste modo, para um dado instante, o valor da presen√ßa √© a m√©dia dos $n$ valores subsequentes, arranjados de forma temporal. Efetuar este tipo de processamento faz com que os \textit{datasets} reflitam o estado do ambiente ap√≥s a tomada da a√ß√£o, contribuindo para a gera√ß√£o de regras mais precisas. No entanto, h√° a necessidade de se conhecer a natureza dos dados coletados para que este tipo de processamento fa√ßa sentido, tornando este tratamento espec√≠fico para a aplica√ß√£o descrita de controle de ilumina√ß√£o.
 
-A Figura \ref{fig:teste_5_1} mostra ·rvores de decis„o geradas para o \textit{dataset} 1, ao passo que a Figura \ref{fig:teste_5_2} mostra as geradas para o \textit{dataset} 2. Nestes modelos, foi utilizado $n=10$. Devido ‡ natureza aleatÛria do \textit{undersampling}, as duas ·rvores apresentadas em cada figura foram geradas frequentemente.
+A Figura \ref{fig:teste_5_1} mostra √°rvores de decis√£o geradas para o \textit{dataset} 1, ao passo que a Figura \ref{fig:teste_5_2} mostra as geradas para o \textit{dataset} 2. Nestes modelos, foi utilizado $n=10$. Devido √† natureza aleat√≥ria do \textit{undersampling}, as duas √°rvores apresentadas em cada figura foram geradas frequentemente.
 
 \begin{figure}[hp]
-	\caption{¡rvores de decis„o geradas para o \textit{dataset} 1 tomando a mÈdia temporal da presenÁa, com $n=10$.}
+	\caption{√Årvores de decis√£o geradas para o \textit{dataset} 1 tomando a m√©dia temporal da presen√ßa, com $n=10$.}
 	\smallskip
 	\begin{subfigure}{\textwidth}
 		\centering
@@ -697,7 +697,7 @@ A Figura \ref{fig:teste_5_1} mostra ·rvores de decis„o geradas para o \textit{da
 \end{figure}
 
 \begin{figure}[hp]
-	\caption{¡rvores de decis„o geradas para o \textit{dataset} 2 tomando a mÈdia temporal da presenÁa, com $n=10$.}
+	\caption{√Årvores de decis√£o geradas para o \textit{dataset} 2 tomando a m√©dia temporal da presen√ßa, com $n=10$.}
 	\smallskip
 	\begin{subfigure}{\textwidth}
 		\centering
@@ -710,58 +710,58 @@ A Figura \ref{fig:teste_5_1} mostra ·rvores de decis„o geradas para o \textit{da
   \label{fig:teste_5_2}  
 \end{figure}
 
-Observe que os resultados obtidos s„o similares para os dois \textit{datasets}. Analisando a primeira ·rvore da Figura \ref{fig:teste_5_1}, observa-se que as regras geradas foram:
+Observe que os resultados obtidos s√£o similares para os dois \textit{datasets}. Analisando a primeira √°rvore da Figura \ref{fig:teste_5_1}, observa-se que as regras geradas foram:
 \begin{itemize}
-	\item Apague a luz quando ela estiver acesa e n„o houver ninguÈm no ambiente;
-	\item Acenda a luz quando ela estiver apagada, houver presenÁa no ambiente e o nÌvel de luminosidade for menor que 45;
-	\item N„o faÁa nada caso contr·rio.
+	\item Apague a luz quando ela estiver acesa e n√£o houver ningu√©m no ambiente;
+	\item Acenda a luz quando ela estiver apagada, houver presen√ßa no ambiente e o n√≠vel de luminosidade for menor que 45;
+	\item N√£o fa√ßa nada caso contr√°rio.
 \end{itemize}
-No caso da segunda ·rvore da Figura \ref{fig:teste_5_1}, tem-se as regras:
+No caso da segunda √°rvore da Figura \ref{fig:teste_5_1}, tem-se as regras:
 \begin{itemize}
 	\item Apague a luz quando ela estiver acesa;
-	\item Acenda a luz quando ela estiver apagada, houver presenÁa no ambiente e o nÌvel de luminosidade for menor que 73;
-	\item N„o faÁa nada caso contr·rio.
+	\item Acenda a luz quando ela estiver apagada, houver presen√ßa no ambiente e o n√≠vel de luminosidade for menor que 73;
+	\item N√£o fa√ßa nada caso contr√°rio.
 \end{itemize}
 
-Observe que a primeira ·rvore obtida gerou regras Ûtimas, levando em conta os \textit{datasets} utilizados. A segunda, no entanto, ainda sugeria regras que simplesmente apagavam a luz quando ela estivesse acesa. Este problema È similar ao obtido no teste \ref{subsubsec:elim_pts_sem_acao}, e provavelmente se deve ao fato de n„o terem sido escolhidos pontos suficientes da classe AÁ„o=0 no processo de \textit{undersampling}.
+Observe que a primeira √°rvore obtida gerou regras √≥timas, levando em conta os \textit{datasets} utilizados. A segunda, no entanto, ainda sugeria regras que simplesmente apagavam a luz quando ela estivesse acesa. Este problema √© similar ao obtido no teste \ref{subsubsec:elim_pts_sem_acao}, e provavelmente se deve ao fato de n√£o terem sido escolhidos pontos suficientes da classe A√ß√£o=0 no processo de \textit{undersampling}.
 
-\subsubsection{\textit{Undersampling} com clusterizaÁ„o}
-Uma maneira de melhorar o processo de \textit{undersampling}, de modo que os dados coletados representem mais fielmente o \textit{dataset} original, seria aplicar tÈcnicas de clusterizaÁ„o ‡ classe majorit·ria. Desse modo, o procedimento de amostragem consistiria em coletar alguns pontos de cada cluster identificado.
+\subsubsection{\textit{Undersampling} com clusteriza√ß√£o}
+Uma maneira de melhorar o processo de \textit{undersampling}, de modo que os dados coletados representem mais fielmente o \textit{dataset} original, seria aplicar t√©cnicas de clusteriza√ß√£o √† classe majorit√°ria. Desse modo, o procedimento de amostragem consistiria em coletar alguns pontos de cada cluster identificado.
 
-O algoritmo de clusterizaÁ„o utilizado nesta etapa foi o CLARA (\textit{Clustering LARge Applications}), que È classificado como um algoritmo de clusterizaÁ„o por particionamento \cite{han2005}. O CLARA È resultado de uma sÈrie de incrementos efetuados sobre outros algoritmos de particionamento, partindo do mais simples: o \textit{k-means}.
+O algoritmo de clusteriza√ß√£o utilizado nesta etapa foi o CLARA (\textit{Clustering LARge Applications}), que √© classificado como um algoritmo de clusteriza√ß√£o por particionamento \cite{han2005}. O CLARA √© resultado de uma s√©rie de incrementos efetuados sobre outros algoritmos de particionamento, partindo do mais simples: o \textit{k-means}.
 
-O \textit{k-means} È um algoritmo de clusterizaÁ„o iterativo que utiliza a noÁ„o de centroides como pontos representativos de um cluster. Um centroide pode ser visto como o centro geomÈtrico de um \textit{dataset}. Os clusters s„o definidos da seguinte forma. Seja $C=\{c_1,c_2,...,c_k\}$ o conjunto de pontos representativos (centroides), onde $k$ È o n˙mero de clusters, e $dist(x,y)$ uma funÁ„o de c·lculo de dist‚ncia entre dois pontos (por exemplo, dist‚ncia euclidiana). Para cada ponto $p$ do \textit{dataset}, $p$ È alocado ao cluster correspondente ao centroide $c_i$ que minimize $dist(p,c_i)$. 
+O \textit{k-means} √© um algoritmo de clusteriza√ß√£o iterativo que utiliza a no√ß√£o de centroides como pontos representativos de um cluster. Um centroide pode ser visto como o centro geom√©trico de um \textit{dataset}. Os clusters s√£o definidos da seguinte forma. Seja $C=\{c_1,c_2,...,c_k\}$ o conjunto de pontos representativos (centroides), onde $k$ √© o n√∫mero de clusters, e $dist(x,y)$ uma fun√ß√£o de c√°lculo de dist√¢ncia entre dois pontos (por exemplo, dist√¢ncia euclidiana). Para cada ponto $p$ do \textit{dataset}, $p$ √© alocado ao cluster correspondente ao centroide $c_i$ que minimize $dist(p,c_i)$. 
 
-Inicialmente, os $k$ centroides s„o escolhidos de forma aleatÛria do \textit{dataset}. Ent„o, o algoritmo efetua dois passos de forma iterativa:
+Inicialmente, os $k$ centroides s√£o escolhidos de forma aleat√≥ria do \textit{dataset}. Ent√£o, o algoritmo efetua dois passos de forma iterativa:
 \begin{enumerate}
 	\item Aloque cada ponto $p$ ao cluster correspondente, seguindo o procedimento descrito anteriormente;
 	\item Recalcule os centroides, atualizando $C$.
 \end{enumerate}
 
-O procedimento listado È repetido atÈ que n„o haja nenhuma alteraÁ„o nos centroides calculados. A Figura \ref{fig:kmeans} mostra um exemplo de aplicaÁ„o do algoritmo, em que centroides s„o representados pelo sÌmbolo $+$. 
+O procedimento listado √© repetido at√© que n√£o haja nenhuma altera√ß√£o nos centroides calculados. A Figura \ref{fig:kmeans} mostra um exemplo de aplica√ß√£o do algoritmo, em que centroides s√£o representados pelo s√≠mbolo $+$. 
 
 \begin{figure}[h]
 	\centering
-	\caption{Exemplo de execuÁ„o do algoritmo \textit{k-means}}
+	\caption{Exemplo de execu√ß√£o do algoritmo \textit{k-means}}
   \includegraphics[width=0.8\textwidth]{imagens/kmeans.png}
   \label{fig:kmeans}  
   
   Fonte: \cite{han2005}
 \end{figure}
 
-Note que, por definiÁ„o, os centroides podem n„o ser coincidentes com um ponto do \textit{dataset}. Isso torna o algoritmo suscetÌvel a valores atÌpicos (\textit{outliers}), pois a incorporaÁ„o de tais valores acabaria deslocando os centroides em direÁ„o a eles.
+Note que, por defini√ß√£o, os centroides podem n√£o ser coincidentes com um ponto do \textit{dataset}. Isso torna o algoritmo suscet√≠vel a valores at√≠picos (\textit{outliers}), pois a incorpora√ß√£o de tais valores acabaria deslocando os centroides em dire√ß√£o a eles.
 
-Assim, foi proposto um algoritmo que utiliza o conceito de medoide como pontos representativos de um cluster. De modo intuitivo, o medoide $m$ de um \textit{dataset} È um ponto "central" pertencente ao \textit{dataset} original. Formalmente, se $P$ È o conjunto de pontos do \textit{dataset}, $m$ È escolhido de tal forma a minimizar $\sum_{p \in P}{dist(m,p)}$, para todo $m \in P$.
+Assim, foi proposto um algoritmo que utiliza o conceito de medoide como pontos representativos de um cluster. De modo intuitivo, o medoide $m$ de um \textit{dataset} √© um ponto "central" pertencente ao \textit{dataset} original. Formalmente, se $P$ √© o conjunto de pontos do \textit{dataset}, $m$ √© escolhido de tal forma a minimizar $\sum_{p \in P}{dist(m,p)}$, para todo $m \in P$.
 
-A utilizaÁ„o de medoides como pontos representativos torna o algoritmo mais resistente a \textit{outliers}, mas a computaÁ„o do medoide a cada iteraÁ„o È relativamente complexa. O algoritmo PAM (\textit{Partitioning Around Medoids}), uma implementaÁ„o dessa tÈcnica de clusterizaÁ„o utilizando medoides, possui complexidade $O\left(n(n-k)^2\right)$ por iteraÁ„o (onde $n$ È o n˙mero de pontos e $k$ È o n˙mero de medoides), prejudicando sua aplicaÁ„o em larga escala \cite{han2005}.
+A utiliza√ß√£o de medoides como pontos representativos torna o algoritmo mais resistente a \textit{outliers}, mas a computa√ß√£o do medoide a cada itera√ß√£o √© relativamente complexa. O algoritmo PAM (\textit{Partitioning Around Medoids}), uma implementa√ß√£o dessa t√©cnica de clusteriza√ß√£o utilizando medoides, possui complexidade $O\left(n(n-k)^2\right)$ por itera√ß√£o (onde $n$ √© o n√∫mero de pontos e $k$ √© o n√∫mero de medoides), prejudicando sua aplica√ß√£o em larga escala \cite{han2005}.
 
-O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um mÈtodo de amostragem È aplicado, e os medoides s„o calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execuÁ„o do algoritmo, tornando-o adequado para aplicaÁ„o sobre conjuntos de dados grandes. Por esta raz„o, bem como pelo fato de existirem implementaÁıes disponÌveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponÌvel em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterizaÁ„o da classe majorit·ria.
+O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um m√©todo de amostragem √© aplicado, e os medoides s√£o calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execu√ß√£o do algoritmo, tornando-o adequado para aplica√ß√£o sobre conjuntos de dados grandes. Por esta raz√£o, bem como pelo fato de existirem implementa√ß√µes dispon√≠veis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, dispon√≠vel em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusteriza√ß√£o da classe majorit√°ria.
 
-\subsection{LimitaÁıes e n„o-escopos} \label{subsec:limit_aprendizgem}
-Os seguintes itens s„o considerados limitaÁıes do algoritmo de aprendizagem proposto:
+\subsection{Limita√ß√µes e n√£o-escopos} \label{subsec:limit_aprendizgem}
+Os seguintes itens s√£o considerados limita√ß√µes do algoritmo de aprendizagem proposto:
 
 \begin{itemize}
-	\item DomÌnio de aplicaÁ„o restrito a controle de iluminaÁ„o. A aplicaÁ„o do algoritmo de aprendizagem exige um processo de preprocessamento de dados especÌfico ao domÌnio de aplicaÁ„o. Isso impede que o processo aplicado neste trabalho seja generalizado sem adaptaÁıes para geraÁ„o de regras de atuaÁ„o em uma rede de sensores domÈstica;
-	\item Previs„o de valores de atuaÁ„o discretos. Segundo \cite{han2005}, o algoritmo de aprendizagem utilizado (·rvore de decis„o) È considerado de classificaÁ„o. Assim sendo, ele È projetado para prever valores de vari·veis de natureza discreta e sem noÁ„o de ordem. Note que o domÌnio adotado neste trabalho envolve uma vari·vel-alvo com essas caracterÌsticas (l‚mpada apagada ou acesa). Entretanto, a previs„o de vari·veis numÈricas (por exemplo, a temperatura de um ar condicionado) exigiria adaptaÁıes na abordagem de aprendizagem, provavelmente adotando-se um algoritmo de regress„o;
-	\item Escalabilidade. O algoritmo de ·rvore de decis„o adotado faz uso de todos os dados coletados a cada treinamento, em um processo denominado de \textit{batch learning}. Isso significa que uma quantidade consider·vel de dados deve ser armazenada para cada residÍncia, o que afeta a escalabilidade deste processo. Uma abordagem possÌvel para contornar este problema seria adotar um algoritmo de induÁ„o incremental, que atualize as prediÁıes do modelo ‡ medida que novos dados s„o recebidos. Um exemplo de algoritmo desta natureza est· descrito em \cite{utgoff1989}.
+	\item Dom√≠nio de aplica√ß√£o restrito a controle de ilumina√ß√£o. A aplica√ß√£o do algoritmo de aprendizagem exige um processo de preprocessamento de dados espec√≠fico ao dom√≠nio de aplica√ß√£o. Isso impede que o processo aplicado neste trabalho seja generalizado sem adapta√ß√µes para gera√ß√£o de regras de atua√ß√£o em uma rede de sensores dom√©stica;
+	\item Previs√£o de valores de atua√ß√£o discretos. Segundo \cite{han2005}, o algoritmo de aprendizagem utilizado (√°rvore de decis√£o) √© considerado de classifica√ß√£o. Assim sendo, ele √© projetado para prever valores de vari√°veis de natureza discreta e sem no√ß√£o de ordem. Note que o dom√≠nio adotado neste trabalho envolve uma vari√°vel-alvo com essas caracter√≠sticas (l√¢mpada apagada ou acesa). Entretanto, a previs√£o de vari√°veis num√©ricas (por exemplo, a temperatura de um ar condicionado) exigiria adapta√ß√µes na abordagem de aprendizagem, provavelmente adotando-se um algoritmo de regress√£o;
+	\item Escalabilidade. O algoritmo de √°rvore de decis√£o adotado faz uso de todos os dados coletados a cada treinamento, em um processo denominado de \textit{batch learning}. Isso significa que uma quantidade consider√°vel de dados deve ser armazenada para cada resid√™ncia, o que afeta a escalabilidade deste processo. Uma abordagem poss√≠vel para contornar este problema seria adotar um algoritmo de indu√ß√£o incremental, que atualize as predi√ß√µes do modelo √† medida que novos dados s√£o recebidos. Um exemplo de algoritmo desta natureza est√° descrito em \cite{utgoff1989}.
 \end{itemize}

@@ -1,62 +1,222 @@
-\documentclass[a4paper,capchap,espacoumemeio,normaltoc,sumarioincompleto]{abntepusp} % Mude "abntepusp" para "abntepusp-en" para Ingl�s.
+\documentclass[]{politex}
+% ========== Opções ==========
+% pnumromarab - Numeração de páginas usando algarismos romanos na parte pré-textual e arábicos na parte textual
+% abnttoc - Forçar paginação no sumário conforme ABNT (inclui "p." na frente das páginas)
+% normalnum - Numeração contínua de figuras e tabelas 
+%	(caso contrário, a numeração é reiniciada a cada capítulo)
+% draftprint - Ajusta as margens para impressão de rascunhos
+%	(reduz a margem interna)
+% twosideprint - Ajusta as margens para impressão frente e verso
+% capsec - Forçar letras maiúsculas no título das seções
+% espacosimples - Documento usando espaçamento simples
+% espacoduplo - Documento usando espaçamento duplo
+%	(o padrão é usar espaçamento 1.5)
+% times - Tenta usar a fonte Times New Roman para o corpo do texto
+% noindentfirst - Não indenta o primeiro parágrafo dos capítulos/seções
 
-%\usepackage[bookmarks,pdftex,a4paper,colorlinks=true,citecolor=black,urlcolor=blue,linkcolor=black,pdfpagemode=None]{hyperref}
-\usepackage[bookmarks,colorlinks=true,citecolor=black,urlcolor=blue,linkcolor=black,pdfpagemode=UseNone]{hyperref}
-\usepackage[centertags]{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage[T1]{fontenc}
-\usepackage[latin1]{inputenc}
-\usepackage[brazil]{babel} % Mude "brazil" para "english" para Ingl�s.
-\usepackage[alf,abnt-repeated-author-omit=yes]{abntcite}
-%\usepackage[alf,abnt-repeated-author-omit=yes]{abntex2cite}
-\usepackage{url}
-%\usepackage{winfonts}
-\usepackage{txfonts}
-\usepackage[ddmmyyyy]{datetime}
-\usepackage{graphicx}
-\usepackage{enumerate}
-%\usepackage[?]{?}{enumitem}
-%\usepackage{tabu}
-\usepackage{hyperref}
+
+% ========== Packages ==========
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{graphicx,cite,enumerate}
+
+
+% ========== Language options ==========
+\usepackage[brazil]{babel}
+%\usepackage[english]{babel}
+
+
+% ========== ABNT (requer ABNTeX 2) ==========
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/abntex2
+%\usepackage[num]{abntex2cite}
+
+% Forçar o abntex2 a usar [ ] nas referências ao invés de ( )
+%\citebrackets{[}{]}
+
+
+% ========== Lorem ipsum ==========
+\usepackage{blindtext}
+
+% ========== Custom packages ========
+\usepackage[hidelinks]{hyperref}
 \usepackage{subcaption}
 \usepackage{inconsolata}
 \usepackage{listings}
-\lstset{ %Personalizar a formata��o de listagens de c�digo
+\lstset{ %Personalizar a formatação de listagens de código
 	tabsize=2,
 	basicstyle=\ttfamily\linespread{0.8}\small 
 }
 
-%\fontfamily{arial}\selectfont
-%\renewcommand{\rmdefault}{arial}
 
-% Comando �til
-\newcommand{\TODO}[1]{~~\textcolor{red} {\textbf{TODO: #1}}}
+% ========== Opções do documento ==========
+% Título
+\titulo{Projeto HomeSky}
 
-% Math -------------------------------------------------------------------
-\newtheorem{theorem}{Teorema}{\bfseries}{\itshape}
-\newtheorem{lemma}{Lema}{\bfseries}{\itshape}
-\newtheorem{definition}{Defini��o}{\bfseries}{\itshape}
-\newtheorem{corollary}{Corol�rio}{\bfseries}{\itshape}
-\newtheoremstyle{example}{\topsep}{\topsep}%
-	{}%         Body font
-	{}%         Indent amount (empty = no indent, \parindent = para indent)
-	{\bfseries}% Thm head font
-	{:}%        Punctuation after thm head
-	{.5em}%     Space after thm head (\newline = linebreak)
-	{\thmname{#1}\thmnumber{ #2}\thmnote{ #3}}%         Thm head spec
-\theoremstyle{example}
-\newtheorem{example}{Exemplo}
+% Autor
+\autor{
+	Fábio T. Muramatsu \\%
+	Henrique Rodrigues\\%
+	Ricardo B. Gallego}
+	
 
-\sloppy
+% Para múltiplos autores (TCC)
+%\autor{Nome Sobrenome\\%
+%		Nome Sobrenome\\%
+%		Nome Sobrenome}
+
+% Orientador / Coorientador
+\orientador{Reginaldo Arakaki}
+\coorientador{Marcelo Pita e Leandro Souza}
+
+% Tipo de documento
+\tcc{Eletricista com Ênfase em Computação}
+%\dissertacao{Engenharia Elétrica}
+%\teseDOC{Engenharia Elétrica}
+%\teseLD
+%\memorialLD
+
+% Departamento e área de concentração
+\departamento{Departamento de Engenharia de Computação e Sistemas Digitais}
+\areaConcentracao{Engenharia de Computação}
+
+% Local
+\local{São Paulo}
+
+% Ano
+\data{2016}
+
+
+
 
 \begin{document}
+
 \renewcommand{\lstlistingname}{Listagem} 
 \renewcommand{\thelstlisting}{\arabic{lstlisting}}% Imprimir legenda como Listagem X
 
+% ========== Capa e folhas de rosto ==========
+{
+	\fontfamily{phv}\selectfont
+	\capa
+}
+\falsafolhaderosto
+\folhaderosto
 
-\input{texto/00inicializa.tex}
+
+% ========== Folha de assinaturas (opcional) ==========
+%\begin{folhadeaprovacao}
+%	\assinatura{Prof.\ X}
+%	\assinatura{Prof.\ Y}
+%	\assinatura{Prof.\ Z}
+%\end{folhadeaprovacao}
+
+
+% ========== Ficha catalográfica ==========
+% Fazer solicitação no site:
+%	http://www.poli.usp.br/en/bibliotecas/servicos/catalogacao-na-publicacao.html
+
+
+% ========== Dedicatória (opcional) ==========
+%\dedicatoria{Dedicatória}
+
+
+% ========== Agradecimentos ==========
+%\begin{agradecimentos}
+
+%Thanks...
+
+%\end{agradecimentos}
+
+
+% ========== Epígrafe (opcional) ==========
+\epigrafe{%
+	\emph{``Computing is not about computers any more. It is about living.''}
+	\begin{flushright}
+		{Nicholas Negroponte}
+	\end{flushright}
+	\emph{``Talk is cheap. Show me the code.''}
+	\begin{flushright}
+		{Linus Torvalds}
+	\end{flushright}
+	\emph{``Far too often, 'software engineering' is neither engineering nor about software.''}
+	\begin{flushright}
+		{Bjarne Stroustrup}
+	\end{flushright}
+}
+
+
+% ========== Resumo ==========
+\begin{resumo}
+A popularização do conceito de automação residencial foi acompanhado pela disponibilização de diversas soluções comerciais, tais como o Apple HomeKit e o Samsung SmartThings. Tais soluções possuem limitações importantes, como a disponibilização de plataformas parcialmente abertas ou proprietárias e a ausência de um processo aprendizagem para automação residencial. A primeira limitação foi resolvida através do projeto do protocolo Rainfall, que funciona a nível de aplicação e possui especificação aberta. Esse protocolo foi implementado em forma de biblioteca e disponibilizado no serviço Github, podendo ser utilizado como base para o desenvolvimento de dispositivos de uma rede de sensores doméstica. O funcionamento do protocolo foi demonstrado através da prototipação de sensores, atuadores e controladores em computadores Raspberry Pi, que se conectavam com um servidor em nuvem e com um aplicativo móvel. Esta demonstração permitiu efetuar ações presentes nas soluções disponíveis comercialmente, tais como verificar o estado dos dispositivos, enviar comandos a eles e definir regras de automação manualmente, pelo aplicativo, de forma remota. A segunda limitação foi abordada através da implementação de uma prova de conceito para um problema específico de automação residencial, qual seja o controle de iluminação. Para tanto, foi desenvolvido um algoritmo baseado em indução por árvores de decisão, capaz de gerar regras a partir de leituras de sensores de iluminação e presença. O algoritmo foi testado em dados coletados nas residências dos membros do projeto, produzindo resultados satisfatórios.
+%
+\\[3\baselineskip]
+%
+\textbf{Palavras-Chave} -- Palavra, Palavra, Palavra, Palavra, Palavra.
+\end{resumo}
+
+
+% ========== Abstract ==========
+%\begin{abstract}
+%Abstract...
+%%
+%\\[3\baselineskip]
+%%
+%\textbf{Keywords} -- Word, Word, Word, Word, Word.
+%\end{abstract}
+
+
+% ========== Listas (opcional) ==========
+\listadefiguras
+\listadetabelas
+
+% ========== Listas definidas pelo usuário (opcional) ==========
+\begin{pretextualsection}{Lista de símbolos}
+
+\bgroup
+\def\arraystretch{1.2}%  1 is the default, change whatever you need
+\begin{tabular}[h]{l p{0.8\textwidth}}
+6loWPAN & \textit{IPv6 over Low-power Wireless Personal Area Network}\\
+AFP & \textit{Adaptive Frequency Hopping}\\
+API & \textit{Application Programming Interface}\\
+Bluetooth LE & \textit{Bluetooth Low Energy}\\
+CBOR & \textit{Concise Binary Object Representation}\\
+CDMA & \textit{Code Division Multiple Access}\\
+CoAP & \textit{Constrained Application Protocol}\\
+CSMA-CA & \textit{Carrier Sense Multiple Access - Collision Avoidance}\\
+DDS & \textit{Data Distribution Service}\\
+DNF & \textit{Disjunctive Normal Form}\\
+FFD & \textit{Full Function Device}\\
+HTTP & \textit{Hypertext Transfer Protocol}\\
+IEEE & Instituto de Engenheiros Eletricistas e Eletrônicos\\
+IETF & \textit{Internet Engineering Task Force}\\
+IoT & \textit{Internet of Things}\\
+IP & \textit{Internet Protocol}\\
+IPv6 & \textit{Internet Protocol version 6}\\
+ISM & \textit{Industrial, Scientific and Medical}\\
+ITU-T & \textit{International Telecommunication Union - Telecommunication Standardization Sector}\\
+JSON & \textit{JavaScript Object Notation}\\
+MQTT & \textit{Message Queue Telemetry Transport}\\
+MTU & \textit{Maximum Transmission Unit}\\
+OS & \textit{Operating System}\\
+OSI & \textit{Open Systems Interconnection}\\
+PIN & \textit{Personal Identification Number}\\
+PIR & \textit{Passive Infrared}\\
+REST & \textit{Representational State Transfer}\\
+RFD & \textit{Reduced Function Device}\\
+TCP & \textit{Transmission Control Protocol}\\
+TDM & \textit{Time Division Multiplexing}\\
+UDP & \textit{User Datagram Protocol}
+\end{tabular}
+\egroup
+
+\end{pretextualsection}
+
+% ========== Sumário ==========
+\sumario
+
+
+
+% ========== Elementos textuais ==========
+	
 \input{texto/01introducao.tex}
 \input{texto/02especificacao.tex}
 \input{texto/03redesensores.tex}
@@ -65,10 +225,30 @@
 \input{texto/06conclusoes.tex}
 
 
+
+% ========== Referências ==========
+% --- IEEE ---
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran
+%\bibliographystyle{IEEEbib}
+
+% --- ABNT (requer ABNTeX 2) ---
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/abntex2
+\bibliographystyle{abntex2-num}
+
 \bibliography{referencias}
 
-%\appendix
 
-%\chapter{Demonstra��o do Lema da Bifurca��o}\label{app:apendiceA}
+% ========== Apêndices (opcional) ==========
+%\apendice
+%\chapter{}
+%\chapter{Beta}
+
+
+% ========== Anexos (opcional) ==========
+%\anexo
+%\chapter{Alpha}
+%\chapter{}
+
+
 
 \end{document}

@@ -1,22 +1,22 @@
 \chapter{Testes}\label{chp:testes}
-Este capÌtulo visa descrever o procedimento de teste detalhando as ferramentas utilizadas para testar as partes do projeto individualmente, bem como a integraÁ„o delas.
+Este cap√≠tulo visa descrever o procedimento de teste detalhando as ferramentas utilizadas para testar as partes do projeto individualmente, bem como a integra√ß√£o delas.
 
-O grupo desenvolveu testes unit·rios de forma intensiva para garantir o correto funcionamento dos mÛdulos do projeto. Para tanto, foram utilizadas algumas ferramentas de automaÁ„o de testes. No primeiro sub-projeto, o grupo utilizou o Mocha\footnote{DisponÌvel em \url{https://mochajs.org/}}, uma plataforma de execuÁ„o de testes sobre Node.js (Figura \ref{fig:mocha_teste}). No segundo sub-projeto, duas ferramentas de teste foram utilizadas: o JUnit\footnote{DisponÌvel em \url{http://junit.org/}} e o mÛdulo embutido de testes da linguagem Clojure.
+O grupo desenvolveu testes unit√°rios de forma intensiva para garantir o correto funcionamento dos m√≥dulos do projeto. Para tanto, foram utilizadas algumas ferramentas de automa√ß√£o de testes. No primeiro sub-projeto, o grupo utilizou o Mocha\footnote{Dispon√≠vel em \url{https://mochajs.org/}}, uma plataforma de execu√ß√£o de testes sobre Node.js (Figura \ref{fig:mocha_teste}). No segundo sub-projeto, duas ferramentas de teste foram utilizadas: o JUnit\footnote{Dispon√≠vel em \url{http://junit.org/}} e o m√≥dulo embutido de testes da linguagem Clojure.
 
 \begin{figure}[h]
 	\centering
-	\caption{Exemplo de teste unit·rio utilizando a ferramenta Mocha.}
+	\caption{Exemplo de teste unit√°rio utilizando a ferramenta Mocha.}
   \includegraphics[width=0.7\textwidth]{imagens/mocha_teste.png}
   \label{fig:mocha_teste}  
 \end{figure}
 
-Os testes de integraÁ„o foram efetuados desenvolvendo-se versıes simplificadas, mas funcionalmente equivalentes, do componente a ser integrado. Como mencionado anteriormente, os mÛdulos do projeto (dispositivos e controlador locais, servidor \textit{web} e aplicativo mÛvel) foram desenvolvidos de forma independente. Assim, para cada um desses componentes, foi desenvolvido um simulador que possibilitasse integrar com outro mÛdulo a ser testado.
+Os testes de integra√ß√£o foram efetuados desenvolvendo-se vers√µes simplificadas, mas funcionalmente equivalentes, do componente a ser integrado. Como mencionado anteriormente, os m√≥dulos do projeto (dispositivos e controlador locais, servidor \textit{web} e aplicativo m√≥vel) foram desenvolvidos de forma independente. Assim, para cada um desses componentes, foi desenvolvido um simulador que possibilitasse integrar com outro m√≥dulo a ser testado.
 
-Para os dispositivos e controlador da rede local, foram desenvolvidos versıes utilizando o protocolo TCP que podem ser executados no prÛprio computador; para o servidor, foram desenvolvidos bancos de dados de teste que simulassem o estado atual de uma residÍncia, e para o aplicativo, foi implementada uma vers„o de depuraÁ„o capaz de enviar e receber os comandos do protocolo Homecloud (Figura \ref{fig:aplicativo_teste}).
+Para os dispositivos e controlador da rede local, foram desenvolvidos vers√µes utilizando o protocolo TCP que podem ser executados no pr√≥prio computador; para o servidor, foram desenvolvidos bancos de dados de teste que simulassem o estado atual de uma resid√™ncia, e para o aplicativo, foi implementada uma vers√£o de depura√ß√£o capaz de enviar e receber os comandos do protocolo Homecloud (Figura \ref{fig:aplicativo_teste}).
 
 \begin{figure}[h]
 	\centering
-	\caption{Aplicativo utilizado nos testes de integraÁ„o.}
+	\caption{Aplicativo utilizado nos testes de integra√ß√£o.}
   \includegraphics[width=0.5\textwidth]{imagens/aplicativo_teste.png}
   \label{fig:aplicativo_teste}  
 \end{figure}

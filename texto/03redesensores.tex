@@ -1,15 +1,15 @@
 \chapter{Projeto da Rede de Sensores}\label{chp:redesensores}
-Este capÌtulo tem como fim elaborar o protocolo de comunicaÁ„o em nÌvel de aplicaÁ„o, de modo a alcanÁar o objetivo (i) do trabalho. Este item objetiva especificar aspectos como o formato e conte˙do das mensagens a serem transmitidas entre os dispositivos, provendo interoperabilidade entre os dispositivos aderentes ‡ especificaÁ„o.
+Este cap√≠tulo tem como fim elaborar o protocolo de comunica√ß√£o em n√≠vel de aplica√ß√£o, de modo a alcan√ßar o objetivo (i) do trabalho. Este item objetiva especificar aspectos como o formato e conte√∫do das mensagens a serem transmitidas entre os dispositivos, provendo interoperabilidade entre os dispositivos aderentes √† especifica√ß√£o.
 
-A seÁ„o \ref{sec:relwork} analisa protocolos existentes de aplicaÁ„o voltados a rede de sensores sem fio, bem como \textit{frameworks} existentes que utilizam tais tecnologias. Em seguida, discutem-se na seÁ„o \ref{sec:commprot} protocolos de rede existentes que podem ser utilizados em conjunto com os protocolos de aplicaÁ„o para prover a comunicaÁ„o entre os dispositivos.
+A se√ß√£o \ref{sec:relwork} analisa protocolos existentes de aplica√ß√£o voltados a rede de sensores sem fio, bem como \textit{frameworks} existentes que utilizam tais tecnologias. Em seguida, discutem-se na se√ß√£o \ref{sec:commprot} protocolos de rede existentes que podem ser utilizados em conjunto com os protocolos de aplica√ß√£o para prover a comunica√ß√£o entre os dispositivos.
 
 \section{Trabalhos relacionados}\label{sec:relwork}
-Esta seÁ„o tem como objetivo efetuar um estudo dos protocolos de aplicaÁ„o e \textit{frameworks} existentes para programaÁ„o de redes de sensores. Os protocolos analisados a seguir permitem programar redes de sensores de propÛsito geral. O objetivo, ent„o, È analisar as caracterÌsticas destes protocolos existentes para embasar o desenvolvimento de um protocolo especÌfico para redes de sensores voltados ‡ automaÁ„o residencial, que s„o alvos deste trabalho.
+Esta se√ß√£o tem como objetivo efetuar um estudo dos protocolos de aplica√ß√£o e \textit{frameworks} existentes para programa√ß√£o de redes de sensores. Os protocolos analisados a seguir permitem programar redes de sensores de prop√≥sito geral. O objetivo, ent√£o, √© analisar as caracter√≠sticas destes protocolos existentes para embasar o desenvolvimento de um protocolo espec√≠fico para redes de sensores voltados √† automa√ß√£o residencial, que s√£o alvos deste trabalho.
 
-\subsection{Protocolos de AplicaÁ„o existentes}
-\paragraph*{CoAP.} O CoAP (Constrained Application Protocol) \cite{rfc7252} È um protocolo de aplicaÁ„o baseado no modelo REST que provÍ transferÍncia de dados entre nÛs com recursos limitados. Suas mensagens seguem um formato similar ‡s do HTTP, possuindo os tipos GET, POST, PUT e DELETE para efetuar operaÁıes sobre dados. Assim, por exemplo, um dado de um sensor pode ser obtido enviando a ele uma requisiÁ„o GET do dado desejado. Uma caracterÌstica importante do CoAP È o fato de ele ter sido projetado para funcionar sobre UDP, classificado como um protocolo de transporte n„o-confi·vel. Assim, o CoAP provÍ recursos de confiabilidade, definindo mensagens confirm·veis que requerem a emiss„o pacotes do tipo ACK, confirmando a recepÁ„o de tais mensagens.
+\subsection{Protocolos de Aplica√ß√£o existentes}
+\paragraph*{CoAP.} O CoAP (Constrained Application Protocol) \cite{rfc7252} √© um protocolo de aplica√ß√£o baseado no modelo REST que prov√™ transfer√™ncia de dados entre n√≥s com recursos limitados. Suas mensagens seguem um formato similar √†s do HTTP, possuindo os tipos GET, POST, PUT e DELETE para efetuar opera√ß√µes sobre dados. Assim, por exemplo, um dado de um sensor pode ser obtido enviando a ele uma requisi√ß√£o GET do dado desejado. Uma caracter√≠stica importante do CoAP √© o fato de ele ter sido projetado para funcionar sobre UDP, classificado como um protocolo de transporte n√£o-confi√°vel. Assim, o CoAP prov√™ recursos de confiabilidade, definindo mensagens confirm√°veis que requerem a emiss√£o pacotes do tipo ACK, confirmando a recep√ß√£o de tais mensagens.
 
-\paragraph*{MQTT.} O MQTT (Message Queue Telemetry Transport) \cite{mqtt} È um protocolo de aplicaÁ„o aplicando o modelo publicador/observador (\textit{publisher/subscriber}) para transferÍncia de dados. Nesse sistema, existem trÍs tipos de elementos: publicadores, observadores e um elemento intermedi·rio (\textit{broker}) de coordenaÁ„o, como pode ser visto na Figura \ref{fig:mqtt}. Os dispositivos publicadores registram os dados gerados no coordenador, e os observadores registram interesse em receber dados de determinados publicadores. O coordenador, ent„o, encaminha os dados dos publicadores para os observadores interessados. 
+\paragraph*{MQTT.} O MQTT (Message Queue Telemetry Transport) \cite{mqtt} √© um protocolo de aplica√ß√£o aplicando o modelo publicador/observador (\textit{publisher/subscriber}) para transfer√™ncia de dados. Nesse sistema, existem tr√™s tipos de elementos: publicadores, observadores e um elemento intermedi√°rio (\textit{broker}) de coordena√ß√£o, como pode ser visto na Figura \ref{fig:mqtt}. Os dispositivos publicadores registram os dados gerados no coordenador, e os observadores registram interesse em receber dados de determinados publicadores. O coordenador, ent√£o, encaminha os dados dos publicadores para os observadores interessados. 
 
 \begin{figure}[h]
 	\centering
@@ -20,13 +20,13 @@ Esta seÁ„o tem como objetivo efetuar um estudo dos protocolos de aplicaÁ„o e \te
   Fonte: \cite{Fuqaha2015}
 \end{figure}
 
-\paragraph*{DDS.} O DDS (Data Distribution Service) \cite{dds} È um protocolo de aplicaÁ„o que tambÈm aplica o modelo publicador/observador, mas, ao contr·rio do MQTT, n„o envolve um elemento coordenador. Este protocolo prevÍ o envio de mensagens por \textit{multicast}, sendo adequado a redes com requisitos de tempo real no contexto de IoT, alÈm de prover diversos par‚metros de qualidade de serviÁo.
+\paragraph*{DDS.} O DDS (Data Distribution Service) \cite{dds} √© um protocolo de aplica√ß√£o que tamb√©m aplica o modelo publicador/observador, mas, ao contr√°rio do MQTT, n√£o envolve um elemento coordenador. Este protocolo prev√™ o envio de mensagens por \textit{multicast}, sendo adequado a redes com requisitos de tempo real no contexto de IoT, al√©m de prover diversos par√¢metros de qualidade de servi√ßo.
 
-A Tabela \ref{tab:comp_prot_aplic} resume as caracterÌsticas principais dos protocolos de aplicaÁ„o analisados. Observe que os protocolos apresentados se baseiam no TCP ou UDP, implicando em restriÁıes quanto ‡ sua utilizaÁ„o com protocolos de comunicaÁ„o que n„o s„o baseados neles. 
+A Tabela \ref{tab:comp_prot_aplic} resume as caracter√≠sticas principais dos protocolos de aplica√ß√£o analisados. Observe que os protocolos apresentados se baseiam no TCP ou UDP, implicando em restri√ß√µes quanto √† sua utiliza√ß√£o com protocolos de comunica√ß√£o que n√£o s√£o baseados neles. 
 
 \begin{table}[h]
 	\centering
-	\caption{ComparaÁ„o dos Protocolos de AplicaÁ„o analisados}\smallskip
+	\caption{Compara√ß√£o dos Protocolos de Aplica√ß√£o analisados}\smallskip
 	\label{tab:comp_prot_aplic}
 	\includegraphics[width=\textwidth]{tabelas/comp_prot_aplic.pdf}
 	
@@ -34,7 +34,7 @@ A Tabela \ref{tab:comp_prot_aplic} resume as caracterÌsticas principais dos prot
 \end{table}
 
 \subsection{\textit{Frameworks} existentes}
-\paragraph*{IoTivity.} O IoTivity \cite{iotivity} È um projeto colaborativo da fundaÁ„o Linux que tem por objetivo estabelecer um padr„o para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem possibilitar descoberta de dispositivos, transmiss„o de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a Figura \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST (baseado no CoAP), por meio da qual dados e mensagens de controle s„o trafegados. 
+\paragraph*{IoTivity.} O IoTivity \cite{iotivity} √© um projeto colaborativo da funda√ß√£o Linux que tem por objetivo estabelecer um padr√£o para prover conectividade entre dispositivos no contexto de internet das coisas. Suas funcionalidades incluem possibilitar descoberta de dispositivos, transmiss√£o de dados, gerenciamento de dispositivos e gerenciamento de dados, como ilustra a Figura \ref{fig:iotivity}. Seu funcionamento se baseia em uma arquitetura REST (baseado no CoAP), por meio da qual dados e mensagens de controle s√£o trafegados. 
 
 \begin{figure}[h]
 	\centering
@@ -45,98 +45,98 @@ A Tabela \ref{tab:comp_prot_aplic} resume as caracterÌsticas principais dos prot
   Fonte: \cite{iotivity}
 \end{figure}
 
-Uma caracterÌstica proposta na arquitetura do IoTivity a ser adotada neste projeto È a criaÁ„o de uma interface comum a v·rios protocolos de rede subjacentes, visto que provÍ flexibilidade ‡ tecnologia de comunicaÁ„o adotada pelos dispositivos. Entretanto, n„o se deseja adotar a abordagem REST utilizada no IoTivity, pois isso implica que todos os dispositivos necessitam escutar requisiÁıes continuamente. 
+Uma caracter√≠stica proposta na arquitetura do IoTivity a ser adotada neste projeto √© a cria√ß√£o de uma interface comum a v√°rios protocolos de rede subjacentes, visto que prov√™ flexibilidade √† tecnologia de comunica√ß√£o adotada pelos dispositivos. Entretanto, n√£o se deseja adotar a abordagem REST utilizada no IoTivity, pois isso implica que todos os dispositivos necessitam escutar requisi√ß√µes continuamente. 
 
-\paragraph*{ARM mbed.} O mbed \cite{mbed} È uma plataforma de desenvolvimento da ARM, que provÍ um ecossistema para desenvolvimento de aplicaÁıes em IoT. Um de seus produtos principais È o sistema operacional mbed OS, compatÌvel somente com dispositivos baseados no microprocessador ARM Cortex-M. Este sistema provÍ um ambiente de execuÁ„o baseado em eventos e suporta diversos protocolos de rede (Ethernet, Wi-Fi, 6loWPAN, Thread e Bluetooh LE), seguranÁa e gerenciamento de dispositivos baseados em REST.
+\paragraph*{ARM mbed.} O mbed \cite{mbed} √© uma plataforma de desenvolvimento da ARM, que prov√™ um ecossistema para desenvolvimento de aplica√ß√µes em IoT. Um de seus produtos principais √© o sistema operacional mbed OS, compat√≠vel somente com dispositivos baseados no microprocessador ARM Cortex-M. Este sistema prov√™ um ambiente de execu√ß√£o baseado em eventos e suporta diversos protocolos de rede (Ethernet, Wi-Fi, 6loWPAN, Thread e Bluetooh LE), seguran√ßa e gerenciamento de dispositivos baseados em REST.
 
-A plataforma mbed È relativamente complexa, provendo, alÈm do sistema operacional citado, ferramentas de empacotamento de aplicaÁıes, de testes automatizados e de integraÁ„o com serviÁos  em nuvem. Sua principal desvantagem È a restriÁ„o de processadores suportados, que apesar de ampla, restringe significativamente a flexibilidade dos dispositivos utilizados em uma rede. 
+A plataforma mbed √© relativamente complexa, provendo, al√©m do sistema operacional citado, ferramentas de empacotamento de aplica√ß√µes, de testes automatizados e de integra√ß√£o com servi√ßos  em nuvem. Sua principal desvantagem √© a restri√ß√£o de processadores suportados, que apesar de ampla, restringe significativamente a flexibilidade dos dispositivos utilizados em uma rede. 
 
-\paragraph*{RIOT.} O RIOT \cite{baccelli2013} È um sistema operacional que permite programar dispositivos utilizando  C ou C++, possibilitando utilizar ferramentas populares entre programadores como o compilador gcc e o depurador gdb. Ele provÍ suporte a diversas plataformas, alÈm de prover implementaÁıes de diversas pilhas de rede (6LoWPAN, IPv6, UDP) e protocolos de aplicaÁ„o tais como CoAP que podem ser incluÌdos nos programas caso necess·rios.
+\paragraph*{RIOT.} O RIOT \cite{baccelli2013} √© um sistema operacional que permite programar dispositivos utilizando  C ou C++, possibilitando utilizar ferramentas populares entre programadores como o compilador gcc e o depurador gdb. Ele prov√™ suporte a diversas plataformas, al√©m de prover implementa√ß√µes de diversas pilhas de rede (6LoWPAN, IPv6, UDP) e protocolos de aplica√ß√£o tais como CoAP que podem ser inclu√≠dos nos programas caso necess√°rios.
 
-Uma desvantagem do RIOT È o fato de o seu uso estar restrito ‡s plataformas suportadas, que apesar de estarem em expans„o, n„o incluem, atÈ o momento de escrita deste relatÛrio, dispositivos de prototipaÁ„o populares tais como o Arduino Uno e Raspberry Pi. AlÈm disso, seu uso est· restrito a processadores com um ˙nico n˙cleo, inviabilizando a utilizaÁ„o de dispositivos mais recentes. 
+Uma desvantagem do RIOT √© o fato de o seu uso estar restrito √†s plataformas suportadas, que apesar de estarem em expans√£o, n√£o incluem, at√© o momento de escrita deste relat√≥rio, dispositivos de prototipa√ß√£o populares tais como o Arduino Uno e Raspberry Pi. Al√©m disso, seu uso est√° restrito a processadores com um √∫nico n√∫cleo, inviabilizando a utiliza√ß√£o de dispositivos mais recentes. 
  
 \section{Protocolos de rede existentes}\label{sec:commprot}
-O projeto de uma rede de sensores e atuadores sem fio deve levar em conta diversas restriÁıes dos dispositivos que a compıem, tais como o acesso limitado a uma fonte de energia, capacidade reduzida de processamento e meio de comunicaÁ„o com interferÍncias. Com estas restriÁıes em mente, diversos protocolos de comunicaÁ„o foram propostos para viabilizar a implementaÁ„o de redes de sensores sem fio, descritos a seguir.
+O projeto de uma rede de sensores e atuadores sem fio deve levar em conta diversas restri√ß√µes dos dispositivos que a comp√µem, tais como o acesso limitado a uma fonte de energia, capacidade reduzida de processamento e meio de comunica√ß√£o com interfer√™ncias. Com estas restri√ß√µes em mente, diversos protocolos de comunica√ß√£o foram propostos para viabilizar a implementa√ß√£o de redes de sensores sem fio, descritos a seguir.
 
 \subsection{ZigBee}
-O ZigBee È um protocolo de comunicaÁ„o proposto e padronizado pela \textit{ZigBee Alliance} em 2003, visando aplicaÁ„o em redes de sensores sem fio \cite{zigbeealliance}. A especificaÁ„o do protocolo abrange diversos aspectos, desde os de natureza fÌsica (e.g., estratÈgias de reduÁ„o de intereferÍncia) aos de aplicaÁ„o (e.g., aplicaÁ„o de criptografia sobre os dados transmitidos) \cite{stevanovic2007}. A Figura \ref{fig:zigbee} ilustra a abrangÍncia do protocolo ZigBee, tendo como base um modelo em camadas de rede similar ao OSI.
+O ZigBee √© um protocolo de comunica√ß√£o proposto e padronizado pela \textit{ZigBee Alliance} em 2003, visando aplica√ß√£o em redes de sensores sem fio \cite{zigbeealliance}. A especifica√ß√£o do protocolo abrange diversos aspectos, desde os de natureza f√≠sica (e.g., estrat√©gias de redu√ß√£o de interefer√™ncia) aos de aplica√ß√£o (e.g., aplica√ß√£o de criptografia sobre os dados transmitidos) \cite{stevanovic2007}. A Figura \ref{fig:zigbee} ilustra a abrang√™ncia do protocolo ZigBee, tendo como base um modelo em camadas de rede similar ao OSI.
 
 \begin{figure}[h]
 	\centering
-	\caption{AbrangÍncia da especificaÁ„o do protocolo ZigBee, baseado em um modelo de camadas.}
+	\caption{Abrang√™ncia da especifica√ß√£o do protocolo ZigBee, baseado em um modelo de camadas.}
   \includegraphics[width=0.8\textwidth]{imagens/zigbee.png}
   \label{fig:zigbee}
   
   Fonte: \cite{stevanovic2007}
 \end{figure}
 
-Como pode ser verificado no esquema, o ZigBee baseia-se na especificaÁ„o IEEE 802.15.4 no que tange ‡s camadas fÌsica e de controle de acesso ao meio (equivalente ‡s camadas 1 e 2 do modelo OSI). O ZigBee define somente aspectos de alto nÌvel que compıem as camadas de rede (camada 3) e de aplicaÁ„o. Nos prÛximos par·grafos, ser· feita uma descriÁ„o do 802.15.4.
+Como pode ser verificado no esquema, o ZigBee baseia-se na especifica√ß√£o IEEE 802.15.4 no que tange √†s camadas f√≠sica e de controle de acesso ao meio (equivalente √†s camadas 1 e 2 do modelo OSI). O ZigBee define somente aspectos de alto n√≠vel que comp√µem as camadas de rede (camada 3) e de aplica√ß√£o. Nos pr√≥ximos par√°grafos, ser√° feita uma descri√ß√£o do 802.15.4.
 
-O protocolo IEEE 802.15.4 È um protocolo de camadas fÌsica e de enlace que busca prover comunicaÁ„o com baixa complexidade para dispositivos com capacidades limitadas de transmiss„o de dados e de processamento \cite{ieee802_15}. A Tabela \ref{tab:802} resume as caracterÌsticas deste protocolo.
+O protocolo IEEE 802.15.4 √© um protocolo de camadas f√≠sica e de enlace que busca prover comunica√ß√£o com baixa complexidade para dispositivos com capacidades limitadas de transmiss√£o de dados e de processamento \cite{ieee802_15}. A Tabela \ref{tab:802} resume as caracter√≠sticas deste protocolo.
 
 \begin{table}[h]
 	\centering
-	\caption{CaracterÌsticas do protocolo IEEE 802.15.4}\smallskip
+	\caption{Caracter√≠sticas do protocolo IEEE 802.15.4}\smallskip
 	\label{tab:802}
 	\includegraphics[width=0.8\textwidth]{tabelas/802_15_4.pdf}
 	
 	%\bigskip
 	Fonte: \cite{stevanovic2007, schonwalder2010}
 \end{table}
-Como se pode notar, o protocolo opera em trÍs faixas de frequÍncia, sendo que a de 2,4 GHz provÍ maior n˙mero de canais e maior vaz„o de dados, alÈm de estar licenciado para uso global, ao contr·rio das demais \cite{schonwalder2010}. Dentre as funÁıes desempenhadas pelo 802.15.4, destacam-se o controle de acesso ao canal (baseado no CSMA-CA), a confirmaÁ„o de entrega e checagem de erro em \textit{frames}.
+Como se pode notar, o protocolo opera em tr√™s faixas de frequ√™ncia, sendo que a de 2,4 GHz prov√™ maior n√∫mero de canais e maior vaz√£o de dados, al√©m de estar licenciado para uso global, ao contr√°rio das demais \cite{schonwalder2010}. Dentre as fun√ß√µes desempenhadas pelo 802.15.4, destacam-se o controle de acesso ao canal (baseado no CSMA-CA), a confirma√ß√£o de entrega e checagem de erro em \textit{frames}.
 
-O protocolo IEEE 802.15.4 ainda define dois tipos de dispositivos. Um dispositivo com funcionalidade completa (\textit{Full Function Device - FFD}) n„o possui restriÁıes acentuadas de recursos, podendo se tornar um nÛ coordenador da rede de sensores. Ele pode efetuar diversas tarefas dentro da rede, tal como aceitar conexıes e encaminhar pacotes. 
+O protocolo IEEE 802.15.4 ainda define dois tipos de dispositivos. Um dispositivo com funcionalidade completa (\textit{Full Function Device - FFD}) n√£o possui restri√ß√µes acentuadas de recursos, podendo se tornar um n√≥ coordenador da rede de sensores. Ele pode efetuar diversas tarefas dentro da rede, tal como aceitar conex√µes e encaminhar pacotes. 
 
-Um dispositivo com funcionalidade reduzida (\textit{Reduced Function Device - RFD}), por sua vez, consiste em um dispositivo perifÈrico, tal como um sensor, possuindo restriÁıes significativas de recursos. Estes dispositivos em geral atuam como "folhas" na topologia de rede, comunicando-se com um nÛ concentrador (um FFD) quando necess·rio.
+Um dispositivo com funcionalidade reduzida (\textit{Reduced Function Device - RFD}), por sua vez, consiste em um dispositivo perif√©rico, tal como um sensor, possuindo restri√ß√µes significativas de recursos. Estes dispositivos em geral atuam como "folhas" na topologia de rede, comunicando-se com um n√≥ concentrador (um FFD) quando necess√°rio.
 
-Conforme mencionado, o ZigBee define recursos das camadas de rede e aplicaÁ„o, como uma extens„o ao protocolo 802.15.4 (ver Figura \ref{fig:zigbee}). Para tanto, s„o definidos trÍs tipos de equipamentos dentro de uma rede ZigBee. Um dispositivo final consiste em um FFD ou RFD simples, que se comunica com um ˙nico nÛ. Um dispositivo roteador È um FFD capaz de reencaminhar mensagens  ao destinat·rio, caso necess·rio. Por fim, um dispositivo coordenador atua como coordenador da rede, possuindo tambÈm as funcionalidades de um roteador.
+Conforme mencionado, o ZigBee define recursos das camadas de rede e aplica√ß√£o, como uma extens√£o ao protocolo 802.15.4 (ver Figura \ref{fig:zigbee}). Para tanto, s√£o definidos tr√™s tipos de equipamentos dentro de uma rede ZigBee. Um dispositivo final consiste em um FFD ou RFD simples, que se comunica com um √∫nico n√≥. Um dispositivo roteador √© um FFD capaz de reencaminhar mensagens  ao destinat√°rio, caso necess√°rio. Por fim, um dispositivo coordenador atua como coordenador da rede, possuindo tamb√©m as funcionalidades de um roteador.
 
-Pode-se derivar um recurso importante introduzido pela especificaÁ„o do ZigBee: o roteamento \textit{multihop}, atuando como camada de rede. Isso significa que caso um dispositivo envie um pacote para outro que esteja fora do seu alcance, basta que haja roteadores conectando-os. AlÈm disso, o ZigBee permite a formaÁ„o de redes em malha (\textit{mesh}), provendo confiabilidade e toler‚ncia a falhas.
+Pode-se derivar um recurso importante introduzido pela especifica√ß√£o do ZigBee: o roteamento \textit{multihop}, atuando como camada de rede. Isso significa que caso um dispositivo envie um pacote para outro que esteja fora do seu alcance, basta que haja roteadores conectando-os. Al√©m disso, o ZigBee permite a forma√ß√£o de redes em malha (\textit{mesh}), provendo confiabilidade e toler√¢ncia a falhas.
 
-Por fim, o ZigBee introduz recursos importantes em nÌvel de aplicaÁ„o. Exemplos incluem a possibilidade de fragmentaÁ„o e remontagem de pacotes, manutenÁ„o de um registro de dispositivos pareados e funcionalidades relacionadas ‡ seguranÁa, como criptografia.
+Por fim, o ZigBee introduz recursos importantes em n√≠vel de aplica√ß√£o. Exemplos incluem a possibilidade de fragmenta√ß√£o e remontagem de pacotes, manuten√ß√£o de um registro de dispositivos pareados e funcionalidades relacionadas √† seguran√ßa, como criptografia.
 
 \subsection{6LoWPAN}
-O 6LoWPAN È um protocolo definido pelo IETF que define a utilizaÁ„o de IPv6 sobre redes sem fio de baixo consumo, de alcance pessoal (acrÙnimo do inglÍs \textit{IPv6 over Low-power Wireless Personal Area Network}) \cite{rfc4944}. O objetivo principal deste protocolo È integrar o protocolo IP em redes de baixo consumo, trazendo diversos benefÌcios, tais como \cite{rfc4919, schonwalder2010}
+O 6LoWPAN √© um protocolo definido pelo IETF que define a utiliza√ß√£o de IPv6 sobre redes sem fio de baixo consumo, de alcance pessoal (acr√¥nimo do ingl√™s \textit{IPv6 over Low-power Wireless Personal Area Network}) \cite{rfc4944}. O objetivo principal deste protocolo √© integrar o protocolo IP em redes de baixo consumo, trazendo diversos benef√≠cios, tais como \cite{rfc4919, schonwalder2010}
 \begin{itemize}
 	\item A possibilidade de se reutilizar a infraestrutura IP existente;
 	\item A possibilidade de adotar tecnologias que trabalham sobre o protocolo IP, em geral amplamente conhecidos e aceitos por profissionais;
 	\item A facilidade de interoperabilidade com redes IP existentes, e
-	\item A adequaÁ„o do esquema de endereÁamento do IPv6, suprindo a necessidade de um grande n˙mero de endereÁos exigido em uma aplicaÁ„o de IoT.
+	\item A adequa√ß√£o do esquema de endere√ßamento do IPv6, suprindo a necessidade de um grande n√∫mero de endere√ßos exigido em uma aplica√ß√£o de IoT.
 \end{itemize}
 
-De modo semelhante ao ZigBee, o 6LoWPAN baseia-se no protocolo IEEE 802.15.4 no que tange ‡s camadas fÌsica e de enlace, de modo a se adequar a redes de baixo consumo. No entanto,o 6LoWPAN define uma camada de interface entre as camadas do 802.15.4 e IP, como pode ser visto na Figura \ref{fig:6lowpan}.
+De modo semelhante ao ZigBee, o 6LoWPAN baseia-se no protocolo IEEE 802.15.4 no que tange √†s camadas f√≠sica e de enlace, de modo a se adequar a redes de baixo consumo. No entanto,o 6LoWPAN define uma camada de interface entre as camadas do 802.15.4 e IP, como pode ser visto na Figura \ref{fig:6lowpan}.
 
 \begin{figure}[h]
 	\centering
-	\caption{A especificaÁ„o do protocolo 6LoWPAN e sua relaÁ„o com os protocolos 802.15.4 e IP. O modelo OSI È mostrado ao lado como referÍncia.}
+	\caption{A especifica√ß√£o do protocolo 6LoWPAN e sua rela√ß√£o com os protocolos 802.15.4 e IP. O modelo OSI √© mostrado ao lado como refer√™ncia.}
   \includegraphics[width=0.8\textwidth]{imagens/6lowpan.png}
   \label{fig:6lowpan}
   
   Fonte: \cite{moreiras2009}
 \end{figure}
 
-A necessidade de uma camada de interface entre o IPv6 e as camadas inferiores padronizadas pelo 802.15.4 se d· por incompatibilidades existentes entre tais protocolos \cite{rfc4919}. Um exemplo diz respeito ao tamanho dos pacotes previstos por cada protocolo: o 802.15.4 prevÍ pacotes pequenos, com tamanhos de no m·ximo 81 bytes, ao passo que o IPv6 exige suporte a um MTU mÌnimo de 1280 bytes. Logo, um papel da interface definida pelo 6LoWPAN È o de efetuar fragmentaÁ„o e montagem dos pacotes, a fim de compatibilizar os protocolos.
-Outras funÁıes do protocolo incluem:
+A necessidade de uma camada de interface entre o IPv6 e as camadas inferiores padronizadas pelo 802.15.4 se d√° por incompatibilidades existentes entre tais protocolos \cite{rfc4919}. Um exemplo diz respeito ao tamanho dos pacotes previstos por cada protocolo: o 802.15.4 prev√™ pacotes pequenos, com tamanhos de no m√°ximo 81 bytes, ao passo que o IPv6 exige suporte a um MTU m√≠nimo de 1280 bytes. Logo, um papel da interface definida pelo 6LoWPAN √© o de efetuar fragmenta√ß√£o e montagem dos pacotes, a fim de compatibilizar os protocolos.
+Outras fun√ß√µes do protocolo incluem:
 \begin{itemize}
-	\item Compress„o de cabeÁalho: como mencionado, o 802.15.11 suporta cabeÁalhos de no m·ximo 81 bytes. Sendo que um cabeÁalho IPv6 ocupa no mÌnimo 40 bytes (sem os cabeÁalhos opcionais), restam somente 41 bytes para serem usados pelos protocolos de camadas superiores. Fica evidente, ent„o, a necessidade de se aplicar tÈcnicas de compress„o de cabeÁalho, funÁ„o esta desempenhada pelo 6LoWPAN;
-	\item Roteamento \textit{multi-hop} em redes \textit{mesh}: de modo semelhante ao ZigBee, o 6LoWPAN permite a configuraÁ„o de redes \textit{mesh} com capacidade de  autorreparaÁ„o, provendo robustez.
+	\item Compress√£o de cabe√ßalho: como mencionado, o 802.15.11 suporta cabe√ßalhos de no m√°ximo 81 bytes. Sendo que um cabe√ßalho IPv6 ocupa no m√≠nimo 40 bytes (sem os cabe√ßalhos opcionais), restam somente 41 bytes para serem usados pelos protocolos de camadas superiores. Fica evidente, ent√£o, a necessidade de se aplicar t√©cnicas de compress√£o de cabe√ßalho, fun√ß√£o esta desempenhada pelo 6LoWPAN;
+	\item Roteamento \textit{multi-hop} em redes \textit{mesh}: de modo semelhante ao ZigBee, o 6LoWPAN permite a configura√ß√£o de redes \textit{mesh} com capacidade de  autorrepara√ß√£o, provendo robustez.
 \end{itemize}
 
 \subsection{Bluetooth}
-Bluetooth È uma tecnologia de comunicaÁ„o sem fio a curta dist‚ncia. Opera em banda n„o licenciada ISM (Industrial, CientÌfica e MÈdica, na sigla em inglÍs) entre 2,4Ghz e 2,485GHz.
-Por n„o utilizar banda licenciada, o Bluetooth utiliza saltos adaptativos em frequÍncia (\textit{Adaptative Frequency Hopping} - AFH) para diminuir a interferÍncia com outros dispositivos operantes na mesma faixa de 2,4GHz. O aparelho toma conhecimento de demais dispositivos na mesma frequÍncia e as evita, saltando entre 79 frequÍncias a intervalos de 1MHz \cite{redesbluetooth}. 
+Bluetooth √© uma tecnologia de comunica√ß√£o sem fio a curta dist√¢ncia. Opera em banda n√£o licenciada ISM (Industrial, Cient√≠fica e M√©dica, na sigla em ingl√™s) entre 2,4Ghz e 2,485GHz.
+Por n√£o utilizar banda licenciada, o Bluetooth utiliza saltos adaptativos em frequ√™ncia (\textit{Adaptative Frequency Hopping} - AFH) para diminuir a interfer√™ncia com outros dispositivos operantes na mesma faixa de 2,4GHz. O aparelho toma conhecimento de demais dispositivos na mesma frequ√™ncia e as evita, saltando entre 79 frequ√™ncias a intervalos de 1MHz \cite{redesbluetooth}. 
 
-A operaÁ„o Bluetooth ocorre em redes Ad-Hoc de curto alcance conhecidas como Piconet. Tais redes podem ser constituÌdas por 1 membro mestre, 7 escravos ativos e 248 escravos estacionados (endereÁamento de 8 bits). Cada dispositivo pode pertencer a v·rias Piconets. 
-Seu raio de operaÁ„o depende do dispositivo utilizado, que pode ser classificado em trÍs categorias:
+A opera√ß√£o Bluetooth ocorre em redes Ad-Hoc de curto alcance conhecidas como Piconet. Tais redes podem ser constitu√≠das por 1 membro mestre, 7 escravos ativos e 248 escravos estacionados (endere√ßamento de 8 bits). Cada dispositivo pode pertencer a v√°rias Piconets. 
+Seu raio de opera√ß√£o depende do dispositivo utilizado, que pode ser classificado em tr√™s categorias:
 \begin{itemize}
-        \item Classe 3: alcance de 1 metro e potÍncia m·xima de 1mW.
-        \item Classe 2: alcance de 10 metros e potÍncia m·xima de 2,5mW.
-        \item Classe 1: alcance de 100 metros, potÍncia m·xima de 100mW.
+        \item Classe 3: alcance de 1 metro e pot√™ncia m√°xima de 1mW.
+        \item Classe 2: alcance de 10 metros e pot√™ncia m√°xima de 2,5mW.
+        \item Classe 1: alcance de 100 metros, pot√™ncia m√°xima de 100mW.
 \end{itemize}
 
-A camada mais baixa da arquitetura Bluetooth È a camada FÌsica, na qual s„o definidas as especificaÁıes do dispositivo para operar. Dois dispositivos compartilham o mesmo meio fÌsico e para se comunicarem devem estar sintonizados na mesma frequÍncia (processo de parear). Para identificar os membros da Piconet, um cÛdigo de acesso È sempre enviado no cabeÁalho de cada pacote, aumentando a carga e inviabilizando para dispositivos de menor capacidade, como no caso deste projeto. 
+A camada mais baixa da arquitetura Bluetooth √© a camada F√≠sica, na qual s√£o definidas as especifica√ß√µes do dispositivo para operar. Dois dispositivos compartilham o mesmo meio f√≠sico e para se comunicarem devem estar sintonizados na mesma frequ√™ncia (processo de parear). Para identificar os membros da Piconet, um c√≥digo de acesso √© sempre enviado no cabe√ßalho de cada pacote, aumentando a carga e inviabilizando para dispositivos de menor capacidade, como no caso deste projeto. 
 
-Uma mesma unidade pode participar como escrava em v·rias Piconets mas atuar como mestre em apenas uma. Para participar de mais de uma Piconet o dispositivo atua com multiplexaÁ„o no tempo (\textit{Time Division Multiplexing} - TDM). O conjunto de v·rias Piconets independentes e n„o sincronizadas È chamado de Scatternet, conforme esquematizado na \ref{fig:redesbluetooth}.
+Uma mesma unidade pode participar como escrava em v√°rias Piconets mas atuar como mestre em apenas uma. Para participar de mais de uma Piconet o dispositivo atua com multiplexa√ß√£o no tempo (\textit{Time Division Multiplexing} - TDM). O conjunto de v√°rias Piconets independentes e n√£o sincronizadas √© chamado de Scatternet, conforme esquematizado na \ref{fig:redesbluetooth}.
 
 \begin{figure}[h]
 	\centering
@@ -147,18 +147,18 @@ Uma mesma unidade pode participar como escrava em v·rias Piconets mas atuar como
   Fonte: \cite{redesbluetooth}
 \end{figure}
 
-No acesso ao meio fÌsico utiliza-se o mÈtodo CDMA (\textit{Code Division Multiple Access}). Para o projeto da casa conectada, utilizaria-se o padr„o de Enlace ACL (\textit{Asynchronous Conection-Less}), do tipo ponto-multiponto (um mestre e v·rios escravos). Este padr„o È adequado para transmiss„o de dados, de modo que pacotes perdidos ou com erros s„o retransmitidos. 
+No acesso ao meio f√≠sico utiliza-se o m√©todo CDMA (\textit{Code Division Multiple Access}). Para o projeto da casa conectada, utilizaria-se o padr√£o de Enlace ACL (\textit{Asynchronous Conection-Less}), do tipo ponto-multiponto (um mestre e v√°rios escravos). Este padr√£o √© adequado para transmiss√£o de dados, de modo que pacotes perdidos ou com erros s√£o retransmitidos. 
 
-Em qualquer rede sem fio, a vulnerabilidade das informaÁıes È evidente. Como o meio que propaga o sinal È o prÛprio ar, um dispositivo pode captar um sinal sendo enviado se este n„o for devidamente protegido. No caso da tecnologia Bluetooth, onde as conexıes s„o feitas de forma autom·tica, È especialmente importante definir formas de proteger os usu·rios para que n„o recebam dados de dispositivos que n„o desejam.
+Em qualquer rede sem fio, a vulnerabilidade das informa√ß√µes √© evidente. Como o meio que propaga o sinal √© o pr√≥prio ar, um dispositivo pode captar um sinal sendo enviado se este n√£o for devidamente protegido. No caso da tecnologia Bluetooth, onde as conex√µes s√£o feitas de forma autom√°tica, √© especialmente importante definir formas de proteger os usu√°rios para que n√£o recebam dados de dispositivos que n√£o desejam.
 
-Para garantir a integridade das informaÁıes, aplicam-se modos de criptografia e autenticaÁ„o. Isto È especialmente importante no projeto da casa conectada, no qual usu·rios externos e diferentes do dono do sistema n„o podem ter acesso aos dados trafegados. 
+Para garantir a integridade das informa√ß√µes, aplicam-se modos de criptografia e autentica√ß√£o. Isto √© especialmente importante no projeto da casa conectada, no qual usu√°rios externos e diferentes do dono do sistema n√£o podem ter acesso aos dados trafegados. 
 
-Para iniciar uma conex„o, um pedido de permiss„o deve ser enviado. Os dispositivos Bluetooth usam uma chave de acesso chamada n˙mero de identificaÁ„o pessoal (PIN) para autenticaÁ„o. Se a chave de acesso digitada pelo usu·rio que deseja conectar corresponder ‡ chave de acesso ao dispositivo detectado, a autenticaÁ„o È realizada com Íxito. Caso contr·rio ela falhar·. 
+Para iniciar uma conex√£o, um pedido de permiss√£o deve ser enviado. Os dispositivos Bluetooth usam uma chave de acesso chamada n√∫mero de identifica√ß√£o pessoal (PIN) para autentica√ß√£o. Se a chave de acesso digitada pelo usu√°rio que deseja conectar corresponder √† chave de acesso ao dispositivo detectado, a autentica√ß√£o √© realizada com √™xito. Caso contr√°rio ela falhar√°. 
 
 \subsection{Z-Wave}
-Z-Wave È um protocolo de comunicaÁ„o sem fio que tem como foco baixo consumo, baixa taxa de dados e confiabilidade. Foi criado pela empresa dinamarquesa Zen-Sys, que foi adquirida pela Sigma Designs e desde sua concepÁ„o È voltada para automaÁ„o residencial \cite{wikizwave,zwavelayers}.
+Z-Wave √© um protocolo de comunica√ß√£o sem fio que tem como foco baixo consumo, baixa taxa de dados e confiabilidade. Foi criado pela empresa dinamarquesa Zen-Sys, que foi adquirida pela Sigma Designs e desde sua concep√ß√£o √© voltada para automa√ß√£o residencial \cite{wikizwave,zwavelayers}.
 
-As duas camadas mais baixas (FÌsica e Enlace) da pilha de protocolos s„o definidas pelo ITU-T G.9959, ou seja, trata-se de um padr„o formalmente definido por um Ûrg„o internacional de padrıes. PorÈm, sua camada de rede È definida pela Sigma Designs e as camadas acima s„o definidas pelo desenvolvedor da aplicaÁ„o, como pode ser observado na Figura \ref{fig:zwavelayers}.
+As duas camadas mais baixas (F√≠sica e Enlace) da pilha de protocolos s√£o definidas pelo ITU-T G.9959, ou seja, trata-se de um padr√£o formalmente definido por um √≥rg√£o internacional de padr√µes. Por√©m, sua camada de rede √© definida pela Sigma Designs e as camadas acima s√£o definidas pelo desenvolvedor da aplica√ß√£o, como pode ser observado na Figura \ref{fig:zwavelayers}.
 
 
 \begin{figure}[h]
@@ -170,82 +170,82 @@ As duas camadas mais baixas (FÌsica e Enlace) da pilha de protocolos s„o definid
     Fonte: \cite{zwavelayers}
 \end{figure}
 
-O Z-Wave trabalha em frequÍncias abaixo de 1GHz, por volta de 900MHz, fazendo com que ela n„o interfira com Wi-Fi, Bluetooth e diversas outras tecnologias que trabalham na j· bastante utilizada frequÍncia de 2,4GHz. AlÈm disso, suas taxas de transmiss„o s„o de 9600 bit/s, 40 kbit/s ou 100 kbit/s e seu alcance È de 100m em ·reas abertas.
+O Z-Wave trabalha em frequ√™ncias abaixo de 1GHz, por volta de 900MHz, fazendo com que ela n√£o interfira com Wi-Fi, Bluetooth e diversas outras tecnologias que trabalham na j√° bastante utilizada frequ√™ncia de 2,4GHz. Al√©m disso, suas taxas de transmiss√£o s√£o de 9600 bit/s, 40 kbit/s ou 100 kbit/s e seu alcance √© de 100m em √°reas abertas.
 
-Uma rede Z-Wave define dois tipos de dispositivos: controladores e escravos. Os controladores iniciam comandos de controle para os escravos e os enviam. J· os nÛs escravos apenas respondem a comandos e os executam. PorÈm, estes nÛs tambÈm podem funcionar como repetidores, aumentando o alcance de sua rede Z-Wave.
+Uma rede Z-Wave define dois tipos de dispositivos: controladores e escravos. Os controladores iniciam comandos de controle para os escravos e os enviam. J√° os n√≥s escravos apenas respondem a comandos e os executam. Por√©m, estes n√≥s tamb√©m podem funcionar como repetidores, aumentando o alcance de sua rede Z-Wave.
 
-Cada rede Z-Wave pode conter atÈ 232 dispositivos e È identificada por um ID da rede (Network ID ou Home ID), que possui 32 bits. NÛs conectados em redes distintas n„o podem se comunicar diretamente entre si, e em uma rede cada nÛ tem um ID ˙nico (Node ID) de 8 bits.
+Cada rede Z-Wave pode conter at√© 232 dispositivos e √© identificada por um ID da rede (Network ID ou Home ID), que possui 32 bits. N√≥s conectados em redes distintas n√£o podem se comunicar diretamente entre si, e em uma rede cada n√≥ tem um ID √∫nico (Node ID) de 8 bits.
 
-As redes Z-Wave utilizam uma topologia de malha (\textit{mesh}) e È necess·rio existir um controlador prim·rio e opcionalmente controladores secund·rios. Os nÛs s„o adicionados atravÈs do pareamento em que o controlador mede a forÁa do sinal entre os equipamentos e assume que esta ir· se manter constante, fazendo com que os escravos n„o possam se mover espacialmente sem terem que realizar o pareamento novamente.
+As redes Z-Wave utilizam uma topologia de malha (\textit{mesh}) e √© necess√°rio existir um controlador prim√°rio e opcionalmente controladores secund√°rios. Os n√≥s s√£o adicionados atrav√©s do pareamento em que o controlador mede a for√ßa do sinal entre os equipamentos e assume que esta ir√° se manter constante, fazendo com que os escravos n√£o possam se mover espacialmente sem terem que realizar o pareamento novamente.
 
-%\section{An·lise dos protocolos de comunicaÁ„o}
-%Uma vez descritos os protocolos de comunicaÁ„o, È possÌvel analisar as vantagens e desvantagens de cada um deles, tendo em vista o escopo do presente trabalho. A Tabela \ref{tab:analiseprotcom} lista de forma sucinta as caracterÌsticas levantadas de cada protocolo.
+%\section{An√°lise dos protocolos de comunica√ß√£o}
+%Uma vez descritos os protocolos de comunica√ß√£o, √© poss√≠vel analisar as vantagens e desvantagens de cada um deles, tendo em vista o escopo do presente trabalho. A Tabela \ref{tab:analiseprotcom} lista de forma sucinta as caracter√≠sticas levantadas de cada protocolo.
 %
 %\begin{table}[h]
 %	\centering
-%	\caption{An·lise dos protocolos de comunicaÁ„o}\smallskip
+%	\caption{An√°lise dos protocolos de comunica√ß√£o}\smallskip
 %	\label{tab:analiseprotcom}
 %	\includegraphics[width=\textwidth]{tabelas/comp_prot_rede.pdf}
 %\end{table}
 %
-%Conforme mencionado, os protocolos ZigBee e 6LoWPAN s„o baseados no padr„o IEEE 802.15.4, apresentando, pois, caracterÌsticas fÌsicas e de acesso ao meio similares, tais como frequÍncia de operaÁ„o e alcance. Ambos ainda preveem suporte a redes em malha com roteamento \textit{multihop}, permitindo aplicaÁıes em ambientes em que a localizaÁ„o dos dispositivos seja esparsa, sendo necess·rio roteadores intermedi·rios para comunicaÁ„o.
+%Conforme mencionado, os protocolos ZigBee e 6LoWPAN s√£o baseados no padr√£o IEEE 802.15.4, apresentando, pois, caracter√≠sticas f√≠sicas e de acesso ao meio similares, tais como frequ√™ncia de opera√ß√£o e alcance. Ambos ainda preveem suporte a redes em malha com roteamento \textit{multihop}, permitindo aplica√ß√µes em ambientes em que a localiza√ß√£o dos dispositivos seja esparsa, sendo necess√°rio roteadores intermedi√°rios para comunica√ß√£o.
 %
-%No entanto, tais protocolos diferem entre si em alguns aspectos. Em primeiro lugar, o ZigBee foi padronizado em 2003, visto como o protocolo mais popular utilizado em redes de sensores sem fio \cite{toscano2012}. O 6LoWPAN, por sua vez, È um padr„o mais novo, tendo sido proposto pelo IETF em 2007. AlÈm disso, a especificaÁ„o do 6LoWPAN È totalmente aberta, alÈm de adotar camadas de nÌvel superior (rede e transporte) conhecidas e amplamente adotadas em redes existentes (IP e TCP/UDP), ao passo que o ZigBee define camadas de rede e aplicaÁ„o prÛprias, em uma especificaÁ„o de acesso restrito. Por fim, o Zigbee prevÍ a possibilidade de os nÛs entrarem em um estado de dormÍncia (r·dio inativo), ao passo que o 6LoWPAN n„o permite este modo. Isto se deve ao fato de ele estar baseado no protocolo IP, que prevÍ que os nÛs sempre estejam ativos \cite{toscano2012}.
+%No entanto, tais protocolos diferem entre si em alguns aspectos. Em primeiro lugar, o ZigBee foi padronizado em 2003, visto como o protocolo mais popular utilizado em redes de sensores sem fio \cite{toscano2012}. O 6LoWPAN, por sua vez, √© um padr√£o mais novo, tendo sido proposto pelo IETF em 2007. Al√©m disso, a especifica√ß√£o do 6LoWPAN √© totalmente aberta, al√©m de adotar camadas de n√≠vel superior (rede e transporte) conhecidas e amplamente adotadas em redes existentes (IP e TCP/UDP), ao passo que o ZigBee define camadas de rede e aplica√ß√£o pr√≥prias, em uma especifica√ß√£o de acesso restrito. Por fim, o Zigbee prev√™ a possibilidade de os n√≥s entrarem em um estado de dorm√™ncia (r√°dio inativo), ao passo que o 6LoWPAN n√£o permite este modo. Isto se deve ao fato de ele estar baseado no protocolo IP, que prev√™ que os n√≥s sempre estejam ativos \cite{toscano2012}.
 %
-%Em relaÁ„o ao Bluetooth, pode-se consider·-lo um protocolo amplamente difundido, sendo integrado inclusive em maior parte dos dispositivos mÛveis atuais. No entanto, ele possui a desvantagem de possuir alcance limitado e de n„o suportar redes complexas, limitando a abrangÍncia da rede. Soma-se a isso o fato de n„o ser possÌvel iniciar a comunicaÁ„o de um dispositivo escravo a um mestre (coordenador), tornando inconveniente a utilizaÁ„o de sensores como escravos, haja vista a necessidade de mantÍ-los ativos ‡ espera de uma mensagem do dispositivo mestre para envio das leituras.
+%Em rela√ß√£o ao Bluetooth, pode-se consider√°-lo um protocolo amplamente difundido, sendo integrado inclusive em maior parte dos dispositivos m√≥veis atuais. No entanto, ele possui a desvantagem de possuir alcance limitado e de n√£o suportar redes complexas, limitando a abrang√™ncia da rede. Soma-se a isso o fato de n√£o ser poss√≠vel iniciar a comunica√ß√£o de um dispositivo escravo a um mestre (coordenador), tornando inconveniente a utiliza√ß√£o de sensores como escravos, haja vista a necessidade de mant√™-los ativos √† espera de uma mensagem do dispositivo mestre para envio das leituras.
 %
-%Por fim, nota-se que o Z-Wave possui vantagens em comum ‡s do ZigBee e do 6LoWPAN. Em contrapartida, sua especificaÁ„o È parcialmente aberta, alÈm de possuir baixa adoÁ„o. De modo similar ao Bluetooth, este dispositivos atuando como escravos n„o podem iniciar uma comunicaÁ„o, devendo somente responder ‡s mensagens de um mestre.
+%Por fim, nota-se que o Z-Wave possui vantagens em comum √†s do ZigBee e do 6LoWPAN. Em contrapartida, sua especifica√ß√£o √© parcialmente aberta, al√©m de possuir baixa ado√ß√£o. De modo similar ao Bluetooth, este dispositivos atuando como escravos n√£o podem iniciar uma comunica√ß√£o, devendo somente responder √†s mensagens de um mestre.
 
-%Ponderando as caracterÌsticas expostas, o grupo optou por adotar o protocolo ZigBee para implementar um protÛtipo de rede a ser utilizado como base para projetar o protocolo de nÌvel de aplicaÁ„o. Cabe ressaltar que o protocolo de aplicaÁ„o deve ser genÈrico a ponto de funcionar corretamente independente da escolha dos protocolos de comunicaÁ„o subjacentes.
+%Ponderando as caracter√≠sticas expostas, o grupo optou por adotar o protocolo ZigBee para implementar um prot√≥tipo de rede a ser utilizado como base para projetar o protocolo de n√≠vel de aplica√ß√£o. Cabe ressaltar que o protocolo de aplica√ß√£o deve ser gen√©rico a ponto de funcionar corretamente independente da escolha dos protocolos de comunica√ß√£o subjacentes.
 
-\section{DefiniÁ„o do Protocolo de AplicaÁ„o \textit{Rainfall}}
+\section{Defini√ß√£o do Protocolo de Aplica√ß√£o \textit{Rainfall}}
 \subsection{Requisitos} \label{subsec:requisitos}
-Uma vez analisados os protocolos de aplicaÁ„o e frameworks existentes (seÁ„o \ref{sec:relwork}), bem como os protocolos de rede (seÁ„o \ref{sec:commprot}), e tendo em vista os requisitos levantados para a rede de sensores (seÁıes \ref{sec:reqfunc} e \ref{sec:reqnfunc}), pode-se passar para a especificaÁ„o do protocolo de aplicaÁ„o proposto, batizado de \textit{Rainfall}.
+Uma vez analisados os protocolos de aplica√ß√£o e frameworks existentes (se√ß√£o \ref{sec:relwork}), bem como os protocolos de rede (se√ß√£o \ref{sec:commprot}), e tendo em vista os requisitos levantados para a rede de sensores (se√ß√µes \ref{sec:reqfunc} e \ref{sec:reqnfunc}), pode-se passar para a especifica√ß√£o do protocolo de aplica√ß√£o proposto, batizado de \textit{Rainfall}.
 
 \begin{enumerate}[\quad R1.]
-	\item O protocolo a ser desenvolvido deve funcionar com diversos protocolos de rede. Conforme a an·lise realizada, existem diversos protocolos de redes voltados a redes de sensores sem fio existentes, e convÈm que o protocolo de aplicaÁ„o desenvolvido n„o seja restrito a nenhum deles de forma especÌfica. Uma abordagem similar ‡ do IoTivity pode ser interessante, criando-se uma interface comum a v·rios protocolos de rede subjacentes;
-	\item Os dispositivos devem poder declarar sua funcionalidade, incluindo informaÁıes sobre sua classificaÁ„o como sensor ou atuador, e sua categoria (tipo de sensor ou atuador);
-	\item Os dispositivos devem poder enviar dados de leitura (no caso de sensores) e receber comandos de atuaÁ„o (no caso de atuadores);
-	\item O protocolo deve enviar mensagens de forma concisa, levando em consideraÁ„o as limitaÁıes dos dispositivos envolvidos.
+	\item O protocolo a ser desenvolvido deve funcionar com diversos protocolos de rede. Conforme a an√°lise realizada, existem diversos protocolos de redes voltados a redes de sensores sem fio existentes, e conv√©m que o protocolo de aplica√ß√£o desenvolvido n√£o seja restrito a nenhum deles de forma espec√≠fica. Uma abordagem similar √† do IoTivity pode ser interessante, criando-se uma interface comum a v√°rios protocolos de rede subjacentes;
+	\item Os dispositivos devem poder declarar sua funcionalidade, incluindo informa√ß√µes sobre sua classifica√ß√£o como sensor ou atuador, e sua categoria (tipo de sensor ou atuador);
+	\item Os dispositivos devem poder enviar dados de leitura (no caso de sensores) e receber comandos de atua√ß√£o (no caso de atuadores);
+	\item O protocolo deve enviar mensagens de forma concisa, levando em considera√ß√£o as limita√ß√µes dos dispositivos envolvidos.
 \end{enumerate}
 
-\subsection{Sintaxe e Sem‚ntica} \label{subsec:sintaxe}
-Levando-se em conta a natureza das mensagens a serem transmitidas, convÈm adotar uma estrutura de dados no formato chave-valor. Neste relatÛrio, a representaÁ„o dos dados seguindo este formato ser· feito de forma similar ao formato JSON:
+\subsection{Sintaxe e Sem√¢ntica} \label{subsec:sintaxe}
+Levando-se em conta a natureza das mensagens a serem transmitidas, conv√©m adotar uma estrutura de dados no formato chave-valor. Neste relat√≥rio, a representa√ß√£o dos dados seguindo este formato ser√° feito de forma similar ao formato JSON:
 \begin{center}
 	\texttt{\{chave\_1:valor\_1, ..., chave\_n:valor\_n\}}
 \end{center}
-onde \texttt{chave\_1}, \texttt{chave\_n} s„o as chaves e \texttt{valor\_1}, \texttt{valor\_n} s„o os valores associados.
+onde \texttt{chave\_1}, \texttt{chave\_n} s√£o as chaves e \texttt{valor\_1}, \texttt{valor\_n} s√£o os valores associados.
 
-Os requisitos definidos na seÁ„o \ref{subsec:requisitos} permitem definir as chaves e valores associados a serem utilizados no protocolo, conforme mostra a Tabela \ref{tab:chavevalorprot}.
+Os requisitos definidos na se√ß√£o \ref{subsec:requisitos} permitem definir as chaves e valores associados a serem utilizados no protocolo, conforme mostra a Tabela \ref{tab:chavevalorprot}.
 
 \begin{table}[h]
 	\centering
-	\caption{Chaves e valores associados utilizados no protocolo de aplicaÁ„o.}\smallskip
+	\caption{Chaves e valores associados utilizados no protocolo de aplica√ß√£o.}\smallskip
 	\label{tab:chavevalorprot}
 	\includegraphics[width=0.9\textwidth]{tabelas/chave_valor_prot.pdf}
 \end{table}
 
-A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais campos que devem estar presentes nele e como devem ser interpretados. Os possÌveis valores dessa chave s„o:
+A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais campos que devem estar presentes nele e como devem ser interpretados. Os poss√≠veis valores dessa chave s√£o:
 
-\paragraph*{\texttt{whoiscontroller}.} Esta mensagem È enviada por um dispositivo sensor ou atuador  por broadcast para descobrir o endereÁo do controlador. 
+\paragraph*{\texttt{whoiscontroller}.} Esta mensagem √© enviada por um dispositivo sensor ou atuador  por broadcast para descobrir o endere√ßo do controlador. 
 
 \paragraph*{\texttt{iamcontroller}.} Mensagem enviada em resposta ao pedido de descoberta de controlador. Espera-se que este pacote conte com o seguinte campo:
 \begin{itemize}
-	\item \texttt{yourId}: esta mensagem È emitida pelo controlador, definindo o identificador a ser utilizado pelos dispositivos da rede nas comunicaÁıes subsequentes.
+	\item \texttt{yourId}: esta mensagem √© emitida pelo controlador, definindo o identificador a ser utilizado pelos dispositivos da rede nas comunica√ß√µes subsequentes.
 \end{itemize}
 
-\paragraph*{\texttt{describeyourself}.} Mensagem enviada pelo controlador solicitando ao dispositivo-alvo uma descriÁ„o de suas funcionalidades.
+\paragraph*{\texttt{describeyourself}.} Mensagem enviada pelo controlador solicitando ao dispositivo-alvo uma descri√ß√£o de suas funcionalidades.
 
-\paragraph*{\texttt{description}.} Consiste na descriÁ„o das funcionalidades do dispositivo, enviada em resposta ao pedido \texttt{describeyourself}. Espera-se que um pacote deste tipo conte com os seguintes campos:
+\paragraph*{\texttt{description}.} Consiste na descri√ß√£o das funcionalidades do dispositivo, enviada em resposta ao pedido \texttt{describeyourself}. Espera-se que um pacote deste tipo conte com os seguintes campos:
 \begin{itemize}
-	\item \texttt{nodeClass}: define a classe de um dispositivo, que pode ser sensor, atuador ou controlador. Um sensor È definido como um dispositivo que envia dados de leitura. Um controlador È um dispositivo que recebe comandos e efetua aÁıes baseadas neles. Um controlador È um dispositivo que coordena sensores e atuadores, recebendo dados de leitura e enviando comandos de atuaÁ„o;
-	\item \texttt{dataType}: especifica as classes de dados que s„o emitidos pelo sensor. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:datatype}. O campo \texttt{category} define a categoria de dados coletados pelo sensor, alÈm de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classesdados} define os valores possÌveis de serem utilizados como categoria, alÈm de listar os tipos de dados permitidos para cada categoria;
-	\item \texttt{commandType}: especifica as classes de comandos aceitos pelo atuador. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:commandtype}. O campo \texttt{category} define a categoria de comandos aceitos pelo atuador, alÈm de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classescomandos} define os valores possÌveis de serem utilizados como categoria, alÈm de listar os tipos de dados permitidos para cada categoria.
+	\item \texttt{nodeClass}: define a classe de um dispositivo, que pode ser sensor, atuador ou controlador. Um sensor √© definido como um dispositivo que envia dados de leitura. Um controlador √© um dispositivo que recebe comandos e efetua a√ß√µes baseadas neles. Um controlador √© um dispositivo que coordena sensores e atuadores, recebendo dados de leitura e enviando comandos de atua√ß√£o;
+	\item \texttt{dataType}: especifica as classes de dados que s√£o emitidos pelo sensor. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:datatype}. O campo \texttt{category} define a categoria de dados coletados pelo sensor, al√©m de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classesdados} define os valores poss√≠veis de serem utilizados como categoria, al√©m de listar os tipos de dados permitidos para cada categoria;
+	\item \texttt{commandType}: especifica as classes de comandos aceitos pelo atuador. Consiste em um objeto com chaves e valores definidos conforme mostra a Tabela \ref{tab:commandtype}. O campo \texttt{category} define a categoria de comandos aceitos pelo atuador, al√©m de especificar os tipos que podem ser alocados no campo \texttt{type}. A Tabela \ref{tab:classescomandos} define os valores poss√≠veis de serem utilizados como categoria, al√©m de listar os tipos de dados permitidos para cada categoria.
 \end{itemize}
 
 \begin{table}[hp]
 	\centering
-	\caption{Chaves e valores associados utilizados na declaraÁ„o de tipos de dados lidos por um sensor.}\smallskip
+	\caption{Chaves e valores associados utilizados na declara√ß√£o de tipos de dados lidos por um sensor.}\smallskip
 	\label{tab:datatype}
 	\includegraphics[width=0.9\textwidth]{tabelas/datatype.pdf}
 	
@@ -258,7 +258,7 @@ A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais camp
 
 \begin{table}[hp]
 	\centering
-	\caption{Chaves e valores associados utilizados na declaraÁ„o de tipos de comandos aceitos por um atuador.}\smallskip
+	\caption{Chaves e valores associados utilizados na declara√ß√£o de tipos de comandos aceitos por um atuador.}\smallskip
 	\label{tab:commandtype}
 	\includegraphics[width=0.9\textwidth]{tabelas/commandtype.pdf}
 	
@@ -276,7 +276,7 @@ A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais camp
 
 \begin{table}[h]
 	\centering
-	\caption{Chaves e valores associados utilizados na transmiss„o de um dado por um sensor.}\smallskip
+	\caption{Chaves e valores associados utilizados na transmiss√£o de um dado por um sensor.}\smallskip
 	\label{tab:chaves_dado}
 	\includegraphics[width=0.9\textwidth]{tabelas/chaves_dado.pdf}
 \end{table}
@@ -288,167 +288,167 @@ A chave \texttt{packageType} descreve o tipo do pacote, definindo os demais camp
 
 \begin{table}[h]
 	\centering
-	\caption{Chaves e valores associados utilizados na transmiss„o de um comando para um atuador.}\smallskip
+	\caption{Chaves e valores associados utilizados na transmiss√£o de um comando para um atuador.}\smallskip
 	\label{tab:chaves_comando}
 	\includegraphics[width=0.9\textwidth]{tabelas/chaves_comando.pdf}
 \end{table}
 
-\paragraph*{\texttt{lifetime}.} Mensagem especificando o intervalo m·ximo de envio de sinais de  \textit{heartbeat}. Espera-se que uma mensagem deste tipo conte com o seguinte campo:
+\paragraph*{\texttt{lifetime}.} Mensagem especificando o intervalo m√°ximo de envio de sinais de  \textit{heartbeat}. Espera-se que uma mensagem deste tipo conte com o seguinte campo:
 \begin{itemize}
-	\item \texttt{lifetime}: especifica o intervalo de tempo m·ximo entre mensagens de \textit{heartbeat}. Esta mensagem È emitida pelo controlador aos dispositivos, regulando a frequÍncia de envio de mensagens do tipo \texttt{keepalive}.
+	\item \texttt{lifetime}: especifica o intervalo de tempo m√°ximo entre mensagens de \textit{heartbeat}. Esta mensagem √© emitida pelo controlador aos dispositivos, regulando a frequ√™ncia de envio de mensagens do tipo \texttt{keepalive}.
 \end{itemize}
 
 \paragraph*{\texttt{keepalive}.} Especifica uma mensagem que deve ser interpretada como sinal de  \textit{heartbeat}.
 
-\paragraph*{\texttt{iamback}.} Emitida por um sensor ou atuador caso ele tenha recebido um identificador anteriormente, mas devido a alguma raz„o, foi desconectado da rede e necessita se reconectar.
+\paragraph*{\texttt{iamback}.} Emitida por um sensor ou atuador caso ele tenha recebido um identificador anteriormente, mas devido a alguma raz√£o, foi desconectado da rede e necessita se reconectar.
 
 \paragraph*{\texttt{welcomeback}.} Mensagem emitida por um controlador ao receber uma mensagem do tipo \texttt{iamback}, indicando que o dispositivo foi reconhecido e aceito na rede.
 
-\paragraph*{\texttt{externalcommand}.} Mensagem emitida por um dispositivo atuador, indicando que um comando de origem externa ao sistema foi recebido. A estrutura desta mensagem È igual ‡s do tipo \texttt{command}.
+\paragraph*{\texttt{externalcommand}.} Mensagem emitida por um dispositivo atuador, indicando que um comando de origem externa ao sistema foi recebido. A estrutura desta mensagem √© igual √†s do tipo \texttt{command}.
 
 Cabe apontar que as mensagens dos tipos \texttt{description}, \texttt{data}, \texttt{command}, \texttt{keepalive}, \texttt{iamback} e \texttt{externalcommand} devem possuir o campo \texttt{id}, que identifica o dispositivo.
 
-Note, ainda, que chaves do tipo \texttt{packageType} e \texttt{nodeClass} podem ter m˙ltiplos valores associados. Por exemplo, uma mensagem pode ser enviada com os tipos \texttt{iamcontroller}, \texttt{describeyourself} e \texttt{lifetime}, indicando que ela tem as funÁıes de identificar o controlador, solicitar informaÁıes ao dispositivo-destino e definir o intervalo de envio de sinais de \textit{heartbeat}.
+Note, ainda, que chaves do tipo \texttt{packageType} e \texttt{nodeClass} podem ter m√∫ltiplos valores associados. Por exemplo, uma mensagem pode ser enviada com os tipos \texttt{iamcontroller}, \texttt{describeyourself} e \texttt{lifetime}, indicando que ela tem as fun√ß√µes de identificar o controlador, solicitar informa√ß√µes ao dispositivo-destino e definir o intervalo de envio de sinais de \textit{heartbeat}.
 
 \subsection{Protocolo de Troca de Mensagens}
-Definida a estrutura do pacote, suas chaves e seus valores associados, pode-se passar para a definiÁ„o do aspecto din‚mico do protocolo. Esta seÁ„o busca definir o sequenciamento de mensagens para efetuar aÁıes especÌficas na rede de sensores.
+Definida a estrutura do pacote, suas chaves e seus valores associados, pode-se passar para a defini√ß√£o do aspecto din√¢mico do protocolo. Esta se√ß√£o busca definir o sequenciamento de mensagens para efetuar a√ß√µes espec√≠ficas na rede de sensores.
 
-\paragraph*{InicializaÁ„o.} O processo de inicializaÁ„o dos sensores est· esquematizado na Figura \ref{fig:uml_handshake}. Assim que um dispositivo È conectado ‡ rede, ele emite um pacote do tipo \texttt{whiiscontroller} em \textit{broadcast}, com o objetivo de descobrir o endereÁo do controlador, caso exista. Em seguida, o controlador responde com uma mensagem do tipo \texttt{iamcontroller} ao dispositivo solicitante, permitindo que ele identifique o endereÁo do coordenador. AlÈm disso, nesta mensagem, o controlador define o identificador do dispositivo.
+\paragraph*{Inicializa√ß√£o.} O processo de inicializa√ß√£o dos sensores est√° esquematizado na Figura \ref{fig:uml_handshake}. Assim que um dispositivo √© conectado √† rede, ele emite um pacote do tipo \texttt{whiiscontroller} em \textit{broadcast}, com o objetivo de descobrir o endere√ßo do controlador, caso exista. Em seguida, o controlador responde com uma mensagem do tipo \texttt{iamcontroller} ao dispositivo solicitante, permitindo que ele identifique o endere√ßo do coordenador. Al√©m disso, nesta mensagem, o controlador define o identificador do dispositivo.
 
-Em seguida, o controlador solicita uma descriÁ„o do dispositivo com um pacote do tipo \texttt{describeyourself}, ao qual o dispositivo responde com uma mensagem \texttt{description}. Ela contÈm informaÁıes como a classe do nÛ, tipos de dados gerados (caso seja sensor) e tipos de comandos aceitos (caso seja atuador).
+Em seguida, o controlador solicita uma descri√ß√£o do dispositivo com um pacote do tipo \texttt{describeyourself}, ao qual o dispositivo responde com uma mensagem \texttt{description}. Ela cont√©m informa√ß√µes como a classe do n√≥, tipos de dados gerados (caso seja sensor) e tipos de comandos aceitos (caso seja atuador).
 
-O controlador tambÈm pode definir um intervalo m·ximo em que o dispositivo deve enviar mensagens de \textit{heartbeat} atravÈs do pacote \texttt{lifetime}. O dispositivo, neste caso, envia pacotes \textit{heartbeat} periodicamente, sinalizando os pacotes como sendo do tipo \texttt{keepalive}.
+O controlador tamb√©m pode definir um intervalo m√°ximo em que o dispositivo deve enviar mensagens de \textit{heartbeat} atrav√©s do pacote \texttt{lifetime}. O dispositivo, neste caso, envia pacotes \textit{heartbeat} periodicamente, sinalizando os pacotes como sendo do tipo \texttt{keepalive}.
 
 \begin{figure}[h]
 	\centering
 
-	\caption{Processo de inicializaÁ„o de um dispositivo.} 
+	\caption{Processo de inicializa√ß√£o de um dispositivo.} 
 	\medskip
   \includegraphics[width=\textwidth]{imagens/uml_handshake.pdf}
   \label{fig:uml_handshake}
 \end{figure}
 
-O processo de inicializaÁ„o pode ser simplificado condensando-se os pacotes \texttt{iamcontroller}, \texttt{describeyourself} e \texttt{lifetime} (caso aplic·vel) em um ˙nico pacote, conforme ilustra o diagrama ‡ direita da Figura \ref{fig:uml_handshake}.
+O processo de inicializa√ß√£o pode ser simplificado condensando-se os pacotes \texttt{iamcontroller}, \texttt{describeyourself} e \texttt{lifetime} (caso aplic√°vel) em um √∫nico pacote, conforme ilustra o diagrama √† direita da Figura \ref{fig:uml_handshake}.
 
-\paragraph*{Envio de dados.} Uma vez efetuado o processo de inicializaÁ„o, dados de leitura podem ser enviados do sensor ao controlador atravÈs da mensagem \texttt{data}.
+\paragraph*{Envio de dados.} Uma vez efetuado o processo de inicializa√ß√£o, dados de leitura podem ser enviados do sensor ao controlador atrav√©s da mensagem \texttt{data}.
 
-\paragraph*{Envio de comandos.} Uma vez efetuado o processo de inicializaÁ„o, comandos podem ser enviados do controlador ao atuador atravÈs da mensagem \texttt{command}.
+\paragraph*{Envio de comandos.} Uma vez efetuado o processo de inicializa√ß√£o, comandos podem ser enviados do controlador ao atuador atrav√©s da mensagem \texttt{command}.
 
-\paragraph*{Retorno ‡ rede.} Caso um dispositivo operante se desconecte da rede por algum motivo, ele pode se reconectar enviando uma mensagem do tipo \texttt{imback}, conforme ilustra a Figura \ref{fig:uml_reconnect}. Ao receber uma mensagem deste tipo, o controlador pode responder de duas maneiras. Caso ele reconheÁa o identificador enviado pelo dispositivo na mensagem \texttt{imback}, ele responde com outra mensagem do tipo \texttt{welcomeback}, conforme ilustra o diagrama ‡ esquerda da Figura \ref{fig:uml_reconnect}. A partir deste momento, o dispositivo pode operar regularmente. Por outro lado, caso o controlador n„o reconheÁa o dispositivo, ele solicita uma nova declaraÁ„o, como ilustrado no diagrama ‡ direita da Figura \ref{fig:uml_reconnect}.
+\paragraph*{Retorno √† rede.} Caso um dispositivo operante se desconecte da rede por algum motivo, ele pode se reconectar enviando uma mensagem do tipo \texttt{imback}, conforme ilustra a Figura \ref{fig:uml_reconnect}. Ao receber uma mensagem deste tipo, o controlador pode responder de duas maneiras. Caso ele reconhe√ßa o identificador enviado pelo dispositivo na mensagem \texttt{imback}, ele responde com outra mensagem do tipo \texttt{welcomeback}, conforme ilustra o diagrama √† esquerda da Figura \ref{fig:uml_reconnect}. A partir deste momento, o dispositivo pode operar regularmente. Por outro lado, caso o controlador n√£o reconhe√ßa o dispositivo, ele solicita uma nova declara√ß√£o, como ilustrado no diagrama √† direita da Figura \ref{fig:uml_reconnect}.
 
 \begin{figure}[h]
 	\centering
-	\caption{Processo de retorno de um dispositivo ‡ rede.}
+	\caption{Processo de retorno de um dispositivo √† rede.}
 	\medskip
   \includegraphics[width=\textwidth]{imagens/uml_reconnect.pdf}
   \label{fig:uml_reconnect}
 \end{figure}
 
-\subsection{A codificaÁ„o CBOR}
-Como mencionado, redes de sensores sem fio s„o compostas por dispositivos com limitaÁıes de banda e de processamento. Por esta raz„o, È importante que as mensagens trafegadas sejam concisas (aliviando requisitos de banda) e de simples interpretaÁ„o (aliviando requisitos de processamento). Com esses propÛsitos em mente, resolveu-se adotar a codificaÁ„o CBOR (\textit{Concise Binary Object Representation}) \cite{rfc7049}.
+\subsection{A codifica√ß√£o CBOR}
+Como mencionado, redes de sensores sem fio s√£o compostas por dispositivos com limita√ß√µes de banda e de processamento. Por esta raz√£o, √© importante que as mensagens trafegadas sejam concisas (aliviando requisitos de banda) e de simples interpreta√ß√£o (aliviando requisitos de processamento). Com esses prop√≥sitos em mente, resolveu-se adotar a codifica√ß√£o CBOR (\textit{Concise Binary Object Representation}) \cite{rfc7049}.
 
-Esta codificaÁ„o È baseada no formato de dados JSON, provendo uma maneira de representar objetos neste formato de forma bin·ria. Sua especificaÁ„o reconhece diversos tipos de dados, tais como inteiros negativos e n„o-negativos, cadeias de bytes e de caracteres, entre outros, cada qual com regras especÌficas de representaÁ„o. Para identificar o tipo de cada dado, a codificaÁ„o dedica um byte para cada item de dado para descrevÍ-lo.
+Esta codifica√ß√£o √© baseada no formato de dados JSON, provendo uma maneira de representar objetos neste formato de forma bin√°ria. Sua especifica√ß√£o reconhece diversos tipos de dados, tais como inteiros negativos e n√£o-negativos, cadeias de bytes e de caracteres, entre outros, cada qual com regras espec√≠ficas de representa√ß√£o. Para identificar o tipo de cada dado, a codifica√ß√£o dedica um byte para cada item de dado para descrev√™-lo.
 
-Considere como exemplo a codificaÁ„o do objeto JSON a seguir:
+Considere como exemplo a codifica√ß√£o do objeto JSON a seguir:
 \begin{center}
 	\texttt{\{"a": 1, "b": 2\}}
 \end{center}
 
-Uma representaÁ„o possÌvel do objeto acima pode ser feito em forma de cadeia de caracteres. Apresar de ser uma forma comum e pr·tica de se representar tais objetos, ela possui a desvantagem de ser extensa: no exemplo dado, considerando que um caractere ocupa 1 byte, o resultado gerado possui 13 bytes. Por outro lado, sua representaÁ„o em CBOR ocupa 7 bytes, conforme apresentado na Tabela \ref{tab:cbor_exemplo}. Isso corresponde a uma reduÁ„o de quase 50\% no resultado gerado.
+Uma representa√ß√£o poss√≠vel do objeto acima pode ser feito em forma de cadeia de caracteres. Apresar de ser uma forma comum e pr√°tica de se representar tais objetos, ela possui a desvantagem de ser extensa: no exemplo dado, considerando que um caractere ocupa 1 byte, o resultado gerado possui 13 bytes. Por outro lado, sua representa√ß√£o em CBOR ocupa 7 bytes, conforme apresentado na Tabela \ref{tab:cbor_exemplo}. Isso corresponde a uma redu√ß√£o de quase 50\% no resultado gerado.
 
 \begin{table}[h]
 	\centering
-	\caption{Exemplo de representaÁ„o em CBOR de um objeto JSON.}\smallskip
+	\caption{Exemplo de representa√ß√£o em CBOR de um objeto JSON.}\smallskip
 	\label{tab:cbor_exemplo}
 	\includegraphics[width=0.9\textwidth]{tabelas/cbor_exemplo.pdf}
 \end{table}
 
-\subsection{CodificaÁ„o dos Itens nas Mensagens}
-Seguindo a ideia de manter concis„o nas mensagens trocadas, e levando em conta o funcionamento da codificaÁ„o CBOR, os campos e valores especificados na seÁ„o \ref{subsec:sintaxe} devem ser codificados antes da transmiss„o. As Tabelas \ref{tab:codificacao_chaves_principais}, \ref{tab:codificacao_tipo_dc} e \ref{tab:codificacao_dc} listam as codificaÁıes adotadas para as chaves das mensagens transmitidas.
+\subsection{Codifica√ß√£o dos Itens nas Mensagens}
+Seguindo a ideia de manter concis√£o nas mensagens trocadas, e levando em conta o funcionamento da codifica√ß√£o CBOR, os campos e valores especificados na se√ß√£o \ref{subsec:sintaxe} devem ser codificados antes da transmiss√£o. As Tabelas \ref{tab:codificacao_chaves_principais}, \ref{tab:codificacao_tipo_dc} e \ref{tab:codificacao_dc} listam as codifica√ß√µes adotadas para as chaves das mensagens transmitidas.
 
 \begin{table}[hp]
 	\centering
-	\caption{CodificaÁ„o das chaves principais de uma mensagem.}\smallskip
+	\caption{Codifica√ß√£o das chaves principais de uma mensagem.}\smallskip
 	\label{tab:codificacao_chaves_principais}
 	\includegraphics[width=0.7\textwidth]{tabelas/codificacao_chaves_principais.pdf}
 	
-	\caption{CodificaÁ„o de chaves utilizadas nos campos \texttt{datatype} e \texttt{commandtype}.}\smallskip
+	\caption{Codifica√ß√£o de chaves utilizadas nos campos \texttt{datatype} e \texttt{commandtype}.}\smallskip
 	\label{tab:codificacao_tipo_dc}
 	\includegraphics[width=0.7\textwidth]{tabelas/codificacao_tipo_dc.pdf}
 	
-	\caption{CodificaÁ„o de chaves utilizadas em mensagens do tipo \texttt{data} e \texttt{command}.}\smallskip
+	\caption{Codifica√ß√£o de chaves utilizadas em mensagens do tipo \texttt{data} e \texttt{command}.}\smallskip
 	\label{tab:codificacao_dc}
 	\includegraphics[width=0.7\textwidth]{tabelas/codificacao_dc.pdf}
 	
 \end{table}
 
-De modo similar, as Tabelas \ref{tab:cod_valores_packagetype}, \ref{tab:cod_valores_nodeclass}, \ref{tab:cod_valores_measurestrat}, \ref{tab:cod_data_category}, \ref{tab:cod_command_category} e \ref{tab:cod_type_category} listam as codificaÁıes adotadas para os valores utilizados em diversos campos das mensagens. Observe que os valores utilizados nos campos \texttt{packageType} (Tabela \ref{tab:cod_valores_packagetype}) e \texttt{nodeClass} (Tabela \ref{tab:cod_valores_nodeclass}) evoluem em potÍncias de 2. Isso ocorre pois, conforme apontado na seÁ„o \ref{subsec:sintaxe}, tais campos permitem m˙ltiplos valores. Deste modo, a representaÁ„o de mais de um valor È feita efetuando-se uma operaÁ„o de OR bin·rio. Por exemplo, se um dado dispositivo for tanto sensor (cÛdigo 1) quanto atuador (cÛdigo 2), sua representaÁ„o se dar· enviando um pacote contendo o campo \texttt{nodeClass} definido para 3.
+De modo similar, as Tabelas \ref{tab:cod_valores_packagetype}, \ref{tab:cod_valores_nodeclass}, \ref{tab:cod_valores_measurestrat}, \ref{tab:cod_data_category}, \ref{tab:cod_command_category} e \ref{tab:cod_type_category} listam as codifica√ß√µes adotadas para os valores utilizados em diversos campos das mensagens. Observe que os valores utilizados nos campos \texttt{packageType} (Tabela \ref{tab:cod_valores_packagetype}) e \texttt{nodeClass} (Tabela \ref{tab:cod_valores_nodeclass}) evoluem em pot√™ncias de 2. Isso ocorre pois, conforme apontado na se√ß√£o \ref{subsec:sintaxe}, tais campos permitem m√∫ltiplos valores. Deste modo, a representa√ß√£o de mais de um valor √© feita efetuando-se uma opera√ß√£o de OR bin√°rio. Por exemplo, se um dado dispositivo for tanto sensor (c√≥digo 1) quanto atuador (c√≥digo 2), sua representa√ß√£o se dar√° enviando um pacote contendo o campo \texttt{nodeClass} definido para 3.
 
 \begin{table}[hp]
 	\centering
-	\caption{CodificaÁ„o dos valores do campo \texttt{packageType}.}\smallskip
+	\caption{Codifica√ß√£o dos valores do campo \texttt{packageType}.}\smallskip
 	\label{tab:cod_valores_packagetype}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_packagetype.pdf}
 \end{table}
 
 \begin{table}[hp]	
 	\centering
-	\caption{CodificaÁ„o de valores do campo \texttt{nodeClass}.}\smallskip
+	\caption{Codifica√ß√£o de valores do campo \texttt{nodeClass}.}\smallskip
 	\label{tab:cod_valores_nodeclass}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_nodeclass.pdf}
 \end{table}
 
 \begin{table}[hp]	
 	\centering
-	\caption{CodificaÁ„o de valores do campo \texttt{measureStrategy}.}\smallskip
+	\caption{Codifica√ß√£o de valores do campo \texttt{measureStrategy}.}\smallskip
 	\label{tab:cod_valores_measurestrat}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_valores_measurestrat.pdf}
 \end{table}
 
 \begin{table}[hp]	
 	\centering
-	\caption{CodificaÁ„o de valores de categoria para sensores}\smallskip
+	\caption{Codifica√ß√£o de valores de categoria para sensores}\smallskip
 	\label{tab:cod_data_category}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_data_category.pdf}
 \end{table}
 
 \begin{table}[hp]	
 	\centering
-	\caption{CodificaÁ„o de valores de categoria para atuadores}\smallskip
+	\caption{Codifica√ß√£o de valores de categoria para atuadores}\smallskip
 	\label{tab:cod_command_category}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_command_category.pdf}
 \end{table}
 
 \begin{table}[hp]	
 	\centering
-	\caption{CodificaÁ„o de tipos de dados e comandos}\smallskip
+	\caption{Codifica√ß√£o de tipos de dados e comandos}\smallskip
 	\label{tab:cod_type_category}
 	\includegraphics[width=0.7\textwidth]{tabelas/cod_type_category.pdf}
 \end{table}
 
 \clearpage
-A Figura \ref{fig:tamanho_pacote} mostra os resultados da aplicaÁ„o das tÈcnicas de compress„o de tamanho aos pacotes enviados. No gr·fico, s„o comparados os tamanhos de cada tipo de pacote em trÍs codificaÁıes: JSON original (todos os campos s„o \textit{strings} legÌveis), JSON com campos e valores mapeados conforme documentado nesta seÁ„o, e JSON mapeado seguido da aplicaÁ„o da codificaÁ„o CBOR.
+A Figura \ref{fig:tamanho_pacote} mostra os resultados da aplica√ß√£o das t√©cnicas de compress√£o de tamanho aos pacotes enviados. No gr√°fico, s√£o comparados os tamanhos de cada tipo de pacote em tr√™s codifica√ß√µes: JSON original (todos os campos s√£o \textit{strings} leg√≠veis), JSON com campos e valores mapeados conforme documentado nesta se√ß√£o, e JSON mapeado seguido da aplica√ß√£o da codifica√ß√£o CBOR.
 
 \begin{figure}[h]
 	\centering
-	\caption{Tamanho resultante do pacote em funÁ„o da codificaÁ„o aplicada}
+	\caption{Tamanho resultante do pacote em fun√ß√£o da codifica√ß√£o aplicada}
 	\includegraphics[width=\textwidth]{imagens/tamanho_pacote.pdf}
  	\label{fig:tamanho_pacote}
 \end{figure}
 
-Do gr·fico, verifica-se que houve reduÁ„o mÈdia de aproximadamente 74\% no tamanho dos pacotes, representando uma reduÁ„o significativa na quantidade de dados transmitidos na rede. No entanto, em termos pr·ticos, espera-se que pacotes do tipo \texttt{data} e \texttt{command} sejam os mais frequentes em uma rede, visto que os demais ocorrem principalmente durante o \textit{handshake} inicial. A reduÁ„o de tamanho verificada nestes pacotes foi de 56\% e 58\%, respectivamente, logo espera-se que haja uma reduÁ„o efetiva no tamanho dos pacotes prÛxima a esses valores. 
+Do gr√°fico, verifica-se que houve redu√ß√£o m√©dia de aproximadamente 74\% no tamanho dos pacotes, representando uma redu√ß√£o significativa na quantidade de dados transmitidos na rede. No entanto, em termos pr√°ticos, espera-se que pacotes do tipo \texttt{data} e \texttt{command} sejam os mais frequentes em uma rede, visto que os demais ocorrem principalmente durante o \textit{handshake} inicial. A redu√ß√£o de tamanho verificada nestes pacotes foi de 56\% e 58\%, respectivamente, logo espera-se que haja uma redu√ß√£o efetiva no tamanho dos pacotes pr√≥xima a esses valores. 
 
 \subsection{Exemplo de Funcionamento}
-Para ilustrar o funcionamento do protocolo, considere a rede mostrada na Figura \ref{fig:exemplo_rede}. Nesta rede, existem um sensor (bot„o), um atuador (interruptor de luz) e um controlador local interligando-os. O bot„o funciona como um sensor com estado bin·rio: a cada acionamento, seu estado È invertido. De modo similar, o interruptor aceita comandos em formato bin·rio, fechando o contato caso um comando "1" seja recebido e abrindo caso "0" seja recebido.
+Para ilustrar o funcionamento do protocolo, considere a rede mostrada na Figura \ref{fig:exemplo_rede}. Nesta rede, existem um sensor (bot√£o), um atuador (interruptor de luz) e um controlador local interligando-os. O bot√£o funciona como um sensor com estado bin√°rio: a cada acionamento, seu estado √© invertido. De modo similar, o interruptor aceita comandos em formato bin√°rio, fechando o contato caso um comando "1" seja recebido e abrindo caso "0" seja recebido.
 
 \begin{figure}[h]
 	\centering
-	\caption{Exemplo de aplicaÁ„o do protocolo \textit{Rainfall}.}
+	\caption{Exemplo de aplica√ß√£o do protocolo \textit{Rainfall}.}
 	\includegraphics[width=0.7\textwidth]{imagens/exemplo_rede.png}
  	\label{fig:exemplo_rede}
 \end{figure}
 
-A Figura \ref{fig:exemplo_handshake} ilustra o processo de \textit{handshake} no exemplo dado. Observe que as mensagens j· exploram a possibilidade de enviar m˙ltiplas mensagens em um mesmo pacote, tal como mostrado na Figura \ref{fig:uml_handshake}.
+A Figura \ref{fig:exemplo_handshake} ilustra o processo de \textit{handshake} no exemplo dado. Observe que as mensagens j√° exploram a possibilidade de enviar m√∫ltiplas mensagens em um mesmo pacote, tal como mostrado na Figura \ref{fig:uml_handshake}.
 
 \begin{figure}[hp]
 	\centering
@@ -459,24 +459,24 @@ A Figura \ref{fig:exemplo_handshake} ilustra o processo de \textit{handshake} no
 
 A Figura \ref{fig:exemplo_dados} ilustra o processo de troca de dados e o envio de comandos na rede de exemplo. No caso, o controlador foi configurado com as seguintes regras:
 \begin{itemize}
-	\item Caso o bot„o envie um dado "0", o comando "0" (abrir contato ou apagar a luz) È enviado ao interruptor;
-	\item Caso o bot„o envie um dado "1", o comando "1" (fechar contato ou acender a luz) È enviado ao interruptor.
+	\item Caso o bot√£o envie um dado "0", o comando "0" (abrir contato ou apagar a luz) √© enviado ao interruptor;
+	\item Caso o bot√£o envie um dado "1", o comando "1" (fechar contato ou acender a luz) √© enviado ao interruptor.
 \end{itemize}
 
 \begin{figure}[hp]
 	\centering
-	\caption{Processo de troca de dados e aplicaÁ„o de regras no exemplo.}
+	\caption{Processo de troca de dados e aplica√ß√£o de regras no exemplo.}
 	\includegraphics[width=0.9\textwidth]{imagens/exemplo_dados.png}
  	\label{fig:exemplo_dados}
 \end{figure}
 
 \clearpage
 
-\section{ImplementaÁ„o de Bibliotecas para o Protocolo de AplicaÁ„o} \label{sec:implsens}
-Uma vez analisados os protocolos de comunicaÁ„o existentes e definido o protocolo de aplicaÁ„o, passa-se para o projeto de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
+\section{Implementa√ß√£o de Bibliotecas para o Protocolo de Aplica√ß√£o} \label{sec:implsens}
+Uma vez analisados os protocolos de comunica√ß√£o existentes e definido o protocolo de aplica√ß√£o, passa-se para o projeto de uma biblioteca que permita o desenvolvimento de dispositivos em conformidade com ele.
 
 \subsection{Arquitetura}
-A biblioteca desenvolvida possuir· uma arquitetura em camadas, conforme ilustra a Figura \ref{fig:libarchitecture}. As camadas apresentadas em cor verde compıem a biblioteca a ser desenvolvida no projeto. A descriÁ„o de cada camada est· apresentada a seguir.
+A biblioteca desenvolvida possuir√° uma arquitetura em camadas, conforme ilustra a Figura \ref{fig:libarchitecture}. As camadas apresentadas em cor verde comp√µem a biblioteca a ser desenvolvida no projeto. A descri√ß√£o de cada camada est√° apresentada a seguir.
 
 \begin{figure}[h]
 	\centering
@@ -485,30 +485,30 @@ A biblioteca desenvolvida possuir· uma arquitetura em camadas, conforme ilustra 
  	\label{fig:libarchitecture}
 \end{figure}
 
-\paragraph*{Drivers de rede.} A primeira camada da biblioteca consiste em drivers de rede, que proveem uma interface com as diferentes pilhas de rede existentes (cf. item \ref{sec:commprot}). Esta È a ˙nica camada da biblioteca que possui dependÍncias com as particularidades de cada protocolo ou dispositivo de rede. Possui a funÁ„o de prover um acesso uniformizado para funÁıes comuns utilizadas pelas camadas superiores, tais como escutar e enviar pacotes.
+\paragraph*{Drivers de rede.} A primeira camada da biblioteca consiste em drivers de rede, que proveem uma interface com as diferentes pilhas de rede existentes (cf. item \ref{sec:commprot}). Esta √© a √∫nica camada da biblioteca que possui depend√™ncias com as particularidades de cada protocolo ou dispositivo de rede. Possui a fun√ß√£o de prover um acesso uniformizado para fun√ß√µes comuns utilizadas pelas camadas superiores, tais como escutar e enviar pacotes.
 
-\paragraph*{Biblioteca \textit{Rainfall}.} Esta camada tem como objetivo efetuar a transformaÁ„o de um objeto estruturado segundo as especificaÁıes do protocolo \textit{Rainfall} e codific·-lo no formato de envio (mapeando campos e valores para n˙meros, e codificando no formato CBOR), e vice-versa. AlÈm disso, ele efetua checagens sint·ticas dos pacotes enviados, verificando se somente campos permitidos s„o utilizados para cada tipo de pacote, conforme as regras apresentadas no item \ref{subsec:sintaxe}. Observe que esta camada atua como um \textit{middleware}, provendo uma interface comum entre a lÛgica de aplicaÁ„o e os diversos protocolos de rede.
+\paragraph*{Biblioteca \textit{Rainfall}.} Esta camada tem como objetivo efetuar a transforma√ß√£o de um objeto estruturado segundo as especifica√ß√µes do protocolo \textit{Rainfall} e codific√°-lo no formato de envio (mapeando campos e valores para n√∫meros, e codificando no formato CBOR), e vice-versa. Al√©m disso, ele efetua checagens sint√°ticas dos pacotes enviados, verificando se somente campos permitidos s√£o utilizados para cada tipo de pacote, conforme as regras apresentadas no item \ref{subsec:sintaxe}. Observe que esta camada atua como um \textit{middleware}, provendo uma interface comum entre a l√≥gica de aplica√ß√£o e os diversos protocolos de rede.
 
-\paragraph*{Biblioteca \textit{Leaf}.} Esta camada atua sobre as funÁıes fornecidas pela \textit{Rainfall}, fornecendo uma API que abstrai os detalhes do protocolo. Por exemplo, o processo de inicializaÁ„o mostrado na Figura \ref{fig:uml_handshake} È abstraÌdo atravÈs de um mÈtodo de inicializaÁ„o disponibilizado nesta biblioteca.
+\paragraph*{Biblioteca \textit{Leaf}.} Esta camada atua sobre as fun√ß√µes fornecidas pela \textit{Rainfall}, fornecendo uma API que abstrai os detalhes do protocolo. Por exemplo, o processo de inicializa√ß√£o mostrado na Figura \ref{fig:uml_handshake} √© abstra√≠do atrav√©s de um m√©todo de inicializa√ß√£o disponibilizado nesta biblioteca.
 
-\paragraph*{AplicaÁıes de usu·rio.} As bibliotecas desenvolvidas permitem o desenvolvimento de \textit{software} de controle de dispositivos em conformidade com as especificaÁıes do protocolo \textit{Rainfall}. Dispositivos sensores e atuadores podem ser desenvolvidos facilmente atravÈs da biblioteca \textit{Leaf}, ao passo que a lÛgica de um dispositivo controlador pode ser descrita utilizando-se a biblioteca \textit{Rainfall} diretamente.
+\paragraph*{Aplica√ß√µes de usu√°rio.} As bibliotecas desenvolvidas permitem o desenvolvimento de \textit{software} de controle de dispositivos em conformidade com as especifica√ß√µes do protocolo \textit{Rainfall}. Dispositivos sensores e atuadores podem ser desenvolvidos facilmente atrav√©s da biblioteca \textit{Leaf}, ao passo que a l√≥gica de um dispositivo controlador pode ser descrita utilizando-se a biblioteca \textit{Rainfall} diretamente.
 
-\subsection{ImplementaÁ„o e Exemplos}
-Uma implementaÁ„o das bibliotecas para desenvolvimento de dispositivos seguindo o protocolo \textit{Rainfall} foi feita utilizando a linguagem JavaScript, utilizando o ambiente Node.js\footnote{DisponÌvel em \url{https://nodejs.org/}.}. O cÛdigo-fonte desta implementaÁ„o, alÈm de exemplos de uso da biblioteca para o desenvolvimento de sensores, atuadores e controladores, est„o hospedados no serviÁo GitHub \footnote{DisponÌvel no endereÁo \url{https://github.com/HomeSkyLtd/}}.
+\subsection{Implementa√ß√£o e Exemplos}
+Uma implementa√ß√£o das bibliotecas para desenvolvimento de dispositivos seguindo o protocolo \textit{Rainfall} foi feita utilizando a linguagem JavaScript, utilizando o ambiente Node.js\footnote{Dispon√≠vel em \url{https://nodejs.org/}.}. O c√≥digo-fonte desta implementa√ß√£o, al√©m de exemplos de uso da biblioteca para o desenvolvimento de sensores, atuadores e controladores, est√£o hospedados no servi√ßo GitHub \footnote{Dispon√≠vel no endere√ßo \url{https://github.com/HomeSkyLtd/}}.
 
-\section{LimitaÁıes e N„o-escopos}
-O projeto do protocolo de comunicaÁ„o foi feito com o objetivo de prover um meio de troca de informaÁıes entre dispositivos e controladores de uma rede de sensores. Entretanto, dado o contexto de um projeto de conclus„o de curso, alguns aspectos n„o foram enfatizados no presente momento, a despeito de sua import‚ncia em aplicaÁıes reais. O grupo adotou algumas hipÛteses simplificadoras, listadas nas seÁıes a seguir.
+\section{Limita√ß√µes e N√£o-escopos}
+O projeto do protocolo de comunica√ß√£o foi feito com o objetivo de prover um meio de troca de informa√ß√µes entre dispositivos e controladores de uma rede de sensores. Entretanto, dado o contexto de um projeto de conclus√£o de curso, alguns aspectos n√£o foram enfatizados no presente momento, a despeito de sua import√¢ncia em aplica√ß√µes reais. O grupo adotou algumas hip√≥teses simplificadoras, listadas nas se√ß√µes a seguir.
 
 \subsection{Conectividade} \label{subsec:limit_conectividade}
-As seguintes hipÛteses foram feitas no quesito de conectividade dos dispositivos:
+As seguintes hip√≥teses foram feitas no quesito de conectividade dos dispositivos:
 \begin{itemize}
-	\item NÛs se encontram conectados ‡ rede. No projeto do protocolo e na implementaÁ„o das bibliotecas, n„o se tratou o processo de conex„o dos dispositivos ‡ rede em que o controlador opera. Ou seja, foi considerado que o usu·rio È capaz de conectar os dispositivos ‡ rede desejada. Existem tecnologias que permitem efetuar conex„o de um dispositivo ‡ rede sem necessidade de interface gr·fica ou inserÁ„o de senhas, tal como o Wi-Fi Protected Setup (WPS), que podem ser utilizados para este fim;
-	\item Protocolos de comunicaÁ„o e/ou transporte subjacentes s„o confi·veis. No projeto do protocolo, n„o se tratou o reconhecimento de entrega das mensagens, pois supÙs-se que os protocolos de rede ou transporte subjacentes ao de aplicaÁ„o garantem entrega dos pacotes ao destinat·rio. Essa È uma estimativa razo·vel, visto que os protocolos de rede para redes de sensores sem fio assumem que as condiÁıes de transmiss„o s„o adversas, e incluem mecanismos de retransmiss„o. No entanto, caco se deseje utilizar um protocolo n„o confi·vel, como o UDP, seria possÌvel adicionar um mecanismo de envio de ACKs em nÌvel de aplicaÁ„o para garantir a entrega.
+	\item N√≥s se encontram conectados √† rede. No projeto do protocolo e na implementa√ß√£o das bibliotecas, n√£o se tratou o processo de conex√£o dos dispositivos √† rede em que o controlador opera. Ou seja, foi considerado que o usu√°rio √© capaz de conectar os dispositivos √† rede desejada. Existem tecnologias que permitem efetuar conex√£o de um dispositivo √† rede sem necessidade de interface gr√°fica ou inser√ß√£o de senhas, tal como o Wi-Fi Protected Setup (WPS), que podem ser utilizados para este fim;
+	\item Protocolos de comunica√ß√£o e/ou transporte subjacentes s√£o confi√°veis. No projeto do protocolo, n√£o se tratou o reconhecimento de entrega das mensagens, pois sup√¥s-se que os protocolos de rede ou transporte subjacentes ao de aplica√ß√£o garantem entrega dos pacotes ao destinat√°rio. Essa √© uma estimativa razo√°vel, visto que os protocolos de rede para redes de sensores sem fio assumem que as condi√ß√µes de transmiss√£o s√£o adversas, e incluem mecanismos de retransmiss√£o. No entanto, caco se deseje utilizar um protocolo n√£o confi√°vel, como o UDP, seria poss√≠vel adicionar um mecanismo de envio de ACKs em n√≠vel de aplica√ß√£o para garantir a entrega.
 \end{itemize}
 
-\subsection{SeguranÁa} \label{subsec:limit_seguranca}
-As seguintes hipÛteses foram feitas no quesito de seguranÁa do sistema:
+\subsection{Seguran√ßa} \label{subsec:limit_seguranca}
+As seguintes hip√≥teses foram feitas no quesito de seguran√ßa do sistema:
 \begin{itemize}
-	\item A infraestrutura de rede È segura. O grupo assumiu que a rede onde os dispositivos atuar„o È configurada de forma segura, utilizando algoritmos criptogr·ficos e senhas adequadas. Deste modo, usu·rios n„o autorizados ou mal-intencionados n„o seriam capazes de conectar dispositivos ‡ rede de sensores domÈstica. Um modo de tratar o caso em que redes inseguras s„o utilizadas seria enviar notificaÁıes ao usu·rio a cada nÛ novo conectado, perguntando se a conex„o ao controlador deve ser permitida;
-	\item NÛs da rede atuam conforme esperado. Supıe-se que nÛs de rede sejam configurados para operar em conformidade com o protocolo. Por exemplo, um sensor n„o responderia a mensagens destinadas a outros dispositivos, ou n„o fingiria ser o controlador. Uma maneira de se assegurar tal comportamento "honesto" seria atravÈs da efetuaÁ„o de homologaÁ„o de dispositivos.
+	\item A infraestrutura de rede √© segura. O grupo assumiu que a rede onde os dispositivos atuar√£o √© configurada de forma segura, utilizando algoritmos criptogr√°ficos e senhas adequadas. Deste modo, usu√°rios n√£o autorizados ou mal-intencionados n√£o seriam capazes de conectar dispositivos √† rede de sensores dom√©stica. Um modo de tratar o caso em que redes inseguras s√£o utilizadas seria enviar notifica√ß√µes ao usu√°rio a cada n√≥ novo conectado, perguntando se a conex√£o ao controlador deve ser permitida;
+	\item N√≥s da rede atuam conforme esperado. Sup√µe-se que n√≥s de rede sejam configurados para operar em conformidade com o protocolo. Por exemplo, um sensor n√£o responderia a mensagens destinadas a outros dispositivos, ou n√£o fingiria ser o controlador. Uma maneira de se assegurar tal comportamento "honesto" seria atrav√©s da efetua√ß√£o de homologa√ß√£o de dispositivos.
 \end{itemize}
