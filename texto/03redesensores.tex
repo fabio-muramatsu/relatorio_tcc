@@ -87,7 +87,7 @@ Como se pode notar, o protocolo opera em três faixas de frequência, sendo que 
 
 O protocolo IEEE 802.15.4 ainda define dois tipos de dispositivos. Um dispositivo com funcionalidade completa (\textit{Full Function Device - FFD}) não possui restrições acentuadas de recursos, podendo se tornar um nó coordenador da rede de sensores. Ele pode efetuar diversas tarefas dentro da rede, tal como aceitar conexões e encaminhar pacotes. 
 
-Um dispositivo com funcionalidade reduzida (\textit{Reduced Function Device - RFD}), por sua vez, consiste em um dispositivo periférico, tal como um sensor, possuindo restrições significativas de recursos. Estes dispositivos em geral atuam como "folhas" na topologia de rede, comunicando-se com um nó concentrador (um FFD) quando necessário.
+Um dispositivo com funcionalidade reduzida (\textit{Reduced Function Device - RFD}), por sua vez, consiste em um dispositivo periférico, tal como um sensor, possuindo restrições significativas de recursos. Estes dispositivos em geral atuam como ``folhas'' na topologia de rede, comunicando-se com um nó concentrador (um FFD) quando necessário.
 
 Conforme mencionado, o ZigBee define recursos das camadas de rede e aplicação, como uma extensão ao protocolo 802.15.4 (ver Figura \ref{fig:zigbee}). Para tanto, são definidos três tipos de equipamentos dentro de uma rede ZigBee. Um dispositivo final consiste em um FFD ou RFD simples, que se comunica com um único nó. Um dispositivo roteador é um FFD capaz de reencaminhar mensagens  ao destinatário, caso necessário. Por fim, um dispositivo coordenador atua como coordenador da rede, possuindo também as funcionalidades de um roteador.
 
@@ -136,7 +136,7 @@ Seu raio de operação depende do dispositivo utilizado, que pode ser classifica
 
 A camada mais baixa da arquitetura Bluetooth é a camada Física, na qual são definidas as especificações do dispositivo para operar. Dois dispositivos compartilham o mesmo meio físico e para se comunicarem devem estar sintonizados na mesma frequência (processo de parear). Para identificar os membros da Piconet, um código de acesso é sempre enviado no cabeçalho de cada pacote, aumentando a carga e inviabilizando para dispositivos de menor capacidade, como no caso deste projeto. 
 
-Uma mesma unidade pode participar como escrava em várias Piconets mas atuar como mestre em apenas uma. Para participar de mais de uma Piconet o dispositivo atua com multiplexação no tempo (\textit{Time Division Multiplexing} - TDM). O conjunto de várias Piconets independentes e não sincronizadas é chamado de Scatternet, conforme esquematizado na \ref{fig:redesbluetooth}.
+Uma mesma unidade pode participar como escrava em várias Piconets mas atuar como mestre em apenas uma. Para participar de mais de uma Piconet o dispositivo atua com multiplexação no tempo (\textit{Time Division Multiplexing} - TDM). O conjunto de várias Piconets independentes e não sincronizadas é chamado de Scatternet, conforme esquematizado na Figura \ref{fig:redesbluetooth}.
 
 \begin{figure}[h]
 	\centering
@@ -439,7 +439,7 @@ A Figura \ref{fig:tamanho_pacote} mostra os resultados da aplicação das técni
 Do gráfico, verifica-se que houve redução média de aproximadamente 74\% no tamanho dos pacotes, representando uma redução significativa na quantidade de dados transmitidos na rede. No entanto, em termos práticos, espera-se que pacotes do tipo \texttt{data} e \texttt{command} sejam os mais frequentes em uma rede, visto que os demais ocorrem principalmente durante o \textit{handshake} inicial. A redução de tamanho verificada nestes pacotes foi de 56\% e 58\%, respectivamente, logo espera-se que haja uma redução efetiva no tamanho dos pacotes próxima a esses valores. 
 
 \subsection{Exemplo de Funcionamento}
-Para ilustrar o funcionamento do protocolo, considere a rede mostrada na Figura \ref{fig:exemplo_rede}. Nesta rede, existem um sensor (botão), um atuador (interruptor de luz) e um controlador local interligando-os. O botão funciona como um sensor com estado binário: a cada acionamento, seu estado é invertido. De modo similar, o interruptor aceita comandos em formato binário, fechando o contato caso um comando "1" seja recebido e abrindo caso "0" seja recebido.
+Para ilustrar o funcionamento do protocolo, considere a rede mostrada na Figura \ref{fig:exemplo_rede}. Nesta rede, existem um sensor (botão), um atuador (interruptor de luz) e um controlador local interligando-os. O botão funciona como um sensor com estado binário: a cada acionamento, seu estado é invertido. De modo similar, o interruptor aceita comandos em formato binário, fechando o contato caso um comando ``1'' seja recebido e abrindo caso ``0'' seja recebido.
 
 \begin{figure}[h]
 	\centering
@@ -459,8 +459,8 @@ A Figura \ref{fig:exemplo_handshake} ilustra o processo de \textit{handshake} no
 
 A Figura \ref{fig:exemplo_dados} ilustra o processo de troca de dados e o envio de comandos na rede de exemplo. No caso, o controlador foi configurado com as seguintes regras:
 \begin{itemize}
-	\item Caso o botão envie um dado "0", o comando "0" (abrir contato ou apagar a luz) é enviado ao interruptor;
-	\item Caso o botão envie um dado "1", o comando "1" (fechar contato ou acender a luz) é enviado ao interruptor.
+	\item Caso o botão envie um dado ``0'', o comando ``0'' (abrir contato ou apagar a luz) é enviado ao interruptor;
+	\item Caso o botão envie um dado ``1'', o comando ``1'' (fechar contato ou acender a luz) é enviado ao interruptor.
 \end{itemize}
 
 \begin{figure}[hp]
@@ -510,5 +510,5 @@ As seguintes hipóteses foram feitas no quesito de conectividade dos dispositivo
 As seguintes hipóteses foram feitas no quesito de segurança do sistema:
 \begin{itemize}
 	\item A infraestrutura de rede é segura. O grupo assumiu que a rede onde os dispositivos atuarão é configurada de forma segura, utilizando algoritmos criptográficos e senhas adequadas. Deste modo, usuários não autorizados ou mal-intencionados não seriam capazes de conectar dispositivos à rede de sensores doméstica. Um modo de tratar o caso em que redes inseguras são utilizadas seria enviar notificações ao usuário a cada nó novo conectado, perguntando se a conexão ao controlador deve ser permitida;
-	\item Nós da rede atuam conforme esperado. Supõe-se que nós de rede sejam configurados para operar em conformidade com o protocolo. Por exemplo, um sensor não responderia a mensagens destinadas a outros dispositivos, ou não fingiria ser o controlador. Uma maneira de se assegurar tal comportamento "honesto" seria através da efetuação de homologação de dispositivos.
+	\item Nós da rede atuam conforme esperado. Supõe-se que nós de rede sejam configurados para operar em conformidade com o protocolo. Por exemplo, um sensor não responderia a mensagens destinadas a outros dispositivos, ou não fingiria ser o controlador. Uma maneira de se assegurar tal comportamento ``honesto'' seria através da efetuação de homologação de dispositivos.
 \end{itemize}

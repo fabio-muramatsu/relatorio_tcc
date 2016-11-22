@@ -19,7 +19,7 @@ As mensagens são enviadas ao servidor através de requisições HTTP. Portanto,
 A seguir serão definidas as mensagens, de acordo com a classificação apresentada, bem como as respectivas respostas esperadas. 
 
 \subsubsection{Mensagens de Estado}
-As mensagens de estado estão listadas e descritas na Tabela \ref{tab:mensagens_estado}. Nesta tabela, o sentido de tráfego das mensagens estão especificadas. Neste item, o termo "aplicativo" foi utilizado para se referir ao dispositivo utilizado pelo usuário para interagir com o sistema, que poderia ser um aplicativo em um \textit{smartphone}.
+As mensagens de estado estão listadas e descritas na Tabela \ref{tab:mensagens_estado}. Nesta tabela, o sentido de tráfego das mensagens estão especificadas. Neste item, o termo ``aplicativo'' foi utilizado para se referir ao dispositivo utilizado pelo usuário para interagir com o sistema, que poderia ser um aplicativo em um \textit{smartphone}.
 
 \begin{table}[h]
 	\centering
@@ -155,7 +155,7 @@ As mensagens de gerenciamento de nós estão listadas e descritas na Tabela \ref
 \lstinputlisting[label=lst:newDetectedNodes, caption=Formato da mensagem \texttt{newDetectedNodes}.]{codigos/newDetectedNodes.json}
 \end{minipage}
 
-\paragraph*{\texttt{Set Node Extra}.} A Listagem \ref{lst:setNodeExtra} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} definem o nó para o qual se deseja definir informações extras. O campo \texttt{extra}, por sua vez, contém as informações propriamente ditas. Por exemplo, o mapeamento poderia incluir uma chave "Nome" com valor "Interruptor de luz", atribuindo, assim, um nome a um dado nó da casa.
+\paragraph*{\texttt{Set Node Extra}.} A Listagem \ref{lst:setNodeExtra} ilustra o formato da mensagem. Os campos \texttt{nodeId} e \texttt{controllerId} definem o nó para o qual se deseja definir informações extras. O campo \texttt{extra}, por sua vez, contém as informações propriamente ditas. Por exemplo, o mapeamento poderia incluir uma chave ``Nome'' com valor ``Interruptor de luz'', atribuindo, assim, um nome a um dado nó da casa.
 
 \noindent
 \begin{minipage}[l]{\linewidth}
@@ -341,7 +341,7 @@ Uma vez definidas as mensagens a serem trocadas, pode-se abordar a sequência es
 
 \begin{itemize}
 	\item Mensagens destinadas ao controlador ou ao servidor não esperam resposta, como mencionado no início da seção \ref{subsec:hc_sintaxe}, devido ao protocolo utilizado. As trocas de mensagens se assemelham ao mostrado no diagrama à esquerda da Figura \ref{fig:mensagens_simples}.
-	\item Grande parte das mensagens destinadas ao servidor se resumem a um ciclo de requisição-resposta, como ilustrado no diagrama à direita da Figura \ref{fig:mensagens_simples}. Um exemplo deste caso é a mensagem \texttt{Get Nodes Info}, que recebe uma resposta do tipo "Nós" (ver Tabela \ref{tab:mensagens_nos}). O ciclo de troca de mensagens seria, então, o envio de uma mensagem \texttt{Get Nodes Info} ao servidor, seguido de uma Resposta de Nós.
+	\item Grande parte das mensagens destinadas ao servidor se resumem a um ciclo de requisição-resposta, como ilustrado no diagrama à direita da Figura \ref{fig:mensagens_simples}. Um exemplo deste caso é a mensagem \texttt{Get Nodes Info}, que recebe uma resposta do tipo ``Nós'' (ver Tabela \ref{tab:mensagens_nos}). O ciclo de troca de mensagens seria, então, o envio de uma mensagem \texttt{Get Nodes Info} ao servidor, seguido de uma Resposta de Nós.
 \end{itemize}
 
 \begin{figure}[h]
@@ -426,7 +426,7 @@ Cada um dos módulos citados lida com as mensagens de seu respectivo tipo, confo
 
 Para implementação do servidor, foi utilizada a linguagem Clojure\footnote{Disponível em \url{https://clojure.org/}.}. O Clojure foi utilizado por ser uma linguagem funcional altamente paralelizável, contribuindo para a escalabilidade do servidor. Isso se dá pelo fato de as estruturas da linguagem serem imutáveis por padrão, somado ao de as referências serem \textit{thread-safe}.
 
-O banco de dados utilizado no servidor foi o MongoDB\footnote{Disponível em \url{https://www.mongodb.com/}.}. O MongoDB é um banco de dados NoSQL orientado a documentos. Diferentemente dos banco de dados relacionais, o MongoDB não exige que se faça uma definição da estrutura dos dados armazenados nas tabelas. Em vez disso, ele trabalha com uma estrutura denominada "documento", que se assemelha a um objeto JSON. A vantagem dele é a possibilidade de documentos em uma mesma coleção possuírem estruturas distintas. Isso permite, por exemplo, que se construa uma coleção de nós para uma casa englobando tanto atuadores (que possuem uma estrutura de comandos) e sensores (que possuem uma de dados).
+O banco de dados utilizado no servidor foi o MongoDB\footnote{Disponível em \url{https://www.mongodb.com/}.}. O MongoDB é um banco de dados NoSQL orientado a documentos. Diferentemente dos banco de dados relacionais, o MongoDB não exige que se faça uma definição da estrutura dos dados armazenados nas tabelas. Em vez disso, ele trabalha com uma estrutura denominada ``documento'', que se assemelha a um objeto JSON. A vantagem dele é a possibilidade de documentos em uma mesma coleção possuírem estruturas distintas. Isso permite, por exemplo, que se construa uma coleção de nós para uma casa englobando tanto atuadores (que possuem uma estrutura de comandos) e sensores (que possuem uma de dados).
 
 A relação entre as coleções do banco de dados estão esquematizadas através do diagrama da Figura \ref{fig:servidor_bd}.
 
@@ -437,7 +437,7 @@ A relação entre as coleções do banco de dados estão esquematizadas através
   \label{fig:servidor_bd}  
 \end{figure}
 
-Observe que existem seis coleções definidas em uma casa. A coleção \texttt{house} agrupa todos os itens em uma abstração de "casa", permitindo que se façam \textit{queries} da natureza "Obtenha todos os nós da casa a que eu (usuário) estou associado)", ou "Obtenha o estado da minha casa". Todas as relações são do tipo "um para muitos", notando-se que a relação entre \texttt{house} e \texttt{agent} possui participação obrigatória de ambas as partes.
+Observe que existem seis coleções definidas em uma casa. A coleção \texttt{house} agrupa todos os itens em uma abstração de ``casa'', permitindo que se façam \textit{queries} da natureza ``Obtenha todos os nós da casa a que eu (usuário) estou associado)'', ou ``Obtenha o estado da minha casa''. Todas as relações são do tipo ``um para muitos'', notando-se que a relação entre \texttt{house} e \texttt{agent} possui participação obrigatória de ambas as partes.
 
 O código-fonte do servidor está disponível no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
 
@@ -618,7 +618,7 @@ Observe que, no primeiro caso, o algoritmo tenta prever o estado da lâmpada bas
 Para fins de criação de regras, o interesse maior está em identificar o estado em que ocorreu uma mudança no estado da lâmpada. Para tanto, torna-se necessário efetuar um preprocessamento dos dados para evidenciar essas mudanças no \textit{dataset}.
 
 \subsubsection{Adição de um campo de Ação}
-Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a ação tomada no instante. Por exemplo, se em um dado instante a lâmpada está apagada, mas no seguinte ela está acesa, então o campo "Ação" assume valor "1", indicando que a lâmpada foi acesa. Analogamente, se a lâmpada está acesa em um dado instante e no seguinte ela está apagada, então o campo "Ação" assume valor "-1", indicando que ela foi apagada. Caso o estado da lâmpada seja o mesmo em dois instantes de tempo consecutivos, o campo "Ação" assume valor "0", indicando ausência de ação.
+Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a ação tomada no instante. Por exemplo, se em um dado instante a lâmpada está apagada, mas no seguinte ela está acesa, então o campo ``Ação'' assume valor ``1'', indicando que a lâmpada foi acesa. Analogamente, se a lâmpada está acesa em um dado instante e no seguinte ela está apagada, então o campo ``Ação'' assume valor ``-1'', indicando que ela foi apagada. Caso o estado da lâmpada seja o mesmo em dois instantes de tempo consecutivos, o campo ``Ação'' assume valor ``0'', indicando ausência de ação.
 
 Efetuando este tratamento, o algoritmo não produziu nenhum resultado, não sendo capaz de criar regras em ambos os \textit{datasets}. Uma análise mais profunda mostrou a razão disso: o número de pontos em que não houve ação é ordens de grandeza maior do que os pontos em que houve ação (cerca de 400 vezes mais pontos no primeiro dataset, e 300 no segundo). 
 
@@ -751,7 +751,7 @@ O procedimento listado é repetido até que não haja nenhuma alteração nos ce
 
 Note que, por definição, os centroides podem não ser coincidentes com um ponto do \textit{dataset}. Isso torna o algoritmo suscetível a valores atípicos (\textit{outliers}), pois a incorporação de tais valores acabaria deslocando os centroides em direção a eles.
 
-Assim, foi proposto um algoritmo que utiliza o conceito de medoide como pontos representativos de um cluster. De modo intuitivo, o medoide $m$ de um \textit{dataset} é um ponto "central" pertencente ao \textit{dataset} original. Formalmente, se $P$ é o conjunto de pontos do \textit{dataset}, $m$ é escolhido de tal forma a minimizar $\sum_{p \in P}{dist(m,p)}$, para todo $m \in P$.
+Assim, foi proposto um algoritmo que utiliza o conceito de medoide como pontos representativos de um cluster. De modo intuitivo, o medoide $m$ de um \textit{dataset} é um ponto ``central'' pertencente ao \textit{dataset} original. Formalmente, se $P$ é o conjunto de pontos do \textit{dataset}, $m$ é escolhido de tal forma a minimizar $\sum_{p \in P}{dist(m,p)}$, para todo $m \in P$.
 
 A utilização de medoides como pontos representativos torna o algoritmo mais resistente a \textit{outliers}, mas a computação do medoide a cada iteração é relativamente complexa. O algoritmo PAM (\textit{Partitioning Around Medoids}), uma implementação dessa técnica de clusterização utilizando medoides, possui complexidade $O\left(n(n-k)^2\right)$ por iteração (onde $n$ é o número de pontos e $k$ é o número de medoides), prejudicando sua aplicação em larga escala \cite{han2005}.
 
