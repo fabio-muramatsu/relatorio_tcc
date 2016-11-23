@@ -1,4 +1,4 @@
-\documentclass[]{politex}
+\documentclass[times]{politex}
 % ========== Opções ==========
 % pnumromarab - Numeração de páginas usando algarismos romanos na parte pré-textual e arábicos na parte textual
 % abnttoc - Forçar paginação no sumário conforme ABNT (inclui "p." na frente das páginas)
@@ -46,6 +46,13 @@
 	tabsize=2,
 	basicstyle=\ttfamily\linespread{0.8}\small 
 }
+
+\newenvironment{itemize_compact}
+{ \begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  } 
 
 % ========== Opções do documento ==========
 % Título
@@ -96,10 +103,9 @@
 {
 	\fontfamily{phv}\selectfont
 	\capa
+	\falsafolhaderosto
+	\folhaderosto
 }
-\falsafolhaderosto
-\folhaderosto
-
 
 % ========== Folha de assinaturas (opcional) ==========
 %\begin{folhadeaprovacao}

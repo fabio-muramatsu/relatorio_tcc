@@ -124,6 +124,13 @@ As mensagens de regra estão listadas e descritas na Tabela \ref{tab:mensagens_r
 \lstinputlisting[label=lst:getLearntRules, caption=Formato da mensagem \texttt{getLearntRules}.]{codigos/getLearntRules.json}
 \end{minipage}
 
+\paragraph*{\texttt{Force Rule Learning}.} A Listagem \ref{lst:forceRuleLearning} ilustra o formato da mensagem.
+
+\noindent
+\begin{minipage}[l]{\linewidth}
+\lstinputlisting[label=lst:forceRuleLearning, caption=Formato da mensagem \texttt{forceRuleLearning}.]{codigos/forceRuleLearning.json}
+\end{minipage}
+
 \paragraph*{\texttt{Notify New Rules}.} A Listagem \ref{lst:notifyNewRules} ilustra o formato da mensagem. O campo \texttt{quantity} contém o número de novas regras disponíveis para adicionar ao banco de dados do controlador.
 
 \noindent
@@ -581,11 +588,11 @@ Conforme mencionado, o domínio de aplicação abordado para concepção de um a
 	\centering
 	\caption{Montagens experimentais para coleta de dados de iluminação}
 	\smallskip
-  \includegraphics[width=0.8\textwidth]{imagens/montagem_coleta.png}
+  \includegraphics[width=\textwidth]{imagens/montagem_coleta.png}
   \label{fig:montagem_coleta}  
 \end{figure}
 
-Neste processo, os dados foram amostrados a cada minuto. Na primeira montagem, foi utilizado um botão para sinalizar o momento em que o interruptor foi acionado, devido à inviabilidade de conectar o interruptor existente no processo de coleta. Os dados coletados por esta montagem serão referidos por \textit{dataset} 1. Na segunda montagem, o estado do interruptor foi inferido posteriormente, de acordo com o horário do dia e da iluminação ambiente. Os dados coletados por esta montagem serão denominados \textit{dataset} 2. O \textit{timestamp}, mostrado na Tabela \ref{tab:entrada_learning}, foi registrado para cada amostra coletada, e consiste na representação POSIX do instante de coleta do dado.
+Neste processo, os dados foram amostrados a cada minuto. Na primeira e terceira montagens (à esquerda e à direita, respectivamente), foi utilizado um botão para sinalizar o momento em que o interruptor foi acionado, devido à inviabilidade de conectar o interruptor existente no processo de coleta. Os dados coletados por estas montagens serão referidos por \textit{dataset} 1 e \textit{dataset} 3 (primeira e terceira montagens, respectivamente). Na segunda montagem (imagem central), o estado do interruptor foi inferido posteriormente, de acordo com o horário do dia e da iluminação ambiente. Os dados coletados por esta montagem serão denominados \textit{dataset} 2. O \textit{timestamp}, mostrado na Tabela \ref{tab:entrada_learning}, foi registrado para cada amostra coletada, e consiste na representação POSIX do instante de coleta do dado.
 
 \subsection{Experimentos para Derivação de Regras}
 Como mencionado, o grupo pretende usar um algoritmo de classificação baseado em árvore de decisão para gerar as regras de atuação. Levando em conta a rotina associada aos dados de treino coletados, o grupo espera, idealmente, que as seguintes regras sejam derivadas:
@@ -597,30 +604,75 @@ Como mencionado, o grupo pretende usar um algoritmo de classificação baseado e
 Para a geração das árvores de decisão, o grupo usou a ferramenta Rattle\footnote{Disponível em \url{http://rattle.togaware.com/}.}, que utiliza um algoritmo recursivo \textit{top-down} \cite{williams2011} implementado na biblioteca \texttt{rpart}\footnote{Documentação disponível em \url{https://cran.r-project.org/web/packages/rpart/index.html}}. O objetivo, nesta seção, é estudar modos de preprocessamento dos dados utilizados pelo algoritmo, e analisar a qualidade das regras criadas. Todo o processamento efetuado sobre os dados foi feito utilizando a linguagem R\footnote{Disponível em \url{https://www.r-project.org/}}.
 
 \subsubsection{Utilização de dados \textit{raw}}
-A primeira tentativa de geração de regras foi feita alimentando o algoritmo de geração do modelo sem efetuar nenhum tipo de preprocessamento dos dados. Os resultados obtidos estão apresentados na Figura \ref{fig:teste_1}, para cada \textit{dataset} utilizado. Para auxiliar na interpretabilidade dos dados, tenha em mente que valores de luminância na ordem de 40 lx correspondem a um ambiente noturno, com uma lâmpada acesa.
+A primeira tentativa de geração de regras foi feita alimentando o algoritmo de geração do modelo sem efetuar nenhum tipo de preprocessamento dos dados. A quantidade de pontos utilizados para cada \textit{dataset} está listada a seguir.
+
+\begin{itemize_compact}
+	\item \textit{Dataset} 1
+	\begin{itemize_compact}
+		\item 3818 pontos com luz ligada
+		\item 15454 pontos com luz desligada
+	\end{itemize_compact}
+		\item \textit{Dataset} 2
+	\begin{itemize_compact}
+		\item 2398 pontos com luz ligada
+		\item 51880 pontos com luz desligada
+	\end{itemize_compact}
+		\item \textit{Dataset} 3
+	\begin{itemize_compact}
+		\item 2640 pontos com luz ligada
+		\item 16292 pontos com luz desligada
+	\end{itemize_compact}
+\end{itemize_compact}
+
+Os resultados obtidos estão apresentados na Figura \ref{fig:teste_1}, para cada \textit{dataset} utilizado. Para auxiliar na interpretabilidade dos dados, tenha em mente que valores de luminância na ordem de 40 lx correspondem a um ambiente noturno, com uma lâmpada acesa.
 
 \begin{figure}[hp]
+	\centering
 	\caption{Árvores de decisão geradas sem nenhum preprocessamento de dados.}
-	\smallskip
-	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/1_h.png}
-  \end{subfigure}
-  	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/1_r.png}
-  \end{subfigure}
+  \includegraphics[width=0.8\textwidth]{imagens/teste_learning/1.pdf}
   \label{fig:teste_1}  
 \end{figure}
 
-Observe que, no primeiro caso, o algoritmo tenta prever o estado da lâmpada baseado unicamente nos dados de iluminação ambiente, ao passo que no segundo, dados de presença também são utilizados. No entanto, a partir das regras criadas, é evidente que o algoritmo está prevendo qual o estado corrente da lâmpada, dados os parâmetros de entrada de luminância e presença. Por exemplo, uma das regras criadas diz que se o nível de luminosidade do ambiente for menor que 39, então a lâmpada está apagada.
-
 Para fins de criação de regras, o interesse maior está em identificar o estado em que ocorreu uma mudança no estado da lâmpada. Para tanto, torna-se necessário efetuar um preprocessamento dos dados para evidenciar essas mudanças no \textit{dataset}.
+
+\clearpage
 
 \subsubsection{Adição de um campo de Ação}
 Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a ação tomada no instante. Por exemplo, se em um dado instante a lâmpada está apagada, mas no seguinte ela está acesa, então o campo ``Ação'' assume valor ``1'', indicando que a lâmpada foi acesa. Analogamente, se a lâmpada está acesa em um dado instante e no seguinte ela está apagada, então o campo ``Ação'' assume valor ``-1'', indicando que ela foi apagada. Caso o estado da lâmpada seja o mesmo em dois instantes de tempo consecutivos, o campo ``Ação'' assume valor ``0'', indicando ausência de ação.
 
-Efetuando este tratamento, o algoritmo não produziu nenhum resultado, não sendo capaz de criar regras em ambos os \textit{datasets}. Uma análise mais profunda mostrou a razão disso: o número de pontos em que não houve ação é ordens de grandeza maior do que os pontos em que houve ação (cerca de 400 vezes mais pontos no primeiro dataset, e 300 no segundo). 
+Efetuando este tratamento, a quantidade de pontos em cada \textit{dataset} se encontra distribuída conforme listado a seguir.
+
+\begin{itemize_compact}
+	\item \textit{Dataset} 1
+	\begin{itemize_compact}
+		\item 19228 pontos sem ação
+		\item 22 pontos ligando a luz
+		\item 22 pontos apagando a luz
+	\end{itemize_compact}
+		\item \textit{Dataset} 2
+	\begin{itemize_compact}
+		\item 54094 pontos sem ação
+		\item 92 pontos ligando a luz
+		\item 92 pontos apagando a luz
+	\end{itemize_compact}
+		\item \textit{Dataset} 3
+	\begin{itemize_compact}
+		\item 18871 pontos sem ação
+		\item 31 pontos ligando a luz
+		\item 30 pontos apagando a luz
+	\end{itemize_compact}
+\end{itemize_compact}
+
+A Figura \ref{fig:teste_2} ilustra os resultados obtidos após efetuar este preprocessamento.
+
+\begin{figure}[hp]
+	\centering
+	\caption{Árvores de decisão geradas após processamento dos dados, adicionando-se campo de ação.}
+  \includegraphics[width=0.8\textwidth]{imagens/teste_learning/2.pdf}
+  \label{fig:teste_2}  
+\end{figure}
+
+\clearpage
 
 \subsubsection{Eliminação dos pontos sem ação} \label{subsubsec:elim_pts_sem_acao}
 Esta tentativa buscou explorar a eficácia do algoritmo caso pontos sem ação (Ação=0) fossem eliminados. A Figura \ref{fig:teste_3} mostra as árvores de decisão geradas nesta tentativa.
@@ -651,11 +703,11 @@ O \textit{undersample} foi efetuado selecionando-se uma quantidade de pontos da 
 	\smallskip
 	\begin{subfigure}{\textwidth}
 		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/4_h.png}
+  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/4_h.png}
   \end{subfigure}
   	\begin{subfigure}{\textwidth}
 		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/4_r.png}
+  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/4_r.png}
   \end{subfigure}
   \label{fig:teste_4}  
 \end{figure}
@@ -687,11 +739,11 @@ A Figura \ref{fig:teste_5_1} mostra árvores de decisão geradas para o \textit{
 	\smallskip
 	\begin{subfigure}{\textwidth}
 		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/5_h_1.png}
+  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/5_h_1.png}
   \end{subfigure}
   	\begin{subfigure}{\textwidth}
 		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/5_h_2.png}
+  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/5_h_2.png}
   \end{subfigure}
   \label{fig:teste_5_1}  
 \end{figure}
@@ -701,11 +753,11 @@ A Figura \ref{fig:teste_5_1} mostra árvores de decisão geradas para o \textit{
 	\smallskip
 	\begin{subfigure}{\textwidth}
 		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/5_r_1.png}
+  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/5_r_1.png}
   \end{subfigure}
   	\begin{subfigure}{\textwidth}
 		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/5_r_2.png}
+  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/5_r_2.png}
   \end{subfigure}
   \label{fig:teste_5_2}  
 \end{figure}
