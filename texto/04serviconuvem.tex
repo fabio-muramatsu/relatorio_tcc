@@ -629,7 +629,7 @@ Os resultados obtidos estão apresentados na Figura \ref{fig:teste_1}, para cada
 \begin{figure}[hp]
 	\centering
 	\caption{Árvores de decisão geradas sem nenhum preprocessamento de dados.}
-  \includegraphics[width=0.8\textwidth]{imagens/teste_learning/1.pdf}
+  \includegraphics[width=0.9\textwidth]{imagens/teste_learning/1.pdf}
   \label{fig:teste_1}  
 \end{figure}
 
@@ -663,31 +663,15 @@ Efetuando este tratamento, a quantidade de pontos em cada \textit{dataset} se en
 	\end{itemize_compact}
 \end{itemize_compact}
 
-A Figura \ref{fig:teste_2} ilustra os resultados obtidos após efetuar este preprocessamento.
-
-\begin{figure}[hp]
-	\centering
-	\caption{Árvores de decisão geradas após processamento dos dados, adicionando-se campo de ação.}
-  \includegraphics[width=0.8\textwidth]{imagens/teste_learning/2.pdf}
-  \label{fig:teste_2}  
-\end{figure}
-
-\clearpage
+Efetuando este tratamento, o algoritmo não produziu nenhum resultado, não sendo capaz de criar regras em ambos os \textit{datasets}. Uma análise mais profunda mostrou a razão disso: o número de pontos em que não houve ação é ordens de grandeza maior do que os pontos em que houve ação. Assim sendo, o algoritmo acaba por prever somente o caso em que nenhuma ação é tomada, mantendo assim um alto nível de precisão. 
 
 \subsubsection{Eliminação dos pontos sem ação} \label{subsubsec:elim_pts_sem_acao}
 Esta tentativa buscou explorar a eficácia do algoritmo caso pontos sem ação (Ação=0) fossem eliminados. A Figura \ref{fig:teste_3} mostra as árvores de decisão geradas nesta tentativa.
 
 \begin{figure}[hp]
+	\centering
 	\caption{Árvores de decisão geradas mantendo somente pontos com ação tomada.}
-	\smallskip
-	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/3_h.png}
-  \end{subfigure}
-  	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.8\textwidth]{imagens/teste_learning/3_r.png}
-  \end{subfigure}
+  \includegraphics[width=0.7\textwidth]{imagens/teste_learning/3.pdf}
   \label{fig:teste_3}  
 \end{figure}
 
@@ -696,86 +680,46 @@ Observe que as regras geradas ditam que a luz seja apagada, caso ela esteja aces
 \subsubsection{Balanceamento do \textit{dataset}}
 Conforme mencionado, o \textit{dataset} em questão é extremamente desbalanceado, com uma quantidade de entradas com classe Ação=0 ordens de grandeza maior que entradas das demais classes. Conforme mencionado em \cite{han2005}, dentre as técnicas utilizadas para se lidar com problemas de classificação desbalanceados estão o \textit{undersampling} da classe majoritária e o \textit{oversampling} da classe minoritária. Neste teste, a primeira técnica será adotada para reduzir a quantidade de entradas da classe Ação=0.
 
-O \textit{undersample} foi efetuado selecionando-se uma quantidade de pontos da classe majoritária de forma aleatória. A Figura \ref{fig:teste_4} mostra as árvores de decisão geradas nesta tentativa.
+O \textit{undersample} foi efetuado selecionando-se uma quantidade de pontos da classe majoritária de forma aleatória. A Figura \ref{fig:teste_4} mostra as árvores de decisão geradas nesta tentativa. Como foi efetuado uma amostragem aleatória em todos os pontos de não ação, reproduzimos esse teste diversas vezes, e as árvores resultantes são as que ocorriam com mais frequência nos testes.
 
 \begin{figure}[hp]
+	\centering
 	\caption{Árvores de decisão geradas efetuando \textit{undersample} da classe majoritária.}
-	\smallskip
-	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/4_h.png}
-  \end{subfigure}
-  	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/4_r.png}
-  \end{subfigure}
+  \includegraphics[width=\textwidth]{imagens/teste_learning/4.pdf}
   \label{fig:teste_4}  
 \end{figure}
-
-No \textit{dataset} 1, as regras produzidas foram:
-\begin{itemize}
-	\item Apague a luz quando ela estiver acesa ($light\_on >= 0.5$)
-	\item Acenda a luz quando ela estiver apagada e a iluminação ambiente estiver entre 0.42 e 82
-	\item Não faça nada caso contrário
-\end{itemize}
-No caso do segundo \textit{dataset}, as regras produzidas foram:
-\begin{itemize}
-	\item Apague a luz quando ela estiver acesa ($light\_on >= 0.5$)
-	\item Acenda a luz quando ela estiver apagada, alguém estiver no quarto e a iluminação ambiente for menor que 24
-	\item Não faça nada, caso contrário
-\end{itemize}
-
-Como foi efetuado uma amostragem aleatória em todos os pontos de não ação, reproduzimos esse teste diversas vezes, e as árvores resultantes são as que ocorriam com mais frequência nos testes. Em ambas as árvores, observa-se que ele derivou a regra para apagar a luz sempre que ela esteja acesa, e apenas no segundo \textit{dataset} utilizou a presença no caso de acender a luz.
-
+ 
 Analisando o \textit{dataset}, observa-se que acontece de o usuário acender a luz antes da presença ser detectada e também de apagá-la ainda sob alcance do sensor de presença. Ou seja, o usuário deixa o ambiente quando apaga a luz e o frequenta quando a acende, e essa informação não é representada tomando unicamente a leitura instantânea do sensor de presença.
+
+\clearpage
 
 \subsubsection{Consideração de médias temporais dos dados}
 Com o intuito de capturar o estado do ambiente associado à tomada de uma ação, testou-se a utilização de uma média temporal de $n$ pontos para a presença, em vez de utilizar uma única medida instantânea. Deste modo, para um dado instante, o valor da presença é a média dos $n$ valores subsequentes, arranjados de forma temporal. Efetuar este tipo de processamento faz com que os \textit{datasets} reflitam o estado do ambiente após a tomada da ação, contribuindo para a geração de regras mais precisas. No entanto, há a necessidade de se conhecer a natureza dos dados coletados para que este tipo de processamento faça sentido, tornando este tratamento específico para a aplicação descrita de controle de iluminação.
 
-A Figura \ref{fig:teste_5_1} mostra árvores de decisão geradas para o \textit{dataset} 1, ao passo que a Figura \ref{fig:teste_5_2} mostra as geradas para o \textit{dataset} 2. Nestes modelos, foi utilizado $n=10$. Devido à natureza aleatória do \textit{undersampling}, as duas árvores apresentadas em cada figura foram geradas frequentemente.
+As Figuras \ref{fig:teste_5_1}, \ref{fig:teste_5_2} e \ref{fig:teste_5_3} mostram as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3 respectivamente. Nestes modelos, foi utilizado $n=10$. Devido à natureza aleatória do \textit{undersampling}, as árvores apresentadas em cada figura foram as geradas mais frequentemente.
 
 \begin{figure}[hp]
+	\centering
 	\caption{Árvores de decisão geradas para o \textit{dataset} 1 tomando a média temporal da presença, com $n=10$.}
-	\smallskip
-	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/5_h_1.png}
-  \end{subfigure}
-  	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/5_h_2.png}
-  \end{subfigure}
+  \includegraphics[width=\textwidth]{imagens/teste_learning/5_1.pdf}
   \label{fig:teste_5_1}  
 \end{figure}
 
 \begin{figure}[hp]
+	\centering
 	\caption{Árvores de decisão geradas para o \textit{dataset} 2 tomando a média temporal da presença, com $n=10$.}
-	\smallskip
-	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/5_r_1.png}
-  \end{subfigure}
-  	\begin{subfigure}{\textwidth}
-		\centering
-  	\includegraphics[width=0.7\textwidth]{imagens/teste_learning/5_r_2.png}
-  \end{subfigure}
+  \includegraphics[width=\textwidth]{imagens/teste_learning/5_2.pdf}
   \label{fig:teste_5_2}  
 \end{figure}
 
-Observe que os resultados obtidos são similares para os dois \textit{datasets}. Analisando a primeira árvore da Figura \ref{fig:teste_5_1}, observa-se que as regras geradas foram:
-\begin{itemize}
-	\item Apague a luz quando ela estiver acesa e não houver ninguém no ambiente;
-	\item Acenda a luz quando ela estiver apagada, houver presença no ambiente e o nível de luminosidade for menor que 45;
-	\item Não faça nada caso contrário.
-\end{itemize}
-No caso da segunda árvore da Figura \ref{fig:teste_5_1}, tem-se as regras:
-\begin{itemize}
-	\item Apague a luz quando ela estiver acesa;
-	\item Acenda a luz quando ela estiver apagada, houver presença no ambiente e o nível de luminosidade for menor que 73;
-	\item Não faça nada caso contrário.
-\end{itemize}
+\begin{figure}[hp]
+	\centering
+	\caption{Árvores de decisão geradas para o \textit{dataset} 3 tomando a média temporal da presença, com $n=10$.}
+  \includegraphics[width=\textwidth]{imagens/teste_learning/5_3.pdf}
+  \label{fig:teste_5_3}  
+\end{figure}
 
-Observe que a primeira árvore obtida gerou regras ótimas, levando em conta os \textit{datasets} utilizados. A segunda, no entanto, ainda sugeria regras que simplesmente apagavam a luz quando ela estivesse acesa. Este problema é similar ao obtido no teste \ref{subsubsec:elim_pts_sem_acao}, e provavelmente se deve ao fato de não terem sido escolhidos pontos suficientes da classe Ação=0 no processo de \textit{undersampling}.
+\clearpage
 
 \subsubsection{\textit{Undersampling} com clusterização}
 Uma maneira de melhorar o processo de \textit{undersampling}, de modo que os dados coletados representem mais fielmente o \textit{dataset} original, seria aplicar técnicas de clusterização à classe majoritária. Desse modo, o procedimento de amostragem consistiria em coletar alguns pontos de cada cluster identificado.
