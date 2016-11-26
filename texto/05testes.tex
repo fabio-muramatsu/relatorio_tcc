@@ -16,7 +16,16 @@ Para os dispositivos e controlador da rede local, foram desenvolvidos versões u
 
 \begin{figure}[h]
 	\centering
-	\caption{Aplicativo utilizado nos testes de integração.}
-  \includegraphics[width=0.5\textwidth]{imagens/aplicativo_teste.png}
+	\caption{Aplicativo de depuração utilizado nos testes de integração.}
+  \includegraphics[width=0.4\textwidth]{imagens/aplicativo_teste.png}
   \label{fig:aplicativo_teste}  
+\end{figure}
+
+Em seguida, testes mais avançados foram efetuados, simulando um ambiente de aplicação do sistema. Para tanto, foram desenvolvidos protótipos de sensores, atuadores e controladores locais utilizando computadores Raspberry Pi. O servidor em nuvem, responsável por toda a comunicação entre o controlador local e o aplicativo e pelo processo de aprendizagem de regras, foi hospedado no serviço Amazon Web Services (AWS). Além disso, o grupo desenvolveu um aplicativo de produção utilizando a biblioteca descrita na seção \ref{subsec:lib_app}, de modo a demonstrar as interações possíveis do usuário com o sistema (Figura \ref{fig:app_screenshot}).
+
+\begin{figure}[h]
+	\centering
+	\caption{Aplicativo de produção para demonstrar as interações do usuário com o sistema.}
+  \includegraphics[width=0.8\textwidth]{imagens/app_screenshot.png}
+  \label{fig:app_screenshot}  
 \end{figure}
