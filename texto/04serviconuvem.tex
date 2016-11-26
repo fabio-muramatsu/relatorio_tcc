@@ -581,6 +581,7 @@ No extremo oposto encontra-se a técnica de classificação por árvores de deci
 
 Pelas razões mencionadas anteriormente, o algoritmo de classificação por árvore de decisão foi adotado para derivar regras de atuação. A seguir serão descritos os experimentos feitos com  dados de iluminação, englobando o preprocessamento dos dados e a aplicação do algoritmo de classificação propriamente dito.
 
+
 \subsection{Coleta de Dados}
 Conforme mencionado, o domínio de aplicação abordado para concepção de um algoritmo de aprendizagem de regras é o de controle de iluminação. Para iniciar os testes, é necessário ter em mãos um \textit{dataset} em formato similar ao descrito na seção \ref{subsec:formatoentrada}. Para obter tais dados de treino, os membros do grupo adquiriram sensores de presença PIR e de iluminação, associando-os a um Raspberry Pi, a fim de coletar dados nas respectivas residências. A Figura \ref{fig:montagem_coleta} mostra as montagens utilizadas para efetuar as coletas nas residências.
 
@@ -633,12 +634,13 @@ Os resultados obtidos estão apresentados na Figura \ref{fig:teste_1}, para cada
   \label{fig:teste_1}  
 \end{figure}
 
+
 Para fins de criação de regras, o interesse maior está em identificar o estado em que ocorreu uma mudança no estado da lâmpada. Para tanto, torna-se necessário efetuar um preprocessamento dos dados para evidenciar essas mudanças no \textit{dataset}.
 
 \clearpage
 
 \subsubsection{Adição de um campo de Ação}
-Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a ação tomada no instante. Por exemplo, se em um dado instante a lâmpada está apagada, mas no seguinte ela está acesa, então o campo ``Ação'' assume valor ``1'', indicando que a lâmpada foi acesa. Analogamente, se a lâmpada está acesa em um dado instante e no seguinte ela está apagada, então o campo ``Ação'' assume valor ``-1'', indicando que ela foi apagada. Caso o estado da lâmpada seja o mesmo em dois instantes de tempo consecutivos, o campo ``Ação'' assume valor ``0'', indicando ausência de ação.
+Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a ação tomada no instante. Por exemplo, se em um dado instante a lâmpada está apagada, mas no seguinte ela está acesa, então o campo ``Ação'' assume valor ``1'', indicando que a lâmpada foi acesa. Analogamente, se a lâmpada está acesa em um dado instante e no seguinte ela está apagada, então o campo ``Ação'' assume valor ``0'', indicando que ela foi apagada. Caso o estado da lâmpada seja o mesmo em dois instantes de tempo consecutivos, o campo ``Ação'' assume valor ``NO\underline{\space}ACTION'', indicando ausência de ação.
 
 Efetuando este tratamento, a quantidade de pontos em cada \textit{dataset} se encontra distribuída conforme listado a seguir.
 
@@ -696,7 +698,7 @@ Analisando o \textit{dataset}, observa-se que acontece de o usuário acender a l
 \subsubsection{Consideração de médias temporais dos dados}
 Com o intuito de capturar o estado do ambiente associado à tomada de uma ação, testou-se a utilização de uma média temporal de $n$ pontos para a presença, em vez de utilizar uma única medida instantânea. Deste modo, para um dado instante, o valor da presença é a média dos $n$ valores subsequentes, arranjados de forma temporal. Efetuar este tipo de processamento faz com que os \textit{datasets} reflitam o estado do ambiente após a tomada da ação, contribuindo para a geração de regras mais precisas. No entanto, há a necessidade de se conhecer a natureza dos dados coletados para que este tipo de processamento faça sentido, tornando este tratamento específico para a aplicação descrita de controle de iluminação.
 
-As Figuras \ref{fig:teste_5_1}, \ref{fig:teste_5_2} e \ref{fig:teste_5_3} mostram as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3 respectivamente. Nestes modelos, foi utilizado $n=10$. Devido à natureza aleatória do \textit{undersampling}, as árvores apresentadas em cada figura foram as geradas mais frequentemente.
+As Figuras \ref{fig:teste_5_1}, \ref{fig:teste_5_2} e \ref{fig:teste_5_3} mostram as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3 respectivamente. Nestes modelos, foi utilizado $n=5$. Devido à natureza aleatória do \textit{undersampling}, as árvores apresentadas em cada figura foram as geradas mais frequentemente.
 
 \begin{figure}[hp]
 	\centering
