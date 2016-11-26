@@ -448,7 +448,7 @@ Observe que existem seis coleções definidas em uma casa. A coleção \texttt{h
 
 O código-fonte do servidor está disponível no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
 
-\subsection{Implementação de Biblioteca para Aplicativo} \label{subsec:lib_app}
+\subsection{Implementação de Biblioteca para Aplicativo}
 De modo similar ao servidor, a implementação do suporte ao protocolo Homecloud no aplicativo também foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como dependência em projetos Android para efetuar a troca de mensagens seguindo o protocolo, conforme ilustra a Figura \ref{fig:arquitetura_lib_app}. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
 
 \begin{figure}[h]
@@ -595,7 +595,7 @@ Conforme mencionado, o domínio de aplicação abordado para concepção de um a
 
 Neste processo, os dados foram amostrados a cada minuto. Na primeira e terceira montagens (à esquerda e à direita, respectivamente), foi utilizado um botão para sinalizar o momento em que o interruptor foi acionado, devido à inviabilidade de conectar o interruptor existente no processo de coleta. Os dados coletados por estas montagens serão referidos por \textit{dataset} 1 e \textit{dataset} 3 (primeira e terceira montagens, respectivamente). Na segunda montagem (imagem central), o estado do interruptor foi inferido posteriormente, de acordo com o horário do dia e da iluminação ambiente. Os dados coletados por esta montagem serão denominados \textit{dataset} 2. O \textit{timestamp}, mostrado na Tabela \ref{tab:entrada_learning}, foi registrado para cada amostra coletada, e consiste na representação POSIX do instante de coleta do dado.
 
-\subsection{Experimentos para Derivação de Regras}
+\subsection{Experimentos para Derivação de Regras} \label{subsubsec:exp_regras}
 Como mencionado, o grupo pretende usar um algoritmo de classificação baseado em árvore de decisão para gerar as regras de atuação. Levando em conta a rotina associada aos dados de treino coletados, o grupo espera, idealmente, que as seguintes regras sejam derivadas:
 \begin{itemize}
 	\item Acenda a luz quando há alguém no ambiente, e a iluminação no local é baixa;
@@ -634,8 +634,9 @@ Os resultados obtidos estão apresentados na Figura \ref{fig:teste_1}, para cada
   \label{fig:teste_1}  
 \end{figure}
 
+As regras produzidas por esse testes não são razoáveis, pois como buscam prever o valor do atuador em função dos sensores, acabam produzindo regras ``sem sentido'', como apagar a luz quando a iluminação ambiente é baixa. E isso ocorre justamente porque quando a iluminação ambiente é baixa a luz se encontra apagada.
 
-Para fins de criação de regras, o interesse maior está em identificar o estado em que ocorreu uma mudança no estado da lâmpada. Para tanto, torna-se necessário efetuar um preprocessamento dos dados para evidenciar essas mudanças no \textit{dataset}.
+Verifica-se que para fins de criação de regras, o interesse maior está em identificar o estado em que ocorreu uma mudança no estado da lâmpada. Para tanto, torna-se necessário efetuar um preprocessamento dos dados para evidenciar essas mudanças no \textit{dataset}.
 
 \clearpage
 
@@ -677,10 +678,10 @@ Esta tentativa buscou explorar a eficácia do algoritmo caso pontos sem ação (
   \label{fig:teste_3}  
 \end{figure}
 
-Observe que as regras geradas ditam que a luz seja apagada, caso ela esteja acesa, e vice-versa. De fato, do universo de pontos coletados neste item, é óbvio que a luz sempre é apagada quando ela está acesa, e ela sempre é acesa quando está apagada. Ocorre que a eliminação dos dados de Ação=0, apesar de resolver o problema de desbalanceamento, introduziu uma perda de informação significativa. Ocorre que, em diversos momentos em que a luz está acesa, ela não é apagada. A manutenção de tais pontos, pois, se mostra imprescindível para a geração de regras coerentes.
+Observe que as regras geradas ditam que a luz seja apagada, caso ela esteja acesa, e vice-versa. De fato, do universo de pontos coletados neste item, é óbvio que a luz sempre é apagada quando ela está acesa, e ela sempre é acesa quando está apagada. Ocorre que a eliminação dos dados de Ação=``NO\underline{\space}ACTION'', apesar de resolver o problema de desbalanceamento, introduziu uma perda de informação significativa. Ocorre que, em diversos momentos em que a luz está acesa, ela não é apagada. A manutenção de tais pontos, pois, se mostra imprescindível para a geração de regras coerentes.
 
 \subsubsection{Balanceamento do \textit{dataset}}
-Conforme mencionado, o \textit{dataset} em questão é extremamente desbalanceado, com uma quantidade de entradas com classe Ação=0 ordens de grandeza maior que entradas das demais classes. Conforme mencionado em \cite{han2005}, dentre as técnicas utilizadas para se lidar com problemas de classificação desbalanceados estão o \textit{undersampling} da classe majoritária e o \textit{oversampling} da classe minoritária. Neste teste, a primeira técnica será adotada para reduzir a quantidade de entradas da classe Ação=0.
+Conforme mencionado, o \textit{dataset} em questão é extremamente desbalanceado, com uma quantidade de entradas com classe Ação=``NO\underline{\space}ACTION'' ordens de grandeza maior que entradas das demais classes. Conforme mencionado em \cite{han2005}, dentre as técnicas utilizadas para se lidar com problemas de classificação desbalanceados estão o \textit{undersampling} da classe majoritária e o \textit{oversampling} da classe minoritária. Neste teste, a primeira técnica será adotada para reduzir a quantidade de entradas da classe Ação=``NO\underline{\space}ACTION''.
 
 O \textit{undersample} foi efetuado selecionando-se uma quantidade de pontos da classe majoritária de forma aleatória. A Figura \ref{fig:teste_4} mostra as árvores de decisão geradas nesta tentativa. Como foi efetuado uma amostragem aleatória em todos os pontos de não ação, reproduzimos esse teste diversas vezes, e as árvores resultantes são as que ocorriam com mais frequência nos testes.
 
@@ -690,7 +691,7 @@ O \textit{undersample} foi efetuado selecionando-se uma quantidade de pontos da 
   \includegraphics[width=\textwidth]{imagens/teste_learning/4.pdf}
   \label{fig:teste_4}  
 \end{figure}
- 
+
 Analisando o \textit{dataset}, observa-se que acontece de o usuário acender a luz antes da presença ser detectada e também de apagá-la ainda sob alcance do sensor de presença. Ou seja, o usuário deixa o ambiente quando apaga a luz e o frequenta quando a acende, e essa informação não é representada tomando unicamente a leitura instantânea do sensor de presença.
 
 \clearpage
@@ -700,23 +701,25 @@ Com o intuito de capturar o estado do ambiente associado à tomada de uma ação
 
 As Figuras \ref{fig:teste_5_1}, \ref{fig:teste_5_2} e \ref{fig:teste_5_3} mostram as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3 respectivamente. Nestes modelos, foi utilizado $n=5$. Devido à natureza aleatória do \textit{undersampling}, as árvores apresentadas em cada figura foram as geradas mais frequentemente.
 
+Observa-se que as regras desejáveis definidas em \ref{subsubsec:exp_regras} foram geradas. Porém, devido ao \textit{sampling} aleatório dos pontos sem ação, algumas vezes as regras desejáveis não eram produzidas pelo algoritmo.
+
 \begin{figure}[hp]
 	\centering
-	\caption{Árvores de decisão geradas para o \textit{dataset} 1 tomando a média temporal da presença, com $n=10$.}
+	\caption{Árvores de decisão geradas para o \textit{dataset} 1 tomando a média temporal da presença, com $n=5$.}
   \includegraphics[width=\textwidth]{imagens/teste_learning/5_1.pdf}
   \label{fig:teste_5_1}  
 \end{figure}
 
 \begin{figure}[hp]
 	\centering
-	\caption{Árvores de decisão geradas para o \textit{dataset} 2 tomando a média temporal da presença, com $n=10$.}
+	\caption{Árvores de decisão geradas para o \textit{dataset} 2 tomando a média temporal da presença, com $n=5$.}
   \includegraphics[width=\textwidth]{imagens/teste_learning/5_2.pdf}
   \label{fig:teste_5_2}  
 \end{figure}
 
 \begin{figure}[hp]
 	\centering
-	\caption{Árvores de decisão geradas para o \textit{dataset} 3 tomando a média temporal da presença, com $n=10$.}
+	\caption{Árvores de decisão geradas para o \textit{dataset} 3 tomando a média temporal da presença, com $n=5$.}
   \includegraphics[width=\textwidth]{imagens/teste_learning/5_3.pdf}
   \label{fig:teste_5_3}  
 \end{figure}
@@ -754,6 +757,20 @@ Assim, foi proposto um algoritmo que utiliza o conceito de medoide como pontos r
 A utilização de medoides como pontos representativos torna o algoritmo mais resistente a \textit{outliers}, mas a computação do medoide a cada iteração é relativamente complexa. O algoritmo PAM (\textit{Partitioning Around Medoids}), uma implementação dessa técnica de clusterização utilizando medoides, possui complexidade $O\left(n(n-k)^2\right)$ por iteração (onde $n$ é o número de pontos e $k$ é o número de medoides), prejudicando sua aplicação em larga escala \cite{han2005}.
 
 O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um método de amostragem é aplicado, e os medoides são calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execução do algoritmo, tornando-o adequado para aplicação sobre conjuntos de dados grandes. Por esta razão, bem como pelo fato de existirem implementações disponíveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponível em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterização da classe majoritária.
+
+A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula $min(5, floor(number of samples))$, que foi obtida empíricamente. O número de pontos sem ação selecionados foi o número de pontos máximo das outras classes (Ação=0 ou Ação=1),
+portanto, foram selecionados o mesmo número de pontos de cada \textit{cluster}, utilizando a fórmula: $ns = ceiling(number of samples / number of clusters)$. Para diminuir a variablidade, o grupo optou por ao invés de fazer um \textit{sampling} aleatório dos pontos de cada \textit{cluster}, utilizar o medoide de cada \textit{cluster} $ns$ vezes.
+
+
+\begin{figure}[hp]
+	\centering
+	\caption{Árvores de decisão geradas efetuando \textit{undersample} com clusterização.}
+  \includegraphics[width=\textwidth]{imagens/teste_learning/6.pdf}
+  \label{fig:teste_6}  
+\end{figure}
+
+\clearpage
+
 
 \subsection{Limitações e não-escopos} \label{subsec:limit_aprendizgem}
 Os seguintes itens são considerados limitações do algoritmo de aprendizagem proposto:
