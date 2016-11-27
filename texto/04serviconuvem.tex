@@ -448,7 +448,7 @@ Observe que existem seis coleções definidas em uma casa. A coleção \texttt{h
 
 O código-fonte do servidor está disponível no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
 
-\subsection{Implementação de Biblioteca para Aplicativo} \label{subsec:lib_app}
+\subsection{Implementação de Biblioteca para Aplicativo}
 De modo similar ao servidor, a implementação do suporte ao protocolo Homecloud no aplicativo também foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como dependência em projetos Android para efetuar a troca de mensagens seguindo o protocolo, conforme ilustra a Figura \ref{fig:arquitetura_lib_app}. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
 
 \begin{figure}[h]
@@ -641,6 +641,7 @@ Verifica-se que para fins de criação de regras, o interesse maior está em ide
 \clearpage
 
 \subsubsection{Adição de um campo de Ação}
+\label{subsubsec:action_add}
 Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a ação tomada no instante. Por exemplo, se em um dado instante a lâmpada está apagada, mas no seguinte ela está acesa, então o campo ``Ação'' assume valor ``1'', indicando que a lâmpada foi acesa. Analogamente, se a lâmpada está acesa em um dado instante e no seguinte ela está apagada, então o campo ``Ação'' assume valor ``0'', indicando que ela foi apagada. Caso o estado da lâmpada seja o mesmo em dois instantes de tempo consecutivos, o campo ``Ação'' assume valor ``NO\underline{\space}ACTION'', indicando ausência de ação.
 
 Efetuando este tratamento, a quantidade de pontos em cada \textit{dataset} se encontra distribuída conforme listado a seguir.
@@ -696,7 +697,7 @@ Analisando o \textit{dataset}, observa-se que acontece de o usuário acender a l
 
 \clearpage
 
-\subsubsection{Consideração de médias temporais dos dados}
+\subsubsection{Consideração de médias temporais dos dados} \label{subsubsec:presence_mean}
 Com o intuito de capturar o estado do ambiente associado à tomada de uma ação, testou-se a utilização de uma média temporal de $n$ pontos para a presença, em vez de utilizar uma única medida instantânea. Deste modo, para um dado instante, o valor da presença é a média dos $n$ valores subsequentes, arranjados de forma temporal. Efetuar este tipo de processamento faz com que os \textit{datasets} reflitam o estado do ambiente após a tomada da ação, contribuindo para a geração de regras mais precisas. No entanto, há a necessidade de se conhecer a natureza dos dados coletados para que este tipo de processamento faça sentido, tornando este tratamento específico para a aplicação descrita de controle de iluminação.
 
 As Figuras \ref{fig:teste_5_1}, \ref{fig:teste_5_2} e \ref{fig:teste_5_3} mostram as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3 respectivamente. Nestes modelos, foi utilizado $n=5$. Devido à natureza aleatória do \textit{undersampling}, as árvores apresentadas em cada figura foram as geradas mais frequentemente.
@@ -726,7 +727,7 @@ Observa-se que as regras desejáveis definidas em \ref{subsubsec:exp_regras} for
 
 \clearpage
 
-\subsubsection{\textit{Undersampling} com clusterização}
+\subsubsection{\textit{Undersampling} com clusterização} \label{subsubsec:clusterization}
 Uma maneira de melhorar o processo de \textit{undersampling}, de modo que os dados coletados representem mais fielmente o \textit{dataset} original, seria aplicar técnicas de clusterização à classe majoritária. Desse modo, o procedimento de amostragem consistiria em coletar alguns pontos de cada cluster identificado.
 
 O algoritmo de clusterização utilizado nesta etapa foi o CLARA (\textit{Clustering LARge Applications}), que é classificado como um algoritmo de clusterização por particionamento \cite{han2005}. O CLARA é resultado de uma série de incrementos efetuados sobre outros algoritmos de particionamento, partindo do mais simples: o \textit{k-means}.
@@ -758,16 +759,9 @@ A utilização de medoides como pontos representativos torna o algoritmo mais re
 
 O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um método de amostragem é aplicado, e os medoides são calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execução do algoritmo, tornando-o adequado para aplicação sobre conjuntos de dados grandes. Por esta razão, bem como pelo fato de existirem implementações disponíveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponível em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterização da classe majoritária.
 
-A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula
-\begin{equation*}
-min(5, floor(number of samples)),
-\end{equation*}
-que foi obtida empiricamente. O número de pontos sem ação selecionados foi o número de pontos máximo das outras classes (Ação=0 ou Ação=1),
-portanto, foram selecionados o mesmo número de pontos de cada \textit{cluster}, utilizando a fórmula
-\begin{equation*}
-ns = ceiling\left(\frac{number of samples}{number of clusters}\right).
-\end{equation*}
-Para diminuir a variabilidade, o grupo optou por utilizar o medoide de cada \textit{cluster} $ns$ vezes, ao invés de fazer um \textit{sampling} aleatório dos pontos de cada \textit{cluster}.
+A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula $min(5, floor(number of samples))$, que foi obtida empíricamente. O número de pontos sem ação selecionados foi o número de pontos máximo das outras classes (Ação=0 ou Ação=1),
+portanto, foram selecionados o mesmo número de pontos de cada \textit{cluster}, utilizando a fórmula: $ns = ceiling(number of samples / number of clusters)$. Para diminuir a variablidade, o grupo optou por ao invés de fazer um \textit{sampling} aleatório dos pontos de cada \textit{cluster}, utilizar o medoide de cada \textit{cluster} $ns$ vezes.
+
 
 \begin{figure}[hp]
 	\centering
@@ -778,7 +772,6 @@ Para diminuir a variabilidade, o grupo optou por utilizar o medoide de cada \tex
 
 \clearpage
 
-
 \subsection{Limitações e não-escopos} \label{subsec:limit_aprendizgem}
 Os seguintes itens são considerados limitações do algoritmo de aprendizagem proposto:
 
@@ -787,3 +780,26 @@ Os seguintes itens são considerados limitações do algoritmo de aprendizagem p
 	\item Previsão de valores de atuação discretos. Segundo \cite{han2005}, o algoritmo de aprendizagem utilizado (árvore de decisão) é considerado de classificação. Assim sendo, ele é projetado para prever valores de variáveis de natureza discreta e sem noção de ordem. Note que o domínio adotado neste trabalho envolve uma variável-alvo com essas características (lâmpada apagada ou acesa). Entretanto, a previsão de variáveis numéricas (por exemplo, a temperatura de um ar condicionado) exigiria adaptações na abordagem de aprendizagem, provavelmente adotando-se um algoritmo de regressão;
 	\item Escalabilidade. O algoritmo de árvore de decisão adotado faz uso de todos os dados coletados a cada treinamento, em um processo denominado de \textit{batch learning}. Isso significa que uma quantidade considerável de dados deve ser armazenada para cada residência, o que afeta a escalabilidade deste processo. Uma abordagem possível para contornar este problema seria adotar um algoritmo de indução incremental, que atualize as predições do modelo à medida que novos dados são recebidos. Um exemplo de algoritmo desta natureza está descrito em \cite{utgoff1989}.
 \end{itemize}
+
+\subsection{Implementação da Aprendizagem}
+O algoritmo para inferência automática de regras foi escrito em R \footnote{Disponível em \url{https://www.r-project.org/}.}. Dentre as bibliotecas utilizadas, destaca-se:
+\begin{itemize}
+	\item rpart \footnote{Disponível em \url{https://cran.r-project.org/web/packages/rpart/}.} (\textit{Recursive Partitioning and Regression Trees}), que foi a biblioteca utilizada para a geração das árvores de decisão;
+	\item cluster \footnote{Disponível em \url{https://cran.r-project.org/web/packages/cluster/}.}, biblioteca que implementa diversos algoritmos de clusterização, dentre eles, o CLARA utilizado neste trabalho;
+	\item Rserve \footnote{Disponível em \url{https://rforge.net/Rserve/}.}, biblioteca utilizada para realizar a comunicação entre o R e o Clojure.
+	\item mongolite \footnote{Disponível em \url{https://cran.r-project.org/web/packages/mongolite/}.}. O R se comunica diretamente com o banco de dados MongoDB selecionando todos os nós e dados da casa e inserindo as regras diretamente no banco de dados também.
+\end{itemize} 
+
+Para que o sistema aprenda regras e as sugira ao usuário, há uma chamada no protocolo Homecloud que faz com que o servidor chame uma função do R utilizando o Rserve. Esta função recebe o ID de uma casa e para cada atuador da casa tenta produzir regras utilizando os sensores da casa. Se o atuador for uma lâmpada, ele executa o \textit{data cleaning} descrito na seção \ref{subsubsec:exp_regras}, caso contrário, não produz regras (pois cada atuador irá requerer um \textit{data cleaning} especializado para ele). O \textit{data cleaning} mencionado consiste em 5 etapas:
+\begin{enumerate}
+	\item Selecionar os sensores que estão no mesmo ambiente do atuador;
+	\item Adicionar o campo ação, como descrito em \ref{subsubsec:action_add};
+	\item Considerar as médias temporais de todos os sensores de presença como descrito em \ref{subsubsec:presence_mean};
+	\item \textit{Undersampling} com clusterização da classe majoritária, como descrito em \ref{subsubsec:clusterization}.
+\end{enumerate}
+
+Após o \textit{data cleaning}, a função calcula a árvore de decisão, gera as regras a partir desta árvore, as insere no banco de dados e continua iterando nos atuadores da casa, repetindo o processo. Ao fim da iteração, a função retorna os IDs de todas as regras criadas.
+
+Vale ressaltar que as regras produzidas não estão aceitas, e para serem enviadas para o controlador de fato devem ser aceitas por algum administrador da casa.
+
+
