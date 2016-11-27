@@ -759,7 +759,7 @@ A utilização de medoides como pontos representativos torna o algoritmo mais re
 
 O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um método de amostragem é aplicado, e os medoides são calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execução do algoritmo, tornando-o adequado para aplicação sobre conjuntos de dados grandes. Por esta razão, bem como pelo fato de existirem implementações disponíveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponível em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterização da classe majoritária.
 
-A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula
+A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Observa-se que as regras produzidas pelos 3 \textit{datasets} são as regras pretendidas neste estudo. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula
 \begin{equation*}
 min(5, floor(number of samples)),
 \end{equation*}
@@ -791,7 +791,7 @@ O algoritmo para inferência automática de regras foi escrito em R\footnote{Dis
 
 Para que o sistema aprenda regras e as sugira ao usuário, há uma chamada no protocolo Homecloud que faz com que o servidor chame uma função do R utilizando o Rserve. Esta função recebe o ID de uma casa e para cada atuador da casa tenta produzir regras utilizando os sensores da casa. Se o atuador for uma lâmpada, ele executa o \textit{data cleaning} descrito na seção \ref{subsubsec:exp_regras}, caso contrário, não produz regras (pois cada atuador irá requerer um \textit{data cleaning} especializado para ele). O \textit{data cleaning} mencionado consiste em 5 etapas:
 \begin{enumerate}
-	\item Selecionar os sensores que estão no mesmo ambiente do atuador;
+	\item Selecionar os sensores que estão no mesmo ambiente do atuador para diminuir a complexidade e para que a clusterização não divida a classe majoritária utilizando dados de sensores não relacionados ao atuador;
 	\item Adicionar o campo ação, como descrito em \ref{subsubsec:action_add};
 	\item Considerar as médias temporais de todos os sensores de presença como descrito em \ref{subsubsec:presence_mean};
 	\item \textit{Undersampling} com clusterização da classe majoritária, como descrito em \ref{subsubsec:clusterization}.
@@ -806,6 +806,7 @@ Os seguintes itens são considerados limitações do algoritmo de aprendizagem p
 
 \begin{itemize}
 	\item Domínio de aplicação restrito a controle de iluminação. A aplicação do algoritmo de aprendizagem exige um processo de preprocessamento de dados específico ao domínio de aplicação. Isso impede que o processo aplicado neste trabalho seja generalizado sem adaptações para geração de regras de atuação em uma rede de sensores doméstica;
+	\item Regras limitadas a dispositivos no mesmo ambiente. O algoritmo implementado seleciona apenas sensores que estão no mesmo ambiente do atuador para a criação de regras. Isto nem sempre é verdade, por exemplo, uma porta pode ser acionada por sensores de 2 ambientes distintos. 
 	\item Previsão de valores de atuação discretos. Segundo \cite{han2005}, o algoritmo de aprendizagem utilizado (árvore de decisão) é considerado de classificação. Assim sendo, ele é projetado para prever valores de variáveis de natureza discreta e sem noção de ordem. Note que o domínio adotado neste trabalho envolve uma variável-alvo com essas características (lâmpada apagada ou acesa). Entretanto, a previsão de variáveis numéricas (por exemplo, a temperatura de um ar condicionado) exigiria adaptações na abordagem de aprendizagem, provavelmente adotando-se um algoritmo de regressão;
 	\item Escalabilidade. O algoritmo de árvore de decisão adotado faz uso de todos os dados coletados a cada treinamento, em um processo denominado de \textit{batch learning}. Isso significa que uma quantidade considerável de dados deve ser armazenada para cada residência, o que afeta a escalabilidade deste processo. Uma abordagem possível para contornar este problema seria adotar um algoritmo de indução incremental, que atualize as predições do modelo à medida que novos dados são recebidos. Um exemplo de algoritmo desta natureza está descrito em \cite{utgoff1989}.
 \end{itemize}
