@@ -448,7 +448,7 @@ Observe que existem seis coleções definidas em uma casa. A coleção \texttt{h
 
 O código-fonte do servidor está disponível no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
 
-\subsection{Implementação de Biblioteca para Aplicativo}
+\subsection{Implementação de Biblioteca para Aplicativo} \label{subsec:lib_app}
 De modo similar ao servidor, a implementação do suporte ao protocolo Homecloud no aplicativo também foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como dependência em projetos Android para efetuar a troca de mensagens seguindo o protocolo, conforme ilustra a Figura \ref{fig:arquitetura_lib_app}. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
 
 \begin{figure}[h]
@@ -758,9 +758,16 @@ A utilização de medoides como pontos representativos torna o algoritmo mais re
 
 O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um método de amostragem é aplicado, e os medoides são calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execução do algoritmo, tornando-o adequado para aplicação sobre conjuntos de dados grandes. Por esta razão, bem como pelo fato de existirem implementações disponíveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponível em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterização da classe majoritária.
 
-A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula $min(5, floor(number of samples))$, que foi obtida empíricamente. O número de pontos sem ação selecionados foi o número de pontos máximo das outras classes (Ação=0 ou Ação=1),
-portanto, foram selecionados o mesmo número de pontos de cada \textit{cluster}, utilizando a fórmula: $ns = ceiling(number of samples / number of clusters)$. Para diminuir a variablidade, o grupo optou por ao invés de fazer um \textit{sampling} aleatório dos pontos de cada \textit{cluster}, utilizar o medoide de cada \textit{cluster} $ns$ vezes.
-
+A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula
+\begin{equation*}
+min(5, floor(number of samples)),
+\end{equation*}
+que foi obtida empiricamente. O número de pontos sem ação selecionados foi o número de pontos máximo das outras classes (Ação=0 ou Ação=1),
+portanto, foram selecionados o mesmo número de pontos de cada \textit{cluster}, utilizando a fórmula
+\begin{equation*}
+ns = ceiling\left(\frac{number of samples}{number of clusters}\right).
+\end{equation*}
+Para diminuir a variabilidade, o grupo optou por utilizar o medoide de cada \textit{cluster} $ns$ vezes, ao invés de fazer um \textit{sampling} aleatório dos pontos de cada \textit{cluster}.
 
 \begin{figure}[hp]
 	\centering
