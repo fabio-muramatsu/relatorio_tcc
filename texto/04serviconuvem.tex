@@ -780,15 +780,6 @@ Para diminuir a variabilidade, o grupo optou por utilizar o medoide de cada \tex
 
 \clearpage
 
-\subsection{Limitações e não-escopos} \label{subsec:limit_aprendizgem}
-Os seguintes itens são considerados limitações do algoritmo de aprendizagem proposto:
-
-\begin{itemize}
-	\item Domínio de aplicação restrito a controle de iluminação. A aplicação do algoritmo de aprendizagem exige um processo de preprocessamento de dados específico ao domínio de aplicação. Isso impede que o processo aplicado neste trabalho seja generalizado sem adaptações para geração de regras de atuação em uma rede de sensores doméstica;
-	\item Previsão de valores de atuação discretos. Segundo \cite{han2005}, o algoritmo de aprendizagem utilizado (árvore de decisão) é considerado de classificação. Assim sendo, ele é projetado para prever valores de variáveis de natureza discreta e sem noção de ordem. Note que o domínio adotado neste trabalho envolve uma variável-alvo com essas características (lâmpada apagada ou acesa). Entretanto, a previsão de variáveis numéricas (por exemplo, a temperatura de um ar condicionado) exigiria adaptações na abordagem de aprendizagem, provavelmente adotando-se um algoritmo de regressão;
-	\item Escalabilidade. O algoritmo de árvore de decisão adotado faz uso de todos os dados coletados a cada treinamento, em um processo denominado de \textit{batch learning}. Isso significa que uma quantidade considerável de dados deve ser armazenada para cada residência, o que afeta a escalabilidade deste processo. Uma abordagem possível para contornar este problema seria adotar um algoritmo de indução incremental, que atualize as predições do modelo à medida que novos dados são recebidos. Um exemplo de algoritmo desta natureza está descrito em \cite{utgoff1989}.
-\end{itemize}
-
 \subsection{Implementação da Aprendizagem}
 O algoritmo para inferência automática de regras foi escrito em R\footnote{Disponível em \url{https://www.r-project.org/}.}. Dentre as bibliotecas utilizadas, destacam-se:
 \begin{itemize}
@@ -810,4 +801,11 @@ Após o \textit{data cleaning}, a função calcula a árvore de decisão, gera a
 
 Vale ressaltar que as regras produzidas não estão aceitas, e para serem enviadas para o controlador de fato devem ser aceitas por algum administrador da casa.
 
+\subsection{Limitações e não-escopos} \label{subsec:limit_aprendizgem}
+Os seguintes itens são considerados limitações do algoritmo de aprendizagem proposto:
 
+\begin{itemize}
+	\item Domínio de aplicação restrito a controle de iluminação. A aplicação do algoritmo de aprendizagem exige um processo de preprocessamento de dados específico ao domínio de aplicação. Isso impede que o processo aplicado neste trabalho seja generalizado sem adaptações para geração de regras de atuação em uma rede de sensores doméstica;
+	\item Previsão de valores de atuação discretos. Segundo \cite{han2005}, o algoritmo de aprendizagem utilizado (árvore de decisão) é considerado de classificação. Assim sendo, ele é projetado para prever valores de variáveis de natureza discreta e sem noção de ordem. Note que o domínio adotado neste trabalho envolve uma variável-alvo com essas características (lâmpada apagada ou acesa). Entretanto, a previsão de variáveis numéricas (por exemplo, a temperatura de um ar condicionado) exigiria adaptações na abordagem de aprendizagem, provavelmente adotando-se um algoritmo de regressão;
+	\item Escalabilidade. O algoritmo de árvore de decisão adotado faz uso de todos os dados coletados a cada treinamento, em um processo denominado de \textit{batch learning}. Isso significa que uma quantidade considerável de dados deve ser armazenada para cada residência, o que afeta a escalabilidade deste processo. Uma abordagem possível para contornar este problema seria adotar um algoritmo de indução incremental, que atualize as predições do modelo à medida que novos dados são recebidos. Um exemplo de algoritmo desta natureza está descrito em \cite{utgoff1989}.
+\end{itemize}
