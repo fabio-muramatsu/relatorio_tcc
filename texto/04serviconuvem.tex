@@ -448,7 +448,7 @@ Observe que existem seis coleções definidas em uma casa. A coleção \texttt{h
 
 O código-fonte do servidor está disponível no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/server/tree/ws}.}.
 
-\subsection{Implementação de Biblioteca para Aplicativo}
+\subsection{Implementação de Biblioteca para Aplicativo} \label{subsec:lib_app}
 De modo similar ao servidor, a implementação do suporte ao protocolo Homecloud no aplicativo também foi feito de forma modular. Especificamente, foi desenvolvida uma biblioteca que pode ser utilizada como dependência em projetos Android para efetuar a troca de mensagens seguindo o protocolo, conforme ilustra a Figura \ref{fig:arquitetura_lib_app}. A Figura \ref{fig:classes_lib_app} apresenta um diagrama de classes ilustrando a estrutura da biblioteca.
 
 \begin{figure}[h]
@@ -602,7 +602,7 @@ Como mencionado, o grupo pretende usar um algoritmo de classificação baseado e
 	\item Apague a luz quando não há ninguém no ambiente
 \end{itemize}
 
-Para a geração das árvores de decisão, o grupo usou a ferramenta Rattle\footnote{Disponível em \url{http://rattle.togaware.com/}.}, que utiliza um algoritmo recursivo \textit{top-down} \cite{williams2011} implementado na biblioteca \texttt{rpart}\footnote{Documentação disponível em \url{https://cran.r-project.org/web/packages/rpart/index.html}}. O objetivo, nesta seção, é estudar modos de preprocessamento dos dados utilizados pelo algoritmo, e analisar a qualidade das regras criadas. Todo o processamento efetuado sobre os dados foi feito utilizando a linguagem R\footnote{Disponível em \url{https://www.r-project.org/}}.
+O objetivo, nesta seção, é estudar modos de preprocessamento dos dados utilizados pelo algoritmo, e analisar a qualidade das regras criadas.
 
 \subsubsection{Utilização de dados \textit{raw}}
 A primeira tentativa de geração de regras foi feita alimentando o algoritmo de geração do modelo sem efetuar nenhum tipo de preprocessamento dos dados. A quantidade de pontos utilizados para cada \textit{dataset} está listada a seguir.
@@ -759,8 +759,16 @@ A utilização de medoides como pontos representativos torna o algoritmo mais re
 
 O algoritmo CLARA foi proposto com o intuito de contornar o problema de escalabilidade do PAM. Em vez de calcular os medoides sobre todo o \textit{dataset}, um método de amostragem é aplicado, e os medoides são calculados sobre esta amostra. Isto acaba reduzindo significativamente o tempo de execução do algoritmo, tornando-o adequado para aplicação sobre conjuntos de dados grandes. Por esta razão, bem como pelo fato de existirem implementações disponíveis em R\footnote{Foi utilizada a biblioteca \texttt{cluster}, disponível em \url{https://cran.r-project.org/web/packages/cluster/}}, o grupo adotou este algoritmo para efetuar a clusterização da classe majoritária.
 
-A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula $min(5, floor(number of samples))$, que foi obtida empíricamente. O número de pontos sem ação selecionados foi o número de pontos máximo das outras classes (Ação=0 ou Ação=1),
-portanto, foram selecionados o mesmo número de pontos de cada \textit{cluster}, utilizando a fórmula: $ns = ceiling(number of samples / number of clusters)$. Para diminuir a variablidade, o grupo optou por ao invés de fazer um \textit{sampling} aleatório dos pontos de cada \textit{cluster}, utilizar o medoide de cada \textit{cluster} $ns$ vezes.
+A Figura \ref{fig:teste_6} mostra as árvores de decisão geradas para os \textit{datasets} 1, 2 e 3. Nestes modelos, o número de clusters foi calculado para cada \textit{dataset} utilizando a fórmula
+\begin{equation*}
+min(5, floor(number of samples)),
+\end{equation*}
+que foi obtida empiricamente. O número de pontos sem ação selecionados foi o número de pontos máximo das outras classes (Ação=0 ou Ação=1),
+portanto, foram selecionados o mesmo número de pontos de cada \textit{cluster}, utilizando a fórmula
+\begin{equation*}
+ns = ceiling\left(\frac{number of samples}{number of clusters}\right).
+\end{equation*}
+Para diminuir a variabilidade, o grupo optou por utilizar o medoide de cada \textit{cluster} $ns$ vezes, ao invés de fazer um \textit{sampling} aleatório dos pontos de cada \textit{cluster}.
 
 
 \begin{figure}[hp]
@@ -782,12 +790,12 @@ Os seguintes itens são considerados limitações do algoritmo de aprendizagem p
 \end{itemize}
 
 \subsection{Implementação da Aprendizagem}
-O algoritmo para inferência automática de regras foi escrito em R \footnote{Disponível em \url{https://www.r-project.org/}.}. Dentre as bibliotecas utilizadas, destaca-se:
+O algoritmo para inferência automática de regras foi escrito em R\footnote{Disponível em \url{https://www.r-project.org/}.}. Dentre as bibliotecas utilizadas, destacam-se:
 \begin{itemize}
-	\item rpart \footnote{Disponível em \url{https://cran.r-project.org/web/packages/rpart/}.} (\textit{Recursive Partitioning and Regression Trees}), que foi a biblioteca utilizada para a geração das árvores de decisão;
-	\item cluster \footnote{Disponível em \url{https://cran.r-project.org/web/packages/cluster/}.}, biblioteca que implementa diversos algoritmos de clusterização, dentre eles, o CLARA utilizado neste trabalho;
-	\item Rserve \footnote{Disponível em \url{https://rforge.net/Rserve/}.}, biblioteca utilizada para realizar a comunicação entre o R e o Clojure.
-	\item mongolite \footnote{Disponível em \url{https://cran.r-project.org/web/packages/mongolite/}.}. O R se comunica diretamente com o banco de dados MongoDB selecionando todos os nós e dados da casa e inserindo as regras diretamente no banco de dados também.
+	\item rpart\footnote{Disponível em \url{https://cran.r-project.org/web/packages/rpart/}.} (\textit{Recursive Partitioning and Regression Trees}), que foi a biblioteca utilizada para a geração das árvores de decisão;
+	\item cluster\footnote{Disponível em \url{https://cran.r-project.org/web/packages/cluster/}.}, biblioteca que implementa diversos algoritmos de clusterização, dentre eles, o CLARA utilizado neste trabalho;
+	\item Rserve\footnote{Disponível em \url{https://rforge.net/Rserve/}.}, biblioteca utilizada para realizar a comunicação entre o R e o Clojure.
+	\item mongolite\footnote{Disponível em \url{https://cran.r-project.org/web/packages/mongolite/}.}. O R se comunica diretamente com o banco de dados MongoDB selecionando todos os nós e dados da casa e inserindo as regras diretamente no banco de dados também.
 \end{itemize} 
 
 Para que o sistema aprenda regras e as sugira ao usuário, há uma chamada no protocolo Homecloud que faz com que o servidor chame uma função do R utilizando o Rserve. Esta função recebe o ID de uma casa e para cada atuador da casa tenta produzir regras utilizando os sensores da casa. Se o atuador for uma lâmpada, ele executa o \textit{data cleaning} descrito na seção \ref{subsubsec:exp_regras}, caso contrário, não produz regras (pois cada atuador irá requerer um \textit{data cleaning} especializado para ele). O \textit{data cleaning} mencionado consiste em 5 etapas:
