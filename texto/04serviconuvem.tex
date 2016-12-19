@@ -1,5 +1,5 @@
 \chapter{Projeto do Serviço em Nuvem}\label{chp:serviconuvem}
-Este capítulo possui a finalidade de projetar e implementar um serviço em nuvem acessível aos controladores locais da rede de sensores, de modo a alcançar o objetivo (ii) do trabalho. Os tópicos abordados neste capítulo englobam o protocolo de troca de dados envolvendo o servidor em nuvem (batizado de Homecloud), a interface de controle do usuário e a especificação de um algoritmo de aprendizagem específico para o domínio de controle de iluminação.
+Este capítulo possui a finalidade de projetar e implementar um serviço em nuvem acessível aos controladores locais da rede de sensores, de modo a alcançar o objetivo (ii) do trabalho. Os tópicos abordados neste capítulo englobam o protocolo de troca de dados envolvendo o servidor em nuvem (batizado de Homecloud), a interface de controle do usuário e a especificação de uma metodologia de aprendizagem específica para o domínio de controle de iluminação.
 
 \section{O Protocolo Homecloud} \label{sec:homecloud}
 Conforme mencionado na seção \ref{sec:arquitetura}, o servidor em nuvem se comunica tanto com o controlador local quanto com o dispositivo de interface do usuário. O protocolo Homecloud, definido pelo grupo, define o formato das mensagens a serem trocados pelos dispositivos, e em quais circunstâncias. As próximas seções especificarão em detalhes o funcionamento deste protocolo.
@@ -484,7 +484,7 @@ A biblioteca expõe funções para que o Controlador envie e receba mensagens do
 O código-fonte foi hospedado no repositório GitHub\footnote{Disponível em \url{https://github.com/HomeSkyLtd/homecloud-controller}.}. Além disso, a 
 biblioteca foi disponibilizada na npm\footnote{Disponível em \url{https://www.npmjs.com/package/homecloud-controller}.}, que além de um gerenciador de pacotes para o Node.js, é um repositório público de bibliotecas.
 
-\subsection{Limitações e Não-escopos} \label{subsec:limit_serv_app}
+\subsection{Limitações e Suposições} \label{subsec:limit_serv_app}
 Os seguintes itens foram considerados fora do escopo deste projeto, no que tange à implementação do protocolo Homecloud, do servidor web e do aplicativo móvel:
 
 \begin{itemize}
@@ -493,8 +493,8 @@ Os seguintes itens foram considerados fora do escopo deste projeto, no que tange
 \end{itemize}
 
 
-\section{Desenvolvimento do Algoritmo de Aprendizagem}
-Nesta seção, detalha-se o processo de desenvolvimento de um algoritmo de aprendizagem para o domínio de controle de iluminação. O algoritmo recebe como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores.
+\section{Desenvolvimento da Metodologia de Aprendizagem}
+Nesta seção, detalha-se o processo de desenvolvimento de uma metodologia de aprendizagem para o domínio de controle de iluminação. O objetivo consiste em receber como entradas um conjunto de dados descrevendo o estado de sensores e atuadores, provenientes do controlador local, e produz como saídas regras de atuação, condicionais aos estados dos sensores. A metodologia é composta por duas etapas: o tratamento dos dados e a aplicação de um algoritmo de aprendizagem propriamente dito. A seguir, serão descritos os algoritmos existentes na literatura, bem como o tratamento aplicado aos dados com os respectivos resultados obtidos.
 
 \subsection{Formato de Entrada dos Dados}\label{subsec:formatoentrada}
 No domínio selecionado para este trabalho, o dado de atuação relevante seria o estado da lâmpada a ser controlada. O objetivo do algoritmo, então, é prever o valor deste estado baseado nas leituras de outros sensores existentes na rede doméstica, tais como de luminosidade e presença. A Tabela \ref{tab:entrada_learning} ilustra o formato de entrada dos dados.
@@ -801,12 +801,12 @@ Após o \textit{data cleaning}, a função calcula a árvore de decisão, gera a
 
 Vale ressaltar que as regras produzidas não estão aceitas, e para serem enviadas para o controlador de fato devem ser aceitas por algum administrador da casa.
 
-\subsection{Limitações e não-escopos} \label{subsec:limit_aprendizgem}
-Os seguintes itens são considerados limitações do algoritmo de aprendizagem proposto:
+\subsection{Limitações e Suposições} \label{subsec:limit_aprendizgem}
+Os seguintes itens são considerados limitações da metodologia de aprendizagem proposta:
 
 \begin{itemize}
-	\item Domínio de aplicação restrito a controle de iluminação. A aplicação do algoritmo de aprendizagem exige um processo de preprocessamento de dados específico ao domínio de aplicação. Isso impede que o processo aplicado neste trabalho seja generalizado sem adaptações para geração de regras de atuação em uma rede de sensores doméstica;
-	\item Regras limitadas a dispositivos no mesmo ambiente. O algoritmo implementado seleciona apenas sensores que estão no mesmo ambiente do atuador para a criação de regras. Isto nem sempre é verdade, por exemplo, uma porta pode ser acionada por sensores de 2 ambientes distintos. 
+	\item Domínio de aplicação restrito a controle de iluminação. A aplicação da metodologia de aprendizagem exige um processo de preprocessamento de dados específico ao domínio de aplicação. Isso impede que o processo aplicado neste trabalho seja generalizado sem adaptações para geração de regras de atuação em uma rede de sensores doméstica;
+	\item Regras limitadas a dispositivos no mesmo ambiente. A metodologia implementado seleciona apenas sensores que estão no mesmo ambiente do atuador para a criação de regras. Isto nem sempre é verdade, por exemplo, uma porta pode ser acionada por sensores de 2 ambientes distintos. 
 	\item Previsão de valores de atuação discretos. Segundo \cite{han2005}, o algoritmo de aprendizagem utilizado (árvore de decisão) é considerado de classificação. Assim sendo, ele é projetado para prever valores de variáveis de natureza discreta e sem noção de ordem. Note que o domínio adotado neste trabalho envolve uma variável-alvo com essas características (lâmpada apagada ou acesa). Entretanto, a previsão de variáveis numéricas (por exemplo, a temperatura de um ar condicionado) exigiria adaptações na abordagem de aprendizagem, provavelmente adotando-se um algoritmo de regressão;
 	\item Escalabilidade. O algoritmo de árvore de decisão adotado faz uso de todos os dados coletados a cada treinamento, em um processo denominado de \textit{batch learning}. Isso significa que uma quantidade considerável de dados deve ser armazenada para cada residência, o que afeta a escalabilidade deste processo. Uma abordagem possível para contornar este problema seria adotar um algoritmo de indução incremental, que atualize as predições do modelo à medida que novos dados são recebidos. Um exemplo de algoritmo desta natureza está descrito em \cite{utgoff1989}.
 \end{itemize}

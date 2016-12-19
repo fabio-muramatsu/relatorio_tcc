@@ -206,7 +206,7 @@ Uma vez analisados os protocolos de aplicação e frameworks existentes (seção
 	\item O protocolo a ser desenvolvido deve funcionar com diversos protocolos de rede. Conforme a análise realizada, existem diversos protocolos de redes voltados a redes de sensores sem fio existentes, e convém que o protocolo de aplicação desenvolvido não seja restrito a nenhum deles de forma específica. Uma abordagem similar à do IoTivity pode ser interessante, criando-se uma interface comum a vários protocolos de rede subjacentes;
 	\item Os dispositivos devem poder declarar sua funcionalidade, incluindo informações sobre sua classificação como sensor ou atuador, e sua categoria (tipo de sensor ou atuador);
 	\item Os dispositivos devem poder enviar dados de leitura (no caso de sensores) e receber comandos de atuação (no caso de atuadores);
-	\item O protocolo deve enviar mensagens de forma concisa, levando em consideração as limitações dos dispositivos envolvidos.
+	\item O protocolo deve enviar mensagens de forma concisa, levando em consideração as limitações dos dispositivos envolvidos. No caso, protocolo deve funcionar com o \textit{hardware} de um Raspberry Pi B+, e não deve exceder o tamanho 100 bytes, aproximadamente, relativo às limitações de um \textit{frame} 802.15.4\cite{devadiga} .
 \end{enumerate}
 
 \subsection{Sintaxe e Semântica} \label{subsec:sintaxe}
@@ -496,7 +496,7 @@ A biblioteca desenvolvida possuirá uma arquitetura em camadas, conforme ilustra
 \subsection{Implementação e Exemplos}
 Uma implementação das bibliotecas para desenvolvimento de dispositivos seguindo o protocolo \textit{Rainfall} foi feita utilizando a linguagem JavaScript, utilizando o ambiente Node.js\footnote{Disponível em \url{https://nodejs.org/}.}. O código-fonte desta implementação, além de exemplos de uso da biblioteca para o desenvolvimento de sensores, atuadores e controladores, estão hospedados no serviço GitHub \footnote{Disponível no endereço \url{https://github.com/HomeSkyLtd/}}.
 
-\section{Limitações e Não-escopos}
+\section{Limitações e Suposições}
 O projeto do protocolo de comunicação foi feito com o objetivo de prover um meio de troca de informações entre dispositivos e controladores de uma rede de sensores. Entretanto, dado o contexto de um projeto de conclusão de curso, alguns aspectos não foram enfatizados no presente momento, a despeito de sua importância em aplicações reais. O grupo adotou algumas hipóteses simplificadoras, listadas nas seções a seguir.
 
 \subsection{Conectividade} \label{subsec:limit_conectividade}
