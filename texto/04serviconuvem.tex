@@ -503,7 +503,7 @@ No domínio selecionado para este trabalho, o dado de atuação relevante seria 
 	\centering
 	\caption{Formato dos dados de entrada para a metodologia de aprendizagem.}\smallskip
 	\label{tab:entrada_learning}
-	\includegraphics[width=0.5\textwidth]{tabelas/raw_table.pdf}
+	\includegraphics[width=0.7\textwidth]{tabelas/raw_table.pdf}
 \end{table}
 
 Observe que o problema em questão consiste em receber dados de treino, que representam o comportamento do usuário, e desenvolver um modelo que preveja o estado do atuador de forma fiel aos dados observados. Trata-se, portanto, de um problema de aprendizagem supervisionada, definido em \cite{james2014} como sendo a geração de um modelo que relaciona uma variável-alvo (no caso, o estado da lâmpada) com variáveis preditoras (presença, luminosidade, entre outros). O estado da lâmpada, então, é visto como uma classe associada a cada entrada do conjunto de dados, e o processo de aprendizagem supervisionado que infere esta classe para entradas não vistas anteriormente é denominado Classificação.
@@ -638,21 +638,18 @@ As regras produzidas por esse testes não são razoáveis, pois como buscam prev
 
 Verifica-se que para fins de criação de regras, o interesse maior está em identificar o estado em que ocorreu uma mudança no estado da lâmpada. Para tanto, torna-se necessário efetuar um preprocessamento dos dados para evidenciar essas mudanças no \textit{dataset}.
 
-\clearpage
-
 \subsubsection{Adição de um campo de Ação}
 \label{subsubsec:action_add}
-Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a ação tomada no instante. Por exemplo, se em um dado instante a lâmpada está apagada, mas no seguinte ela está acesa, então o campo ``Ação'' assume valor ``1'', indicando que a lâmpada foi acesa. Analogamente, se a lâmpada está acesa em um dado instante e no seguinte ela está apagada, então o campo ``Ação'' assume valor ``0'', indicando que ela foi apagada. Caso o estado da lâmpada seja o mesmo em dois instantes de tempo consecutivos, o campo ``Ação'' assume valor ``NO\underline{\space}ACTION'', indicando ausência de ação. Podemos observar na tabela \ref{tab:tabela_com_acao} um exemplo de tabela que possui o novo campo ``Ação''.
-
+Nesta tentativa, foi efetuado um passo de preprocessamento adicionando uma coluna indicando a ação tomada no instante. Por exemplo, se em um dado instante a lâmpada está apagada, mas no seguinte ela está acesa, então o campo ``Ação'' assume valor ``1'', indicando que a lâmpada foi acesa. Analogamente, se a lâmpada está acesa em um dado instante e no seguinte ela está apagada, então o campo ``Ação'' assume valor ``0'', indicando que ela foi apagada. Caso o estado da lâmpada seja o mesmo em dois instantes de tempo consecutivos, o campo ``Ação'' assume valor ``NO\underline{\space}ACTION'', indicando ausência de ação. Podemos observar na Tabela \ref{tab:tabela_com_acao} um exemplo de tabela que possui o novo campo ``Ação''.
 
 \begin{table}[h]
 	\centering
 	\caption{Exemplo de tabela com o campo ``Ação''.}\smallskip
 	\label{tab:tabela_com_acao}
-	\includegraphics[width=0.5\textwidth]{tabelas/table_with_action.pdf}
+	\includegraphics[width=0.7\textwidth]{tabelas/table_with_action.pdf}
 \end{table}
 
-Efetuando este tratamento, a quantidade de pontos em cada \textit{dataset} se encontra distribuída conforme listado a seguir.
+Note que, neste passo, o campo ``timestamp'' foi removido, pois não se pretendeu incluir dados de data e hora na geração de regras. Efetuando este tratamento, a quantidade de pontos em cada \textit{dataset} se encontra distribuída conforme listado a seguir.
 
 \begin{itemize_compact}
 	\item \textit{Dataset} 1
